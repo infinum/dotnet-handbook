@@ -31,9 +31,9 @@ All the projects that are not used as a "presentation" layer are implemented as 
 
 #### Startup.cs
 
-This is where the most of the configuration for the application is. We use it to register services, repositories, data base context, etc. Depending on the application type we can also tell our app to use middlewares, filters, or any other third party service.
+This is where the most of the configuration for the application is. We use it to register services, repositories, data base context and other dependencies. Depending on the application type we can also tell our app to use middlewares, filters, or any other third party service.
 
-To keep things organized it is a good practice to group specific configuration sections like services and repositories. One of the ways to do this is through implementation an IServiceBuilder extension. 
+Tt is a good practice to group specific configuration sections like services and repositories to keep things organized. One of the ways to do this is through implementation an IServiceBuilder extension. 
 
 Since we use [Options pattern](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/configuration/options?view=aspnetcore-3.1) for app configuration the bindings are done in the startup class. There are more details for this pattern in the Design pattern section of this handbook. 
 

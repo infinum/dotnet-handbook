@@ -21,7 +21,7 @@ The most used test method is the Fact method which represents one single test wi
 [InlineData(1, -1)]
 public async Task Process_WhenParameterIsNotValid_ThenThrowArgumentException(int a, int b)
 {
-    // Assert
+    // Arrange
     ... 
         
     // Act    
