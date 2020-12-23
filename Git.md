@@ -11,7 +11,7 @@ This image shows the git flow branches diagram:
 
 
 
-<img src="C:\Infinum\Handbook .NET\git-flow.png" alt="gitflowimage" style="zoom:100%;" />
+<img src=".\resources\git-flow.png" alt="gitflowimage" style="zoom:100%;" />
 
 
 
