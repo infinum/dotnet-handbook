@@ -1,6 +1,6 @@
 ### Security Guidelines
 
-In order to pass some of the automated security tests, as well as to keep your .NET application safe it is advised to use some standard security measurements.  This section of handbook will provide insights of some of the most common.
+In order to pass some of the automated security tests, as well as to keep your .NET application safe it is advised to use some standard security measurements.  This section of handbook will provide insights of some of the most common used strategies.
 
 #### User secrets
 
