@@ -1,16 +1,16 @@
 ### API Documentation
 
-API documentation is basically a manual how to use and integrate with some API. It consists of all the information required to work with it usually including tutorials and examples as well. It should be simple and easily understandable so anyone who needs to use it can with as little time possible find what they need. 
+API documentation is a manual of how to use and integrate with some API. It consists of all the information required to work with it usually including tutorials and examples as well. It should be simple and easily understandable so anyone who needs to use it can with as little time possible find what they need. 
 
-For us it helps us with collaborating with other teams. In .NET Core applications the tool we use for automatical generation of documentation is [Swagger](https://swagger.io/) which enables us to quickly update the documentation whenever something changes.
+For us, it helps us with collaborating with other teams. In our APIs, we mostly use [Swagger](https://swagger.io/) toolset to automatically generate documentation which enables us to quickly update it whenever something changes.
 
 #### Swagger
 
-Swagger uses OpenAPI specification for it's generated documentation which is the industry standard for describing REST APIs. Using it allows both computers and humans to understand available endpoints of a REST API without access to the source code. 
+Swagger uses OpenAPI specification for its generated documentation which is the industry standard for describing REST APIs. Using it allows both computers and humans to understand available endpoints of a REST API without access to the source code. 
 
-To use Swagger it is enough to install one of the NuGet packages that support it and configure it for your needs. For example main 2 that Microsoft suggests using in their documentation are [Swashbuckle](https://github.com/domaindrivendev/Swashbuckle.AspNetCore) or [NSwag](https://github.com/RicoSuter/NSwag). In the example we will be showing configuration with Swashbuckle, but others have similar principle.
+To use Swagger you simply need to install one of the NuGet packages that support it and configure it for your needs. In their documentation, Microsoft suggests using two packages - [Swashbuckle](https://github.com/domaindrivendev/Swashbuckle.AspNetCore) or [NSwag](https://github.com/RicoSuter/NSwag). In the example below, we can see a configuration for Swashbuckle, but others have a similar principle.
 
-For it work as expected there are 2 things that we have to configure. The first one is configuration of a swagger service which configures document information and it is done in `Startup.ConfigureServices()`: 
+For it to work as expected there are two things that we have to configure. The first one is the configuration of a swagger service which configures document information and it is done in `Startup.ConfigureServices()`: 
 
 ```c#
 services.AddSwaggerGen(options => 
@@ -25,7 +25,7 @@ services.AddSwaggerGen(options =>
 })
 ```
 
-Second part of configuration is done in `Startup.Configure()` where we setup and enable Swagger middleware that will serve generated swagger JSON. Here we can also setup endpoint for swagger UI which can be customized by providing CSS file location. By default Swagger will be served at the root of the URL.
+The second part of the configuration is done in `Startup.Configure()` where we set up and enable Swagger middleware that will serve generated swagger JSON. In this method, we can also configure the endpoint for swagger UI which can be customized by providing CSS file location. By default, Swagger will be served at the root of the URL.
 
 ```c#
 // This enables middleware for swagger JSON document
@@ -42,11 +42,11 @@ app.UseSwaggerUI(opt =>
 });
 ```
 
-If possible it is recommended to move configuration to separate project so it can be used by multiple projects. It can be done by extending `IServiceCollection` and `IApplicationBuilder`.
+It is recommended to move the configuration to a separate project so it can be used by multiple projects. It can be done by extending `IServiceCollection` and `IApplicationBuilder`.
 
 #### Customization
 
-To further describe API endpoints and models we can use attributes from `System.ComponentModel.DataAnnotations` namespace. These can provide information on what they can expect from the response to anyone who uses the API.
+To further describe API endpoints and models, we can use attributes from the `System.ComponentModel.DataAnnotations` namespace. These can provide information on what they can expect from the response to anyone who uses the API.
 
 ```c#
 // Example of some attributes that can be applied
@@ -55,4 +55,3 @@ To further describe API endpoints and models we can use attributes from `System.
 [ProducesResponseType(StatusCodes.Status400BadRequest)]
 ...
 ```
-
