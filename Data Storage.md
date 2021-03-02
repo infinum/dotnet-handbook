@@ -1,4 +1,4 @@
-mdWe use several data storage types and different data access technologies in our projects. This part of the handbook will guide you through common practices in projects we are working on.
+We use several data storage types and different data access technologies in our projects. This part of the handbook will guide you through common practices in projects we are working on.
 
 ## Databases (relational)
 
@@ -49,35 +49,6 @@ public void ConfigureServices(IServiceCollection services)
 ###### Using Conventions
 
 ```c#
-public class User
-{
-    // By convention, this will be used as PK.
-    public string UserId { get; set; }
-
-    public string Name { get; set; }
-
-    // By convention, this is collection navigation property.
-    public List<Comment> Comments { get; set; }
-}
-
-public class Comment
-{
-    // By convention, this will be used as PK.
-    public string CommentId { get; set; }
-    
-    public string Title { get; set; }
-
-    public string Content { get; set; }
-
-    // By convention, this will be used as FK.
-    public string UserId { get; set; }
-
-    // By convention, this will be reference navigation property.
-    public User User { get; set; }
-}
-```
-&nbsp;
-
 ###### Using Fluent API
 
 ```c#
@@ -174,11 +145,13 @@ public class Comment
     public User User { get; set; }
 }
 ```
+
 &nbsp;
 
 ### Dapper
 
- 
+&nbsp;
+
 
 ## Cloud Storages
 
@@ -202,6 +175,7 @@ And you can use it to connect to Blob, Queue and Table.
 
 If you want to see what data you added to your local storage, you can use [Azure Storage Expolorer](https://azure.microsoft.com/en-us/features/storage-explorer/#features).
 
+&nbsp;
 
 #### Azure Blob Storage
 
@@ -273,6 +247,7 @@ public class TestService
     }
 }
 ```
+
 &nbsp;
 
 #### Azure Table Storage
@@ -283,10 +258,10 @@ Azure Table Storage provides a way to store large amounts of structured data. Th
 We must note that this is not a replacement for SQL database. For more information, please see [Understanding the differences between NoSQL and Relationl Databases.](https://docs.microsoft.com/en-us/azure/cosmos-db/relational-nosql)
 
 Use it when you want to:
-- Store data that doesn't require complex joins, foreing keys or any relationship.
+- Store data that doesn't require complex joins, foreign keys or any relationship.
 - Store data which is denormalized.
 - Have fast queries using a clustered index.
- 
+
 &nbsp;
 
 ## Cache
@@ -305,6 +280,9 @@ Disadvantages
 #### In Memory Cache
 
 [Official documentation](https://docs.microsoft.com/en-us/aspnet/core/performance/caching/response?view=aspnetcore-5.0)
+
+Is Used when you want to implement cache in single process. When the process dies, the cache dies with it.
+If you are running the same process on several servers, you will have a separate cache for each server.
 
 - It is [Thread safe](https://docs.microsoft.com/en-us/dotnet/api/system.runtime.caching.memorycache?view=dotnet-plat-ext-5.0#thread-safety)
 ```c#
