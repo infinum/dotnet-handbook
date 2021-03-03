@@ -16,14 +16,288 @@ So, when choosing, answer these questions:
 
 Entity Framework is the most common mapper tool (ORM) used in .NET projects. It provides an excellent way to keep your models and database in sync through migrations. 
 
-Configurations - entity conf through assembly (code example)
+#### DbContext
+
+[Official documentation](https://docs.microsoft.com/en-us/ef/core/dbcontext-configuration/)
+
+1. Create ApplicationDbContext
+```c#
+public class ApplicationDbContext : DbContext
+{
+    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+        : base(options)
+    {
+    }
+}
+```
+
+2. Register ApplicationDbContext in Startup.cs
+```c#
+public void ConfigureServices(IServiceCollection services)
+{
+    services.AddControllers();
+
+    services.AddDbContext<ApplicationDbContext>(
+        options => options.UseSqlServer("Psst! It's a secret.json."));
+}
+```
+
+#### Configurations 
+
+[Official documentation](https://docs.microsoft.com/en-us/ef/core/modeling/)
+
+###### Using Conventions
+
+```c#
+###### Using Fluent API
+
+```c#
+public class User
+{
+    public string UserId { get; set; }
+
+    public string Name { get; set; }
+
+    public List<Comment> Comments { get; set; }
+}
+
+public class Comment
+{
+    public string CommentId { get; set; }
+    
+    public string Title { get; set; }
+
+    public string Content { get; set; }
+
+    public string UserId { get; set; }
+
+    public User User { get; set; }
+}
+
+public class UserEntityTypeConfiguration : IEntityTypeConfiguration<User>
+{
+    public void Configure(EntityTypeBuilder<User> builder)
+    {
+        builder
+            .HasKey(k => k.UserId);
+        
+        builder
+            .Property(p => p.Name).IsRequired();
+        
+        builder
+            .HasMany(p => p.Comments)
+            .WithOne(p => p.User)
+            .HasForeignKey(fk => fk.UserId)
+    }
+}
+
+public class CommentEntityTypeConfiguration : IEntityTypeConfiguration<Comment>
+{
+    public void Configure(EntityTypeBuilder<Comment> builder)
+    {
+        builder
+            .HasKey(k => k.CommentId);
+
+        builder
+            .Property(p => p.Title)
+            .IsRequired();
+        
+        builder
+            .Property(p => p.Content)
+            .IsRequired();
+
+        builder
+            .HasOne(p => p.User)
+            .WithMany(u => u.Comments)
+            .HasForeignKey(fk => fk.UserId);
+    }
+}
+```
+&nbsp;
+
+###### Using Data Annotations
+
+```c#
+public class User
+{
+    [Key]
+    public string UserId { get; set; }
+
+    [Required]
+    public string Name { get; set; }
+
+    public List<Comment> Comments { get; set; }
+}
+
+public class Comment
+{
+    [Key]
+    public string CommentId { get; set; }
+    
+    [Required]
+    public string Title { get; set; }
+
+    [Required]
+    public string Content { get; set; }
+
+    public string UserId { get; set; }
+
+    public User User { get; set; }
+}
+```
+
+&nbsp;
 
 ### Dapper
 
- 
+&nbsp;
+
 
 ## Cloud Storages
 
+#### Azure Storage Connection String
 
+[Official documentation](https://docs.microsoft.com/en-us/azure/storage/common/storage-configure-connection-string)
+
+For development, easiest way to connect to your local [Azure storage emulator](https://docs.microsoft.com/en-us/azure/storage/common/storage-use-emulator) is by using `UseDevelopmentStorage=true`.
+
+This is equivalent of:
+```
+DefaultEndpointsProtocol=http;
+AccountName=devstoreaccount1;
+AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;
+BlobEndpoint=http://127.0.0.1:10000/devstoreaccount1;
+QueueEndpoint=http://127.0.0.1:10001/devstoreaccount1;
+TableEndpoint=http://127.0.0.1:10001/devstoreaccount1;
+```
+
+And you can use it to connect to Blob, Queue and Table.
+
+If you want to see what data you added to your local storage, you can use [Azure Storage Expolorer](https://azure.microsoft.com/en-us/features/storage-explorer/#features).
+
+&nbsp;
+
+#### Azure Blob Storage
+
+[Official documentation](https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blobs-introduction)
+
+Azure Blob storage is optimized for storing massive amounts of unstructured data:
+- Images
+- Documents
+- Audio/video files
+- Log files
+
+Blob storage offers three types of resources:
+- Storage account
+  - A unique namespace in Azure for your data
+  - If your storage account is named `myaccount`, then the default endpoint for blob is: `http://myaccount.blob.core.windows.net`
+- Containers
+  - Similar to folders (we have files in a folder)
+  - Organizes a set of blobs (we have blobs in a container)
+  - You can have multiple containers (eg. photos, documents, etc.)
+- Blobs
+  - Block blobs
+  - Append blobs
+  - Page blobs
+
+###### Configuration
+
+```c#
+public interface IAzureBlobServiceClientFactory
+{
+    BlobServiceClient CreateBlobServiceClient();
+}
+
+public class AzureBlobOptions
+{
+    public string ConnectionString { get; set; }
+}
+
+public class AzureBlobServiceClientFactory : IAzureBlobServiceClientFactory
+{
+    private readonly IOptions<AzureBlobOptions> _options;
+    
+    public AzureBlobServiceClientFactory(IOptions<AzureBlobOptions> options)
+    {
+        _options = options;
+    }
+    
+    public BlobServiceClient CreateBlobServiceClient()
+    {
+        return new BlobServiceClient(_options.Value.ConnectionString);
+    }
+}
+```
+
+###### Usage
+
+```c#
+public class TestService
+{
+    private readonly BlobServiceClient _client;
+
+    public TestService(IAzureBlobServiceClientFactory azureBlobServiceClientFactory)
+    {
+        _client = azureBlobServiceClientFactory.CreateBlobServiceClient();
+    }
+
+    public async Task CreateContainerAsync(string containerName)
+    {
+        await _client.CreateContainerAsync(containerName);
+    }
+}
+```
+
+&nbsp;
+
+#### Azure Table Storage
+
+[Official Documentation](https://docs.microsoft.com/en-us/azure/storage/tables/)
+
+Azure Table Storage provides a way to store large amounts of structured data. This service is a NoSQL database.
+We must note that this is not a replacement for SQL database. For more information, please see [Understanding the differences between NoSQL and Relationl Databases.](https://docs.microsoft.com/en-us/azure/cosmos-db/relational-nosql)
+
+Use it when you want to:
+- Store data that doesn't require complex joins, foreign keys or any relationship.
+- Store data which is denormalized.
+- Have fast queries using a clustered index.
+
+&nbsp;
 
 ## Cache
+
+- Stores data as key value pairs.
+
+Advantages
+- Easy to use.
+- Significantly improves the performance and scalability of an application by reducing the work required to generate content.
+
+Disadvantages
+- Potentially high memory usage (if not limited).
+- Can have stale data (we must update cache).
+- Possible concurrency issues (if not handled correctly).
+
+#### In Memory Cache
+
+[Official documentation](https://docs.microsoft.com/en-us/aspnet/core/performance/caching/response?view=aspnetcore-5.0)
+
+Is Used when you want to implement cache in single process. When the process dies, the cache dies with it.
+If you are running the same process on several servers, you will have a separate cache for each server.
+
+- It is [Thread safe](https://docs.microsoft.com/en-us/dotnet/api/system.runtime.caching.memorycache?view=dotnet-plat-ext-5.0#thread-safety)
+```c#
+public class HomeController : Controller
+{
+    private IMemoryCache _memoryCache;
+
+    public HomeController(IMemoryCache memoryCache)
+    {
+        _memoryCache = memoryCache;
+    }
+}
+
+public void ConfigureServices(IServiceCollection services)
+{
+    services.AddMemoryCache();
+}
+```
