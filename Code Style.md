@@ -1,5 +1,3 @@
-### Code Style
-
 It is important to keep the code readable and consistent so anybody reading it can understand it without too much effort. We use general [C# Microsoft coding conventions](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/inside-a-program/coding-conventions) with some additions to write our code. 
 
 These are some of the rules we would like to emphasize:
@@ -22,7 +20,7 @@ There is also an extensive documentation for C# available [here](https://docs.mi
 
 These are some of the code formatting examples we follow to keep our code clean and consistent:
 
-#### Ternary expressions
+### Ternary expressions
 
 ```c#
 // single expression - single line
@@ -42,7 +40,7 @@ var result = booleanExpressionA ? resultA
 
 
 
-#### Lambda expressions
+### Lambda expressions
 
 ```c#
 // single line

@@ -3,7 +3,7 @@
 .[gitignore](https://git-scm.com/docs/gitignore) file tells Git which files in your project should be ignored. It is usually (most often) located in the root directory of your project. File content example for .Net Core project can be found [here](https://github.com/dotnet/core/blob/master/.gitignore).
  Be aware that adding a certain path to .gitignore will have no effect if the file is already being tracked by Git. In this case you can remove the file an then update the .gitignore file.
 
- ## GitFlow
+## GitFlow
 
 GitFlow is a branching model for Git which we use here at Infinum. Its main advantage is that it supports projects where deployments are made often. Since we use agile workflow, this goes hand in hand with it. We will cover some of things about the GitFlow in this handbook, but you can find a broader explanation [here](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow).
 
@@ -11,7 +11,7 @@ This image shows the git flow branches diagram:
 
 
 
-<img src=".\resources\git-flow.png" alt="gitflowimage" style="zoom:100%;" />
+<img src="/resources/git-flow.png" alt="gitflowimage" style="zoom:100%;" />
 
 
 
