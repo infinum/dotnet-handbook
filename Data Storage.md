@@ -87,14 +87,8 @@ public class CommentEntityTypeConfiguration : IEntityTypeConfiguration<Comment>
     public void Configure(EntityTypeBuilder<Comment> builder)
     {
         builder.HasKey(k => k.CommentId);
-        
-        builder
-            .Property(p => p.Title)
-            .IsRequired();
-        
-        builder
-            .Property(p => p.Content)
-            .IsRequired();
+        builder.Property(p => p.Title).IsRequired();
+        builder.Property(p => p.Content).IsRequired();
 
         builder
             .HasOne(p => p.User)
