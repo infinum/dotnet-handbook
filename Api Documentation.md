@@ -1,5 +1,3 @@
-### API Documentation
-
 API documentation is a manual of how to use and integrate with some API. It consists of all the information required to work with it usually including tutorials and examples as well. It should be simple and easily understandable so anyone who needs to use it can with as little time possible find what they need. 
 
 This helps us a lot when collaborating with other teams since it provides an excellent interface to API. In our APIs, we mostly use [Swagger](https://swagger.io/) toolset to automatically generate documentation which enables us to quickly update it whenever something changes.
