@@ -11,7 +11,8 @@ This image shows the git flow branches diagram:
 
 
 
-<img src="/resources/git-flow.png" alt="gitflowimage" style="zoom:100%;" />
+
+![gitflowimage](/resources/git-flow.png)
 
 
 
