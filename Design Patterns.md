@@ -200,23 +200,23 @@ Here we have a simple example of the observer pattern. Subject class allows obse
 ```c#
 abstract class Subject
 {
-    internal readonly List<IObserver> Observers;
+    internal readonly List<IObserver> _observers;
     
     public void Subscribe(IObserver observer)
     {
-        Observers.Add(observer);
+        _observers.Add(observer);
     }
     
-      public void Unsubscribe(IObserver observer)
+    public void Unsubscribe(IObserver observer)
     {
-        Observers.Remove(observer);
+        _observers.Remove(observer);
     }
     
     public void NotifyObservers(string email)
     {
-        foreach(var observer in Observers)
+        foreach(var observer in _observers)
         {
-            observer.Update(email);
+            _observers.Update(email);
         }
     }
     
@@ -228,17 +228,17 @@ abstract class Subject
 
 public class Login : Subject 
 {
-    private string email;
+    private string _email;
     
     public string GetEmail()
     {
-        return email:
+        return _email:
     }
     
     public void SetEmail(string newEmail)
     {
-        email=newEmail;
-        NotifyObservers(email);
+        _email=newEmail;
+        NotifyObservers(_email);
     }
 }
 
