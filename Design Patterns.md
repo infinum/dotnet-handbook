@@ -213,12 +213,12 @@ public class CashPayment : IStrategy
 
 public class PaymentMethod
 {
-     public IStrategy Strategy { get; set; }
+    public IStrategy Strategy { get; set; }
 
-     public void GetPaymentMethod()
-     {
-         Console.WriteLine(Strategy.Payment());
-     }
+    public void GetPaymentMethod()
+    {
+        Console.WriteLine(Strategy.Payment());
+    }
 }
 ```
 
