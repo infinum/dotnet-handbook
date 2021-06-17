@@ -63,34 +63,34 @@ public class LoginDetailsDtoValidator : AbstractValidator<LoginDetailsDto>
     public LoginDetailsDtoValidator()
     {
          RuleFor(loginDetailsDto => loginDetailsDto.Username)
-               .NotEmpty()
-               .WithMessage("Username is empty")
-               .Must(ValidateUsername)
-               .WithMessage("Username already exists");
+             .NotEmpty()
+             .WithMessage("Username is empty")
+             .Must(ValidateUsername)
+             .WithMessage("Username already exists");
 
-            RuleFor(loginDetailsDto => loginDetailsDto.AuthType)
-               .NotEmpty()
-               .WithMessage("Authtype is empty");
+         RuleFor(loginDetailsDto => loginDetailsDto.AuthType)
+             .NotEmpty()
+             .WithMessage("Authtype is empty");
 
-            RuleFor(loginDetailsDto => loginDetailsDto.DateTime)
-               .NotEmpty()
-               .WithMessage("Date is empty");
+         RuleFor(loginDetailsDto => loginDetailsDto.DateTime)
+             .NotEmpty()
+             .WithMessage("Date is empty");
 
-            RuleFor(loginDetailsDto => loginDetailsDto.IpAddress)
-               .NotEmpty()
-               .NotEqual("1234");
+         RuleFor(loginDetailsDto => loginDetailsDto.IpAddress)
+             .NotEmpty()
+             .NotEqual("1234");
     }
     
     public bool ValidateUsername(string username)
     {
-        if(doesNameAlreadyExistInDatabase)
-        {
-            return false;
-        }
-        else
-        {
-           return true; 
-        }
+         if(doesNameAlreadyExistInDatabase)
+         {
+             return false;
+         }
+         else
+         {
+             return true; 
+         }
     }
 }
 ```
