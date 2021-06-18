@@ -30,11 +30,8 @@ In our scenario, we would like to validate members of this DTO (data transfer ob
 public class LoginDetailsDto
 {
     public string Username { get; set; }
-
     public DateTime DateTime { get; set; }
-
     public string AuthType { get; set; }
-
     public string IpAddress { get; set; }
 }
 ```
@@ -49,7 +46,7 @@ Here we have an example Validator class where we validate the LoginDetailsDto cl
 - Validation rules :
   - should be defined in the validator class constructor
   - property that we wish to validate should be passed a lambda expression
-  - validators in the rule can be chained together 🔗 and they can be followed by a message
+  - validators in the rule can be chained together and they can be followed by a message
     - there are a lot of **built-in validators** which you can check out on this [Built-in Validators](https://docs.fluentvalidation.net/en/latest/built-in-validators.html) page
     - you can also write your own, **custom validators**, by implementing the predicate validator which is accessed by using the **Must** method
 
@@ -99,17 +96,27 @@ public class LoginDetailsDtoValidator : AbstractValidator<LoginDetailsDto>
 
 **Later** we can use this validation where we see fit, in this case, we are validating if the input data is correct before we save it to the database. 
 
-- We must instantiate the validator to use it.
-- We check if the info is valid
-- if it is valid, we wrap it into the correct type and save it to the database
-- If it's not valid, fluent validation has its own property **Errors** which contains the collection of any validation failures, which we can then print out or log
+- To use the validator we should **register** it in Startup class in ConfigureServices method like this:
+```c#
+public void ConfigureServices(IServiceCollection services)
+{
+    services.AddMvc()
+        .AddFluentValidation(config =>
+        {
+            options.RunDefaultMvcValidationAfterFluentValidationExecutes = false;
+            options.ValidatorOptions.PropertyNameResolver = FluentValidationResolvers.CamelCasePropertyNameResolver;
+            options.RegisterValidatorsFromAssemblyContaining(typeof(LoginDetailsDtoValidator));
+        });
+}
+```
+  - for this to work the FluentValidation.AspNetCore package reference must be added
+    `Install-Package FluentValidation.AspNetCore`
+  - validation results are then added to ModelState, so we can use MVC's model binding infrastructure to validate the objects
 
 ```c#
 public async Task CreateExternalLoginDetails(LoginDetailsDto googleUserInfo)
 {
-    var validator = new LoginDetailsDtoValidator();
-
-    if (validator.Validate(googleUserInfo).IsValid)
+    if (ModelState.IsValid)
     {
         var loginDetails = new LoginDetails
         {
@@ -117,7 +124,7 @@ public async Task CreateExternalLoginDetails(LoginDetailsDto googleUserInfo)
             AuthType = googleUserInfo.AuthType,
             IpAddress = googleUserInfo.IpAddress,
             DateTime = DateTime.UtcNow,
-         };
+        };
         await _uow.LoginDetailsRepo.CreateAsync(loginDetails);
         await _uow.SaveChangesAsync();
     }
@@ -131,9 +138,19 @@ public async Task CreateExternalLoginDetails(LoginDetailsDto googleUserInfo)
     }
 }
 ```
+- We check if the info is valid
+- if it is valid, we wrap it into the correct type and save it to the database
+- If it's not valid, fluent validation has its own property **Errors** which contains the collection of any validation failures, which we can then print out or log
 
+- If we for some reason don't want to register the validator in services, we can also instantiate it manually
+```c#
+...
+var validator = new LoginDetailsDtoValidator();
+if (validator.Validate(googleUserInfo).IsValid)`{...}
+...
+```
 
-
+#####Errors and exceptions
 Combining all error messages into a single string:
 
 - in the braces, you can pass a separator of your choice
@@ -154,4 +171,4 @@ validator.ValidateAndThrow(googleUserInfo)`
 
 
 
-Congratulations, we covered the basics, if you want to know more visit this link: [Fluent Validation Documentation](https://docs.fluentvalidation.net/) 🏋🏿‍♀️
+Congratulations, we covered the basics, if you want to know more visit this link: [Fluent Validation Documentation](https://docs.fluentvalidation.net/)
