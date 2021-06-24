@@ -21,6 +21,7 @@ Entity Framework is the most common mapper tool (ORM) used in .NET projects. It 
 [Official documentation](https://docs.microsoft.com/en-us/ef/core/dbcontext-configuration/)
 
 1. Create ApplicationDbContext
+
 ```c#
 public class ApplicationDbContext : DbContext
 {
@@ -32,6 +33,7 @@ public class ApplicationDbContext : DbContext
 ```
 
 2. Register ApplicationDbContext in Startup.cs
+
 ```c#
 public void ConfigureServices(IServiceCollection services)
 {
@@ -132,6 +134,90 @@ public class Comment
 
 &nbsp;
 
+### Migrations
+
+In the example above, we created User and Comment classes with **Entity Type Configuration** which describes how the data should "behave". Now, if we want to take a snapshot of that data with the configuration and translate it to the database automatically, Entity framework has the easy solution for us! **Migrations** help us create entity types by reverse engineering the schema of a database. 
+
+First step is to go into your **Startup** Class and configure the Database Context in a way it knows where to look for configurations for the migrations, we will just upgrade the code we had above (we don't need to do this if we are using Data Annotations, but we avoid using them):
+
+```c#
+services.AddDbContext<YourTypeOfDbContext>(options =>
+       options.UseSqlServer("Psst! It's a secret.json"),
+       x => x.MigrationsAssembly("NameOfTheClassLibraryWhereConfigIsLocated")));
+```
+
+
+Now, lets try to create our first migration, we will migrate our User and Comment classes with their configuration to the the database.
+
+There are two ways to do that (look for them in the search tab if they are not in your main window): 
+
+?	**.NET Core CLI** 
+
+?			`dotnet ef migrations add InitialCreate`
+
+?	**Package Manager Console**
+
+?			`Add-Migration InitialCreate`
+
+
+After we run one of these commands EF Core will do all the heavy lifting for us. It will create a folder named Migrations in your project and generate the migration class there. It should look something like this:
+
+```c#
+public partial class InitialCreate : Migration
+{
+    protected override void Up(MigrationBuilder migrationBuilder)
+    {
+        migrationBuilder.CreateTable(
+            name: "User",
+            columns: table => new
+            {
+                UserId = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+            },
+            constraints: table =>
+            {
+                table.PrimaryKey("PK_User", x => x.UserId);
+            });
+        
+        migrationBuilder.CreateTable(
+           name: "Comment",
+           columns: table => new
+           {
+              CommentId = table.Column<string>(type: "nvarchar(max)", nullable: false),
+              Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
+              Content = table.Column<string>(type: "nvarchar(max)", nullable: false),
+              UserId = table.Column<string>(type: "nvarchar(max)", nullable: false),
+           },
+           constraints: table =>
+           {
+               table.PrimaryKey("PK_Comment", x => x.CommentId);
+               table.ForeignKey("User", x => x.UserId, cascadeDelete: true)
+               table.Index(x => x.UserId)
+           });
+    }
+}
+```
+
+?Nice, now that you have the Migration set up, there is only one thing to do, update it, so it can create your database schema from the migration. Again we have two options:
+
+?	**.NET Core CLI** 
+
+?			`dotnet ef database update`
+
+?	**Package Manager Console**
+
+?			`Update-Database`
+
+
+And that's it, the database tables are created, you can check them in the Server Explorer! It's very easy and you don't need to use a single line of SQL!
+
+
+##### What to do when we updated the class and want to apply the changes to the database? 
+
+?Rinse and repeat, create the migration again as we did above and update it, the whole process is handled by the Entity framework core for you! The new model is now compared to the snapshot of the old model, EF detects which column was added or changed and scaffolds an appropriate migration for you.
+
+&nbsp;
+
 ## Cloud Storages
 
 Cloud provided new options when choosing storage for your applications. Although there are several provider options, we will focus mainly on Azure Storage in this handbook.
@@ -163,18 +249,18 @@ Azure Blob storage is optimized for storing massive amounts of unstructured data
 
 Blob storage offers three types of resources:
 
-##### Storage account:
+#### Storage account:
 
 - A unique namespace in Azure for your data
 - If your storage account is named `myaccount`, then the default endpoint for blob is: `http://myaccount.blob.core.windows.net`
 
-##### Containers:
+#### Containers:
 
 - Similar to folders (we have files in a folder)
 - Organizes a set of blobs (we have blobs in a container)
 - You can have multiple containers (eg. photos, documents, etc.)
 
-##### Blobs:
+#### Blobs:
 
 - Block blobs
 - Append blobs
