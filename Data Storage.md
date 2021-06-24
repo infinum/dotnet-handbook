@@ -180,20 +180,20 @@ public partial class InitialCreate : Migration
             });
         
         migrationBuilder.CreateTable(
-           name: "Comment",
-           columns: table => new
-           {
-              CommentId = table.Column<string>(type: "nvarchar(max)", nullable: false),
-              Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
-              Content = table.Column<string>(type: "nvarchar(max)", nullable: false),
-              UserId = table.Column<string>(type: "nvarchar(max)", nullable: false),
-           },
-           constraints: table =>
-           {
-               table.PrimaryKey("PK_Comment", x => x.CommentId);
-               table.ForeignKey("User", x => x.UserId, cascadeDelete: true)
-               table.Index(x => x.UserId)
-           });
+            name: "Comment",
+            columns: table => new
+            {
+               CommentId = table.Column<string>(type: "nvarchar(max)", nullable: false),
+               Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
+               Content = table.Column<string>(type: "nvarchar(max)", nullable: false),
+               UserId = table.Column<string>(type: "nvarchar(max)", nullable: false),
+            },
+            constraints: table =>
+            {
+                table.PrimaryKey("PK_Comment", x => x.CommentId);
+                table.ForeignKey("User", x => x.UserId, cascadeDelete: true)
+                table.Index(x => x.UserId)
+            });
     }
 }
 ```
@@ -230,7 +230,8 @@ Cloud provided new options when choosing storage for your applications. Although
 For development we use tool called [Azure storage emulator](https://docs.microsoft.com/en-us/azure/storage/common/storage-use-emulator). Fastest way to connect to your local Azure storage is by setting `UseDevelopmentStorage=true`.
 
 This is equivalent of:
-```
+
+```c#
 DefaultEndpointsProtocol=http;
 AccountName=devstoreaccount1;
 AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;
