@@ -151,13 +151,13 @@ Now, lets try to create our first migration, we will migrate our User and Commen
 
 There are two ways to do that (look for them in the search tab if they are not in your main window): 
 
-?	**.NET Core CLI** 
+	**.NET Core CLI** 
 
-?			`dotnet ef migrations add InitialCreate`
+			`dotnet ef migrations add InitialCreate`
 
-?	**Package Manager Console**
+	**Package Manager Console**
 
-?			`Add-Migration InitialCreate`
+			`Add-Migration InitialCreate`
 
 
 After we run one of these commands EF Core will do all the heavy lifting for us. It will create a folder named Migrations in your project and generate the migration class there. It should look something like this:
@@ -198,15 +198,15 @@ public partial class InitialCreate : Migration
 }
 ```
 
-?Nice, now that you have the Migration set up, there is only one thing to do, update it, so it can create your database schema from the migration. Again we have two options:
+Nice, now that you have the Migration set up, there is only one thing to do, update it, so it can create your database schema from the migration. Again we have two options:
 
-?	**.NET Core CLI** 
+	**.NET Core CLI** 
 
-?			`dotnet ef database update`
+			`dotnet ef database update`
 
-?	**Package Manager Console**
+	**Package Manager Console**
 
-?			`Update-Database`
+			`Update-Database`
 
 
 And that's it, the database tables are created, you can check them in the Server Explorer! It's very easy and you don't need to use a single line of SQL!
@@ -214,7 +214,7 @@ And that's it, the database tables are created, you can check them in the Server
 
 ##### What to do when we updated the class and want to apply the changes to the database? 
 
-?Rinse and repeat, create the migration again as we did above and update it, the whole process is handled by the Entity framework core for you! The new model is now compared to the snapshot of the old model, EF detects which column was added or changed and scaffolds an appropriate migration for you.
+Rinse and repeat, create the migration again as we did above and update it, the whole process is handled by the Entity framework core for you! The new model is now compared to the snapshot of the old model, EF detects which column was added or changed and scaffolds an appropriate migration for you.
 
 &nbsp;
 
