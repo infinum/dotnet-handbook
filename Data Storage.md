@@ -240,7 +240,7 @@ QueueEndpoint=http://127.0.0.1:10001/devstoreaccount1;
 TableEndpoint=http://127.0.0.1:10001/devstoreaccount1;
 ```
 
-And you can use it to connect to Blob, Queue and Table storages. If you want to see what data you added to your local storage, you can use [Azure Storage Expolorer](https://azure.microsoft.com/en-us/features/storage-explorer/#features).
+And you can use it to connect to Blob, Queue and Table storages. If you want to see what data you added to your local storage, you can use [Azure Storage Explorer](https://azure.microsoft.com/en-us/features/storage-explorer/#features).
 
 
 
@@ -323,14 +323,12 @@ public class TestService
 
 Azure Table Storage provides a way to store large amounts of structured data. This service is a NoSQL database. You can read more about it [here](https://docs.microsoft.com/en-us/azure/storage/tables/).
 
-We must note that this is not a replacement for SQL database. For more information, please see [Understanding the differences between NoSQL and Relationl Databases.](https://docs.microsoft.com/en-us/azure/cosmos-db/relational-nosql)
+We must note that this is not a replacement for SQL database. For more information, please see [Understanding the differences between NoSQL and Relational Databases.](https://docs.microsoft.com/en-us/azure/cosmos-db/relational-nosql)
 
 Use it when you want to:
 - Store data that doesn't require complex joins, foreign keys or any relationship.
-- Store data which is denormalized.
+- Store data which is de-normalized.
 - Have fast queries using a clustered index.
-
-&nbsp;
 
 ## Cache
 
