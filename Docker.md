@@ -61,10 +61,12 @@ Container is an instance of a docker image, it can be running or stopped.
 To start a new container from an image do :
 
 ```bash
-> docker run --name <container-name> -p 8000:80 -p 8001:443 <image-name>
+> docker run -d --name <container-name> -p 8000:80 -p 8001:443 <image-name>
 ```
 
 This will run start a new docker container `<container-name>` and expose ports `80` and `433` from the container to ports `8000` and `8001` on host machine. You can then go to `localhost:8000` on your machine to access the application running inside of the container.
+
+The `-d` switch for run means that docker container should run in background and not capture your current terminal.
 
 To get a list of all containers on the machine run :
 
@@ -137,6 +139,45 @@ ENTRYPOINT ["dotnet", "Project.Name.API.dll"]
 This docker file will do a 2 stage image build, first it will create a temporary image with .NET SDK called build-env, it will copy the source inside of that image and build it.
 
 Second stage will build the runtime image, this image will only contain the .NET runtime and the built project files.
+
+To create a docker image in your project, add a `Dockerfile` to the root of your solution, then build and run the image :
+
+```bash
+> docker build -t <image-name>
+> docker run --rm -d --name <container-name> <image-name> \
+    -p 8000:80 \
+    -e ASPNETCORE_ENVIRONMENT=Development
+```
+
+You can add additional environment variables for the docker container with more `-e` switches.
+
+## Running ASP.NET core with HTTPS inside of docker
+
+More information on this can be found [here](https://docs.microsoft.com/en-us/aspnet/core/security/docker-compose-https?view=aspnetcore-5.0), but a quick overview
+
+### On MacOS/Linux
+
+To get HTTPS running inside of docker you will need to create a dev certificate for localhost
+
+```bash
+> dotnet dev-certs https -ep ${HOME}/.aspnet/https/<certificate-name>.pfx -p <crypticpassword>
+> dotnet dev-certs https --trust
+```
+
+Then when starting an image you need to pass extra environment variables to configure HTTPS
+
+```bash
+> docker run --rm -d --name <container-name> -p 8000:80 -p 8001:443 \
+        -e ASPNETCORE_ENVIRONMENT=Development \
+        -e ASPNETCORE_URLS="https://+;http://+" \
+        -e ASPNETCORE_HTTPS_PORT=8001 \
+        -e ASPNETCORE_Kestrel__Certificates__Default__Password="<crypticpassword>" \
+        -e ASPNETCORE_Kestrel__Certificates__Default__Path=/https/<certificate-name>.pfx \
+        -v ${HOME}/.aspnet/https:/https/ \
+        <image-name>
+```
+
+You should now be able to access HTTPS version of your site at `https://localhost:8001`.
 
 ## Publishing docker images
 
