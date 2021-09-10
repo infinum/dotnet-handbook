@@ -2,9 +2,9 @@
 
 ## Docker overview
 
-The motivation behind using docker is having reproducible environments for your application development and deployment.
+The motivation behind docker is having a reproducible environment for your application development and deployment.
 
-Instead of installing all the libraries, tools, setting configuration everywhere you want to run your application, you prepare a [Docker image](#docker-image) which contains everything your application needs to run (linux apps, add configuration files/resources, libraries, tools, etc.). This image then runs consistently between your development machine and production environment (cloud, random server). It's also self-contained and isolated so other applications running on your PC, or different versions of some tool won't affect your docker image.
+Instead of installing libraries, tools, configuration, etc. - everywhere you want to run your application - you prepare a [Docker image](#docker-image) which contains everything your application needs to run (tools, add configuration files/resources, libraries, etc.). This image is then consistent between your development machine and production environment (cloud, random server). It's also self-contained and isolated - other applications or different versions of some tool running on your PC/host won't affect your docker image. Likewise once something is added to an image, if the remote source is gone, the image still contains all the files it needs to run.
 
 All cloud providers support running docker images and it usually it simplifies the development/deployment/testing cycle (fewer "Works on my machine !" scenarios).
 
