@@ -15,7 +15,7 @@ Docker images add some overhead :
 - building and updating the image takes non-trivial amount of time and is usually slower than building the app locally
 - debugging inside of the image is not as straightforward as debugging locally
 
-Without going into details (see official docs for that), here's a basic overview of the important concepts behind Docker.
+Without going into too much details (see [official documentation for more information](https://docs.docker.com/desktop/)), here's a basic overview of the important concepts behind Docker useful for a .NET developer.
 
 ### Docker image
 
