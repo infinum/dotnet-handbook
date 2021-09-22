@@ -21,11 +21,9 @@ Without going into too much details (see [official documentation for more inform
 
 Image is a self-contained application environment. A good analogy for an image would be a virtual machine _snapshot_ - image build basically installs all the libraries needed for the application to run inside of a virtual machine and then creates a snapshot.
 
-You can then use the image ("VM snapshot") as a template to start one or more instances of a [docker container](#docker-container). You can also [upload this image](#uploading-docker-images) to a registry to start [docker containers](#docker-container) on different hosts.
+You can then use the image ("VM snapshot") as a template to start one or more instances of a [docker container](#docker-container). You can also [upload this image](#uploading-docker-images) to a registry to start containers on different hosts.
 
-Instead of manually installing things into a VM docker images are built from a script called [Dockerfile](#dockerfile).
-
-You can build a docker image from CLI :
+Instead of manually installing things into a VM docker images are built from a script called [Dockerfile](#dockerfile). To build an image :
 
 ```bash
 > docker build -t <image-name> .
