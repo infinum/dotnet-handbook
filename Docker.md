@@ -1,14 +1,12 @@
 # Docker for .NET
 
-## Docker overview
-
 Motivation behind using docker is having a reproducible environment for application development and deployment.
 
-Instead of installing libraries, tools, configuration, etc. - everywhere the application runs - a [docker image](#docker-image) which contains everything application needs to run (tools, add configuration files/resources, libraries, etc.). This image is then consistent between development machine, cloud host, VPS, etc. [Docker container](#docker-container) is self-contained and isolated - other applications or different versions of some tool running on host won't affect container execution. Likewise once something is added to an image, even if the remote source is gone, the image contains all the files it needs to run.
+Instead of setting up application dependencies in each environment (tools, libraries, configuration) we can use a [docker image](#docker-image) which contains all those dependencies. This image is then consistent between development machine, cloud host, Virtual Private Servers. [Docker container](#docker-container) is self-contained and isolated which means other applications or different versions of some tool running on host won't affect container execution. Once something is added to an image it's kept in the image file asa copy. If the remote source is gone or updated the image always contains the files it was built with.
 
-All cloud providers support running docker images and it usually it simplifies the development/deployment/testing cycle (fewer "Works on my machine !" scenarios).
+All cloud providers support running docker images which simplifies the development/deployment/testing cycle (fewer "Works on my machine !" scenarios).
 
-Docker images add some overhead :
+Docker images do add some overhead :
 
 - usually need to run inside of a linux virtual machine (can only run natively on a linux host)
 - contain a copy of all dependencies in every image
@@ -158,7 +156,7 @@ You can add additional environment variables for the docker container with more 
 
 ## Running ASP.NET core with HTTPS inside of docker
 
-More information on this can be found [here](https://docs.microsoft.com/en-us/aspnet/core/security/docker-compose-https?view=aspnetcore-5.0), but a quick overview
+More information on this can be found [here](https://docs.microsoft.com/en-us/aspnet/core/security/docker-compose-https?view=aspnetcore-5.0), but here is a quick overview
 
 ### Create a dev certificate for localhost
 
@@ -209,7 +207,7 @@ You should now be able to access HTTPS version of your site at `https://localhos
 
 ## Publishing docker images
 
-Docker images can be published to a [registry](https://docs.docker.com/registry/) - this is how you deploy an image - you publish it to a registry and then you reference the registry image on the server you want to start the image.
+Docker images can be published to a [registry](https://docs.docker.com/registry/). To deploy an image publish it to a registry and then reference the registry image on the host which will run the image.
 
 [Docker Hub](https://hub.docker.com/) is the default registry you are pulling public images from by default.
 
