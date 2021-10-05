@@ -2,11 +2,11 @@
 
 `docker-compose` is a tool built on top of docker and is used to start multiple service containers and connect them together.
 
-Compose is usually used to create an entire development environment, a typical docker-compose will start up a service for database, backend, frontend, HTTP proxy, etc., connect them all together in a private network and expose public ports on the host.
+Compose is usually used to create an entire development environment: A typical docker-compose will start up a service for database, backend, frontend, HTTP proxy and so on. Then you need to connect them all together in a private network and expose public ports on the host.
 
-`docker-compose` can be used for creating production environments, but other solutions are often better suited for that and docker-compose is usually used to simplify setting up the development environment.
+docker-compose can be used to create production environments, but there are other solutions which are often better suited for that. Because of that, docker-compose is usually used to simplify setting up the development environment.
 
-Compose configuration is contained within a [docker-compose.yml](#example-docker-compose.yml) script. This script references `Dockerfile`s to be built locally or prebuilt images that will be started as a service. You can specify environment variables to be passed to the container inside of `docker-compose.yml`, volumes, port mappings, etc. For details see the [reference for docker-compose.yml](https://docs.docker.com/compose/compose-file/)
+Compose configuration is contained within a docker-compose.yml script. This script references 'Dockerfiles' which can be built locally or prebuilt images which can be started as a service. You can specify environment variables to be passed to the container inside of `docker-compose.yml`, volumes, port mappings, etc. For details see the [reference for docker-compose.yml](https://docs.docker.com/compose/compose-file/)
 
 Some basic commands when using `docker-compose` :
 
@@ -36,7 +36,7 @@ Some basic commands when using `docker-compose` :
   docker-compose up --scale example-api=4
   ```
 
-  this will spin up 4 instances of example-api container inside of compose network, note that you will need to handle networking configuration slightly differently : you can either map a range of `ports` or use `expose` setup a load balancer if you want to access the API on host.
+  This will spin up 4 instances of example-api container inside of compose network. Note that you will need to handle networking configuration slightly differently: you can either map a range of `ports` or use `expose` setup a load balancer if you want to access the API on host.
 
 ### Compose networking
 
