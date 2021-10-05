@@ -143,7 +143,7 @@ This docker file will do a 2 stage image build, first it will create a temporary
 
 Second stage will build the runtime image, this image will only contain the .NET runtime and the built project files.
 
-To create a docker image in your project, add a `Dockerfile` to the root of your solution, then build and run the image :
+To create a docker image in your project, add a `Dockerfile` to the root of your solution, create a [.dockerignore](#.dockerignore) file, then build and run the image :
 
 ```bash
 > docker build -t <image-name>
@@ -153,6 +153,12 @@ To create a docker image in your project, add a `Dockerfile` to the root of your
 ```
 
 You can add additional environment variables for the docker container with more `-e` switches.
+
+### .dockerignore
+
+`COPY . ./` command from the example docker script above will copy everything from the source folder, including things we don't want like downloaded packages, build artifacts, etc.
+
+In this example copy `.gitignore` to a `.dockerignore` to the same folder.
 
 ## Running ASP.NET core with HTTPS inside of docker
 
