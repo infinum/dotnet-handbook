@@ -17,9 +17,9 @@ Without going into too much details (see [official documentation for more inform
 
 ### Docker image
 
-Image is a self-contained application environment. A good analogy for an image would be a virtual machine _snapshot_ - image build adds files needed to run the application to a virtual machine and then creates a snapshot.
+Image is a self-contained application environment. A good analogy for an image would be a virtual machine _snapshot_ - image build copies all files needed to run the application to a virtual machine and then creates a snapshot.
 
-You can then use the image ("VM snapshot") as a template to start (one or more) [docker container](#docker-container). You can also [upload the image](#uploading-docker-images) to a registry to run containers on different hosts.
+You can then use the image ("VM snapshot") as a template to start one (or more) [docker containers](#docker-container). You can also [upload the image](#uploading-docker-images) to a registry to run containers on different hosts.
 
 Instead of manually copying things into a VM, docker images are built from a script called [Dockerfile](#dockerfile). To build an image from a `Dockerfile` :
 
