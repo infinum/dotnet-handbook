@@ -1,16 +1,8 @@
-﻿# Fluent validation
-
-
-
-### What is it?
-
-We use fluent validation for determining "rules" which we want to include for our class, somewhat similar to Data annotations, but with more flexibility and control.
+﻿We use fluent validation for determining "rules" which we want to include for our class, somewhat similar to Data annotations, but with more flexibility and control.
 
 
 
 ### How to use it:
-
-
 
 **Firstly**, the Fluent Validation package should be referenced in your project, which you can simply do by using NuGet package manager or dotnet CLI command: 
 

@@ -1,5 +1,3 @@
-# Docker compose
-
 `docker-compose` is a tool built on top of docker and is used to start multiple service containers and connect them together.
 
 Compose is usually used to create an entire development environment: A typical docker-compose will start up a service for database, backend, frontend, HTTP proxy and so on. Then you need to connect them all together in a private network and expose public ports on the host.
