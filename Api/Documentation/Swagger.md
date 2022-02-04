@@ -2,8 +2,6 @@ API documentation is a manual of how to use and integrate with some API. It cons
 
 This helps us a lot when collaborating with other teams since it provides an excellent interface to API. In our APIs, we mostly use [Swagger](https://swagger.io/) toolset to automatically generate documentation which enables us to quickly update it whenever something changes.
 
-#### Swagger
-
 Swagger uses OpenAPI specification for its generated documentation which is the industry standard for describing REST APIs. Using it allows both computers and humans to understand available endpoints of a REST API without access to the source code. 
 
 To use Swagger you simply need to install one of the NuGet packages that support it and configure it for your needs. In their documentation, Microsoft suggests using two packages - [Swashbuckle](https://github.com/domaindrivendev/Swashbuckle.AspNetCore) or [NSwag](https://github.com/RicoSuter/NSwag). In the example below, we can see a configuration for Swashbuckle, but others have a similar principle.

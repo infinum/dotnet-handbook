@@ -1,5 +1,3 @@
-# Docker for .NET
-
 Motivation behind using docker is having a reproducible environment for application development and deployment.
 
 Instead of setting up application dependencies in each environment (tools, libraries, configuration) we can use a [docker image](#docker-image) which contains all those dependencies. This image is then consistent between development machine, cloud host, Virtual Private Servers. [Docker container](#docker-container) is self-contained and isolated which means other applications or different versions of some tool running on host won't affect container execution. Once something is added to an image it's kept in the image file as a copy. If the remote source is gone or updated the image always contains the files it was built with.
