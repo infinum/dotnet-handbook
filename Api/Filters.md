@@ -6,6 +6,46 @@ The fact that filters are run within the pipeline means that they are executed i
 
 Filters can be applied to various scopes. When implemented as a `FilterAttribute`, they can be placed on a controller method or on a controller, meaning that they will be executed only when the particular controller action or any action on the controller is being called. In case that we need to run a filter for all endpoints, we can implement one of the available filter interfaces, and then register the filter in the startup configuration.
 
+### Action filter example
+
+In order to demonstrate the usage of filters, we will implement a action filter that measures how long does it take to execute a controller action and then logs it. Logging is done using the ILogger service, which is a scoped service. Since filters are executed inside a request scope, we can use DI to get the required instance. The filter instance is kept alive until all the other filters and actions down the pipeline are done, which means that we can keep the stopwatch as a private variable:
+
+```csharp
+public class TimerActionFilter : IActionFIlter
+{
+  Stopwatch _stopwatch = new();
+  ILogger<TimerActionFilter> _logger;
+
+  public TimerActionFilter(ILogger<TimerActionFilter> logger)
+  {
+    _logger = logger;
+  }
+
+  // This method is executed BEFORE the next filter/action is called:
+  public void OnActionExecuting(ActionExecutingContext context)
+  {
+    _stopwatch.Start();
+  }
+
+  // This method is executed AFTER the next filter/action is done:
+  public void OnActionExecuted(ActionExecutedContext context)
+  {
+    _stopwatch.Stop();
+    var actionName = context.ActionDescriptor.DisplayName;
+    _logger.LogInformation(
+      "{ActionName} took {Elapsed}ms to execute.",
+      actionName,
+      _stopwatch.ElapsedMilliseconds);
+  }
+}
+```
+To use this filter, all we need to do is register the filter in `Program.cs`:
+```csharp
+builder.Services.AddControllers(config =>
+{
+  config.Filters.Add(new TimerActionFilter());
+});
+```
 ### Common usages
 
 #### Authentication and authorization
@@ -22,9 +62,9 @@ Although ASP.NET MVC has an `IExceptionFilter` interface that can be used to imp
 
 ### Filters vs Middleware
 
-On a first glance, both Filters and Middleware can be used to solve the same problems: they both wrap the execution of filters/middleware that comes after it and can short-circuit their execution if needed. The difference between them is not in the way the code is executed, but rather in what order are they run and in their scopes: Filters are a part of the MVC pipeline, so they are scoped entirely to the MVC middleware, while all other middleware operate on the level of ASP.NET and have access only to the `HttpContext`, alongside anything added by the preceding middleware.
+On a first glance, both Filters and Middleware can be used to solve the same problems: they both wrap the execution of filters/middleware that come after them and can short-circuit the execution if needed. The difference between them is not in the way the code is executed, but rather in what order are they run and in their scopes: Filters are a part of the MVC pipeline, so they are scoped entirely to the MVC middleware, while all other middleware operate on the level of ASP.NET and have access only to the `HttpContext`, alongside anything added by the preceding middleware.
 
-What does that mean in practice? We’ll explore that through a few examples.
+What does this mean in practice? We’ll explore that through a few examples.
 
 Let’s say we wanted to enforce a rule that all requests must be done over HTTPS. We might do that using a filter - that would be sufficient to enforce the rule for all controller actions since they are executed after the filter, but what about serving static files? To serve static files a middleware is used that comes before the MVC. That middleware short-circuits the execution of other middleware, which means that the request will never be processed by the filter, so the HTTPS rule won’t be enforced in this case.
 
