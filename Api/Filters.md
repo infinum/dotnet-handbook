@@ -58,7 +58,7 @@ Caching action results is often done in a filter because if the required result 
 
 #### Exception Handling
 
-Although ASP.NET MVC has an `IExceptionFilter` interface that can be used to implement exception handling in a filter, we tend not to use it, but rather to implement a middleware for the job. The reasoning behind this is that exception filters are executed late in the filter pipeline and that determines what exceptions they can catch. While exception filters should be enough for handling exceptions related to business logic, others that happen earlier in the filter pipeline or in an earlier middleware cannot be caught using the filter. On the other hand, a middleware can be defined much earlier - in fact, it can be the first thing that is run in the middleware pipeline - which enables it to can catch more exceptions than a filter ever could.
+Although ASP.NET MVC has an `IExceptionFilter` interface that can be used to implement exception handling in a filter, we tend not to use it, but rather to implement a middleware for the job. The reasoning behind this is explained in the Exception Handling section of this handbook.
 
 ### Filters vs Middleware
 
