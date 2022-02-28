@@ -39,7 +39,9 @@ public class TimerActionFilter : IActionFIlter
   }
 }
 ```
+
 To use this filter, all we need to do is register the filter in `Program.cs`:
+
 ```csharp
 builder.Services.AddControllers(config =>
 {
