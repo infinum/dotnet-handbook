@@ -8,7 +8,7 @@ The error model should be simple, containing an error message (or in some cases 
 public class ErrorResponse
 {
 	public int Code { get; set; }
-	public string[] Messages { get; set; }
+	public string[] Errors { get; set; }
 }
 ```
 
