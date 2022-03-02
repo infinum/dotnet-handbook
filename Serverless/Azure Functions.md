@@ -6,11 +6,11 @@ Functions support several different programming languages such as C# and JavaScr
 There are three basic hosting plans available for Azure Functions: 
 * Consumption plan
 
-Scale automatically and only pay for compute resources i.e. when functions are running. Cold start is startup latency, so first trigger execution after function was idle takes looger time. 
+Functions scale automatically and billing is calculated only for compute resources used i.e. when functions are running. Cold start is startup latency, so first trigger execution after function was idle takes looger time. 
 
 * Premium plan
 
-Automatically scales based on demand using pre-warmed workers which run applications with no delay after being idle, runs on more powerful instances, and connects to virtual networks.
+Automatically scale using pre-warmed workers which run applications with no delay after being idle. Function runs on more powerful instances, and connects to virtual networks.
 No cold start.
 
 * Dedicated (App Service) plan.
@@ -18,15 +18,17 @@ No cold start.
 Run functions within an App Service plan at regular App Service plan rates.
 Sutable for long-running scenarios such as Durable Functions, or where predictable costs are needed. 
 
-Note: If there is already existingg App service hosting some API that needs some background job to be executed good candidate is Azure Web job.
+Note: If there is already existing App service hosting some API that needs some background job to be executed, good candidate can be Azure Web job.
 To learn more, see [here](https://docs.microsoft.com/en-us/azure/app-service/webjobs-create)
 
 #### Scaling rules 
- A single function app in Consumption plan, only scales out to a maximum of 200 instances.
- Single instance may process more than one message or request at a time though, so there isn't a set limit on number of concurrent executions.
+ A single function app in Consumption plan, scales out to the maximum of 200 instances.
+ Single instance may process more than one message or request at a time.
  Timer trigger functions are singleton (trigger only one instance of function)
+ In the real world scenarios we need to control scaling of instances. Sometimes azure functions deal with databases or other services which either can't scale as much. Over-scaling azure functions could put other resources under pressure. Scaling rules can be configured for function app depending on trigger type. To learn more see [here](https://docs.microsoft.com/en-us/azure/azure-functions/functions-concurrency)
+ 
 
-Azure Functions are a serverless solution that provide:
+In general Azure Functions are a serverless solution that provide:
 * Writing less code 
 Allows developer to focus on the business logic implementation and utilize the infrastructure ready to use features. 
 
@@ -38,14 +40,16 @@ No need to buy resources in advance - pay as you go.
 
 #### Function properties
 * Short lived 
+
 Serverless functions should be short-lived and stateless. Default lifetime is 5 minutes with maximum of 10 minutes. If the function execution time exceeds the configured lifetime it will be un-gracefully killed.
 
 * Retry logic 
-Retry policies can be defined for all functions in an app or for individual functions by setting properties in host.json that will affect all functions or using attributes.
+
+Retry policies can be defined for all functions in an app by setting properties in host.json or for individual functions using attributes.
 Retry options are : fixedDelay or ExponentialBackoff. Learn more [here](https://docs.microsoft.com/en-us/azure/azure-functions/functions-bindings-error-pages?tabs=csharp#retry-policies-preview)
 Note: Some of the trrigers can come with default retry logic like queue triggered functios, the timer trigger doesn't retry after a function fails. When a function fails, it isn't called again until the next time on the schedule.
-*
-Triggers and Bindings
+* Triggers and Bindings
+
 Triggers initialize function invocation while input and output bindings allow input data to be fetched from or pushed to the source without manual integration.
 They eliminate repetitive code for integration with infrastructure, allowing development to focus purely on business logic.
 
@@ -59,32 +63,39 @@ Different triggers and binndings are avaliable :
 #### Triggers
 To trigger function execution, different triggeres can be used. Most popular ones are : 
 * Timer
+
 Allow to running a function by a schedule ( Example: run a function at midnight every night)
 Schedule format and samples can be found [here](https://docs.microsoft.com/en-us/azure/azure-functions/functions-bindings-timer?tabs=csharp#ncrontab-expressions)
 
 * Queue message / Service bus trigger
+
 Whenever message appears on a particular queue/topic function is invoked and process the contents of message. 
 
 * HTTP trigger 
+
 Allow using Azure Functions to create web APIs, responding to the various HTTP methods like GET, POST, and PUT
 
 
 Default function app consists of :
 * Function.cs class 
+
 Contains function method with defined trriger and input output bindings.
 FunctionName attribute marks the method as a function entry point. Name must be unique within a project.
 
 * local.settings.json 
+
 Contains all app settings, connection string and settings needed in function development. By default, it contains 
 AzureWebJobsStorage key with a value set to UseDevelopmentStorage=true, which is the connection string for the local Azure Storage Emulator. 
 Azure Functions are interlocked with Azure Storage services, meaning that every Azure function needs Azure storage configured to be able to to run.
 Azure Storage account keeps track of function execution state and triggers.
 
 * host.json 
+
 Contains the global config options for all functions within a Function app. Here you can configure logging, retry logic.
 See options in detail [here](https://docs.microsoft.com/en-us/azure/azure-functions/functions-host-json#sample-hostjson-file)
 
 * Program.cs  (applicable for out-of-proccess)
+
 Contains host builder logic, DI configuration, middleware configuration. 
 
 
