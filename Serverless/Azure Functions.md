@@ -97,6 +97,27 @@ Contains the global config options for all functions within a Function app. Here
 
 Contains host builder logic, DI configuration, middleware configuration. 
 
+Function example: 
+
+
+     public class Function1
+        {
+            private readonly ILogger _logger;
+    
+            public Function1(ILoggerFactory loggerFactory)
+            {
+                _logger = loggerFactory.CreateLogger<Function2>();
+            }
+    
+            [Function("Function1")]
+            public void Run([QueueTrigger("myqueue-items", Connection = "")] string myQueueItem)
+            {
+                _logger.LogInformation($"C# Queue trigger function processed: {myQueueItem}");
+                // your logic 
+            }
+        }
+
+ 
 
 #### In-Process and Out-Of-Process
 
