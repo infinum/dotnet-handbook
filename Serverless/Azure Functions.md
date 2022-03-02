@@ -34,7 +34,7 @@ Suitable for long-running scenarios such as Durable Functions, or where predicta
 Note: If there is already existing App service hosting some API that needs some background job to be executed, good candidate can be Azure Web job.
 To learn more, see [here](https://docs.microsoft.com/en-us/azure/app-service/webjobs-create).
 
-#### Scaling rules 
+#### Scaling 
  A single function app in Consumption plan, scales out to the maximum of 200 instances.
  Single instance may process more than one message or request at a time.
  Timer trigger functions are singleton (trigger only one instance of function)
@@ -60,7 +60,7 @@ Triggers initialize function invocation while input and output bindings allow in
 They eliminate repetitive code for integration with infrastructure, allowing development to focus purely on business logic.
 
 
-## Function set up 
+#### Function set up 
 
 Add as a new project, through VS Function App template. This creates azure function app that can contain multiple functions that share common configuration such as environment variables, app settings and host.
 All functions will be deployed together under same function-app umbrella and  scaled together. ( Single instance of a function's runtime will host all the functions in function app)
@@ -122,8 +122,7 @@ Function example:
 
  
 
-#### In-Process and Out-Of-Process
-
+#### HostcConfiguration
 
 * In-Process 
 
