@@ -16,6 +16,7 @@ ASP.NET comes with some commonly used middleware out of the box, some of which a
 This list is not exhaustive, to find the rest of the built-in middleware check out the [official documentation](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/middleware/?view=aspnetcore-6.0#built-in-middleware).
 
 There are some cases where we need to create our own Middleware. Here are some examples of such cases:
+
 - Error handling - implementing error handling inside a middleware enables us to handle not only exceptions thrown by controller actions, but also exceptions thrown by other middleware, as long as they are executed after this Middleware.
 - Authorization - in order to avoid passing the Id of the current user from the controller all the way to the service that actually uses it, we can implement a middleware that fills the user data into a scoped service.
 
