@@ -5,12 +5,15 @@ Functions support several different programming languages such as C# and JavaScr
 
 In general Azure Functions are a serverless solution that provide:
 * Writing less code 
+
 Allows developer to focus on the business logic implementation and utilize the infrastructure ready to use features. 
 
 * Maintain less infrastructure 
+
 Cloud infrastructure providers manage servers, security and scaling. Functions are scaled automatically.
 
 * Save on costs 
+
 No need to buy resources in advance - pay as you go.
 
 There are three basic hosting plans available for Azure Functions: 
