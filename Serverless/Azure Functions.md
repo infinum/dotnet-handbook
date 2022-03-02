@@ -1,17 +1,20 @@
 ## Azure Functions
 
-Azure Functions is a Function-as-a-Service (ìFaaSî), i.e. a platform for running configurable blocks of code that run in response to some event.
+Azure Functions is a Function-as-a-Service (‚ÄúFaaS‚Äù), i.e. a platform for running configurable blocks of code that run in response to some event.
 Functions support several different programming languages such as C# and JavaScript, F#, Java, Python, and PowerShell.
 
 There are three basic hosting plans available for Azure Functions: 
 * Consumption plan
+
 Scale automatically and only pay for compute resources i.e. when functions are running. Cold start is startup latency, so first trigger execution after function was idle takes looger time. 
 
 * Premium plan
+
 Automatically scales based on demand using pre-warmed workers which run applications with no delay after being idle, runs on more powerful instances, and connects to virtual networks.
 No cold start.
 
 * Dedicated (App Service) plan.
+
 Run functions within an App Service plan at regular App Service plan rates.
 Sutable for long-running scenarios such as Durable Functions, or where predictable costs are needed. 
 
@@ -88,7 +91,7 @@ Contains host builder logic, DI configuration, middleware configuration.
 #### In Process
 
 The Azure Functions host is the runtime for .NET functions. C# function apps have run in the same process as the host. Sharing a process has enabled unique benefits to .NET functions, most notably is a set of rich bindings and SDK injections. 
-It was possible to bind directly to the SDKs and types used in the host processóincluding advanced types like CloudBlockBlob from the Storage SDK or Message from the Service Bus SDK.
+It was possible to bind directly to the SDKs and types used in the host process‚Äîincluding advanced types like CloudBlockBlob from the Storage SDK or Message from the Service Bus SDK.
 However, as side effect, dependencies could conflict (like Newtonsoft.Json) and running in the same process also means that the .NET version of user code must match the .NET version of the host.
 
 ####  Out Of Process
