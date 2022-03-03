@@ -30,16 +30,15 @@ Example: If for some reason, we need one queue message at the time to be process
 * Retry logic - Retry policies can be defined for all functions in an app by setting properties in host.json or for individual functions using attributes.
 Retry options are : ``fixedDelay`` or ``ExponentialBackoff``. Learn more [here](https://docs.microsoft.com/en-us/azure/azure-functions/functions-bindings-error-pages?tabs=csharp#retry-policies-preview).
 
-	
 
-	   {
-	       "retry": {
-	           "strategy": "fixedDelay",
-	           "maxRetryCount": 2,
-	           "delayInterval": "00:00:03"  
-	       }
-	   }
-	   
+
+		{
+		   "retry":{
+		      "strategy":"fixedDelay",
+		      "maxRetryCount":2,
+		      "delayInterval":"00:00:03"
+		   }
+		}
    
    
 
@@ -57,25 +56,25 @@ To trigger function execution, different triggers can be used. Most popular ones
 * Timer - Allow running a function by a schedule ( Example: run a function at midnight every night). Schedule format and samples can be found [here](https://docs.microsoft.com/en-us/azure/azure-functions/functions-bindings-timer?tabs=csharp#ncrontab-expressions).
 
 
-           [Function("Function3")]
-            public void Run([TimerTrigger("0 */5 * * * *")] MyInfo myTimer)
-            {
-                _logger.LogInformation($"C# Timer trigger function executed at: {DateTime.Now}");
-                _logger.LogInformation($"Next timer schedule at: {myTimer.ScheduleStatus.Next}");
-            }
+		[Function("Function3")]
+		public void Run([TimerTrigger("0 */5 * * * *")] MyInfo myTimer)
+		{
+		    _logger.LogInformation($"C# Timer trigger function executed at: {DateTime.Now}");
+		    _logger.LogInformation($"Next timer schedule at: {myTimer.ScheduleStatus.Next}");
+		}
 
 
 * Queue message / Service bus trigger -Whenever message appears on a particular queue/topic function is invoked to process the contents of message. Input parameter of queue triggered function is base64 encoded string message.
 
 
 	
-    [FunctionName("QueueTrigger")]
-    public static void Run(
-        [QueueTrigger("myqueue-items", Connection = "StorageConnectionAppSetting")] string myQueueItem, 
-        ILogger log)
-    {
-       // your logic 
-    }
+		[FunctionName("QueueTrigger")]
+		public static void Run(
+		    [QueueTrigger("myqueue-items", Connection = "StorageConnectionAppSetting")] string myQueueItem, 
+		    ILogger log)
+		{
+		   // your logic 
+		}
   
   
   
@@ -84,33 +83,33 @@ or with storage account settings configured as attribute
 
 
 	
-	  [StorageAccount("ClassLevelStorageAppSetting")]
-	  public static class AzureFunctions
-	  {
-	      [FunctionName("QueueTrigger")]
-	      [StorageAccount("FunctionLevelStorageAppSetting")]
-	      public static void Run( //...
-	  {
-	     // your logic 
-	  }
-
+		[StorageAccount("ClassLevelStorageAppSetting")]
+		public static class AzureFunctions
+		{
+		    [FunctionName("QueueTrigger")]
+		    [StorageAccount("FunctionLevelStorageAppSetting")]
+		    public static void Run( //...
+		    {
+			   // your logic 
+		    }
+		}
 
 
 * HTTP trigger - Allow using Azure Functions to create web APIs, responding to the various HTTP methods like GET, POST, and PUT
 
 
-         [Function("Function1")]
-          public HttpResponseData Run([HttpTrigger(AuthorizationLevel.Function, "get", "post")] HttpRequestData req)
-          {
-              _logger.LogInformation("C# HTTP trigger function processed a request.");
+		[Function("Function1")]
+		public HttpResponseData Run([HttpTrigger(AuthorizationLevel.Function, "get", "post")] HttpRequestData req)
+		{
+		    _logger.LogInformation("C# HTTP trigger function processed a request.");
 
-              var response = req.CreateResponse(HttpStatusCode.OK);
-              response.Headers.Add("Content-Type", "text/plain; charset=utf-8");
+		    var response = req.CreateResponse(HttpStatusCode.OK);
+		    response.Headers.Add("Content-Type", "text/plain; charset=utf-8");
 
-              response.WriteString("Welcome to Azure Functions!");
+		    response.WriteString("Welcome to Azure Functions!");
 
-              return response;
-          }
+		    return response;
+		}
 
 
 
