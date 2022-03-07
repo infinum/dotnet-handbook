@@ -39,7 +39,9 @@ public class TimerActionFilter : IActionFIlter
   }
 }
 ```
+
 To use this filter, all we need to do is register the filter in `Program.cs`:
+
 ```csharp
 builder.Services.AddControllers(config =>
 {
@@ -58,7 +60,7 @@ Caching action results is often done in a filter because if the required result 
 
 #### Exception Handling
 
-Although ASP.NET MVC has an `IExceptionFilter` interface that can be used to implement exception handling in a filter, we tend not to use it, but rather to implement a middleware for the job. The reasoning behind this is explained in the [Exception Handling](Exception handling.md) section of this handbook.
+Although ASP.NET MVC has an `IExceptionFilter` interface that can be used to implement exception handling in a filter, we tend not to use it, but rather to implement a middleware for the job. The reasoning behind this is explained in the [Exception Handling](exception-handling) section of this handbook.
 
 ### Filters vs Middleware
 
