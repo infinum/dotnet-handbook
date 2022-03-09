@@ -8,7 +8,7 @@ Here are some guidelines for the best practices.
 
 ### Routes
 
-Standard route format, for and API that returns costumers information, should be *`api/v1/customers`*.  We achieve this by using *`Route`* attribute and .NET routing keywords such as *`{{version:apiVersion}}`*, *`[controller]`* etc.
+Standard route format, for an endpoint that returns customers information, should be *`api/v1/customers`*.  We achieve this by using *`Route`* attribute and .NET routing keywords such as *`{{version:apiVersion}}`*, *`[controller]`* etc.
 
 Default route should be set ether on controller level or on base controller if controllers are inheriting it.
 
@@ -17,7 +17,7 @@ Default route should be set ether on controller level or on base controller if c
 ```c#
 	[ApiController]
     [Route("api/v{version:apiVersion}/[controller]")]
-    public class BaseApiController : ControllerBase
+    public abstract class BaseApiController : ControllerBase
     {
         
     }
@@ -53,18 +53,29 @@ In .NET there are attributes for each RESTFUL method. Most common that are used 
 
 #### GET
 
-Get is a method reserved for getting information about a resource.
+Get is a method reserved for getting information about a resource. Get shouldn't have any side effects, meaning any number of calls should produce a same set of results.
 
 ```c#
 	[HttpGet]
     public async Task<IActionResult> Get()
     {
-       var customers = await _customerServices.GetAllCustomers();
+       var customers = await _customerServices.GetAll();
        return Ok(customers);
     }
 ```
 
-#### POST
+Get is also used to get information about a single resource.
+```c#
+    [HttpGet("{customerId}")]
+    public async Task<IActionResult> Get(Guid customerId)
+    {
+       var customers = await _customerServices.Get(customerId);
+       return Ok(customers);
+    }
+```
+
+
+#### Post
 
 Post is a method reserved for creating a new resource.
 
@@ -72,25 +83,36 @@ Post is a method reserved for creating a new resource.
 	[HttpPost]
     public async Task<IActionResult> Post(Customer customer)
     {
-       var customer = await _customerServices.CreateCustomer(customer);
+       var customer = await _customerServices.Create(customer);
        return Ok(customer);
     }
 ```
 
 #### Put
 
-Put is a method reserved for updating a resource.
+Put is a method reserved for creating or updating a resource. Put requires a complete information about the resource. If a resource already exist, it is updated, if not than the resource is created.
 
 ```c#
-	[HttpPut]
-    public async Task<IActionResult> Put(Customer customer)
+	[HttpPut("{customerId}")]
+    public async Task<IActionResult> Put(Guid customerId, Customer customer)
     {
-       var customer = await _customerServices.UpdateCustomer(customer);
+       var customer = await _customerServices.CreateOrUpdate(customerId, customer);
        return Ok(customer);
     }
 ```
 
+#### Patch
 
+Patch is a method reserved for updating a resource. Unlike Put, Patch method updates only properties provided in the request and cannot create a new resource.
+
+```c#
+    [HttpPatch("{customerId}")]
+    public async Task<IActionResult> Patch(Guid customerId, Customer customer)
+    {
+       var customer = await _customerServices.Update(customerId, customer);
+       return Ok(customer);
+    }
+```
 
 #### Delete
 
@@ -100,7 +122,7 @@ Delete is a method reserved for deleting a resource.
 	[HttpDelete("{customerId}")]
     public async Task<IActionResult> Delete(Guid customerId)
     {
-       var customers = await _customerServices.DeleteCustomer(customerId);
+       var customers = await _customerServices.Delete(customerId);
        return Ok();
     }
 ```
@@ -119,7 +141,7 @@ Route parameter is a part of the route and should be used to access a specific r
 	[HttpGet("{customerId}")]
     public async Task<IActionResult> Get(Guid customerId)
     {
-       var customer = await _customerServices.GetCustomer(customerId);
+       var customer = await _customerServices.Get(customerId);
        return Ok(customer);
     }
 ```
@@ -134,14 +156,14 @@ Argument can also be passed in the body of the request. By default this is JSON 
 	[HttpPost]
     public async Task<IActionResult> Post([FromBody]Customer customer)
     {
-       var customer = await _customerServices.CreateCustomer(customer);
+       var customer = await _customerServices.Create(customer);
        return Ok(customer);
     }
 
 	[HttpPut]
     public async Task<IActionResult> Put(Customer customer)
     {
-       var customer = await _customerServices.UpdateCustomer(customer);
+       var customer = await _customerServices.Update(customer);
        return Ok(customer);
     }
 ```
@@ -171,32 +193,42 @@ For consistency we are usually trying to avoid combined arguments, but they are 
 	[HttpGet("{customerId}")]
     public async Task<IActionResult> Get(Guid customerId, [FromQuery]bool includeOrders = false)
     {
-       var customer = await _customerServices.GetCustomer(customerId, includeOrders);
+       var customer = await _customerServices.Get(customerId, includeOrders);
        return Ok(paginatedCustomers);
     }
 ```
 
-This endpoint now serves two routes: *`api/v1/customers/{customerId}`*, *`api/v1/customers/{customerId}?includeOrders={value}`* where *`{cusomerId}`* is GUID and *`value`* is Boolean (true/false) value.
+This endpoint now serves two routes: *`api/v1/customers/{customerId}`*, *`api/v1/customers/{customerId}?includeOrders={value}`* where *`{customerId}`* is GUID and *`value`* is Boolean (true/false) value.
 
 
 
 ### Custom routes
 
-A custom route for action can be defined on action level. The route will inherit controllers route and add its route as a sufix.
+A custom route for action can be defined on action level. If the route is relative, meaning it doesn't start with *`/`* or *`~/`* than it will be relative to controller route.
 
 ```c#
 	[HttpPost]
 	[Route("{customerId}/activateCustomer")]
-    public async Task<IActionResult> ActivateCustomer(Guid customerId)
+    public async Task<IActionResult> Activate(Guid customerId)
     {
-       await _customerServices.ActivateCustomer(customerId);
+       await _customerServices.Activate(customerId);
        return Ok();
     }
 ```
 
-The route to this endpoint, following the previous code, would be *`api/v1/customers/{customerId}/activateCustomer`* where *`customerId`*  is a GUID.
+The route to this endpoint, following the previous code, would be *`api/v1/customers/{customerId}/activateCustomer`* where *`customerId`* is a GUID.
 
+```c#
+    [HttpPost]
+    [Route("/api/custom/{customerId}/activateCustomer")]
+    public async Task<IActionResult> Activate(Guid customerId)
+    {
+       await _customerServices.Activate(customerId);
+       return Ok();
+    }
+```
 
+The route to this endpoint, would be *`api/custom/{customerId}/activateCustomer`* where *`customerId`* is a GUID.
 
 ### Response codes
 
@@ -216,3 +248,6 @@ Other codes that are commonly used are:
 
 *`INTERNALSERVERERROR (500)`* - unhandled exception on server side.
 
+### Documentation
+
+A full documentation with Microsoft guidelines can be found [here](https://github.com/microsoft/api-guidelines/blob/vNext/Guidelines.md).
