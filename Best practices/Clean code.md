@@ -15,15 +15,18 @@ To develop code that will put us on the left side of the above image, developers
 
 </br>
 
-##### Clean code practices :
-* simple to read, elegant and efficient.
-* It is self-explanatory, logic straightforward, without the need of explanatory comments.
-* favors exception throwing instead of error codes, and has complete error handling 
-* it should reflect SOLID principles, especially single responsibility.
-* does not contain code duplications
-* it favors composition over inheritance (does not contain class explosion) and utilizes design patterns.
-* it is easy to test
-* It is well formatted 
+##### Clean code reflects in :
+* Elegant, efficient and simple to read code.
+* It is self-explanatory, logic is straightforward, without the need of explanatory comments.
+* If favors exception throwing instead of error codes, and has complete and centralized error handling.
+* It should reflect SOLID principles, especially single responsibility.
+* It does not contain code duplications across modules and multiple projects.
+* It favors composition over inheritance (does not contain class explosion) and utilizes design patterns.
+* It is easy to test.
+* It is well formatted.
+* It follows well defined naming conventions and coding style is consistent.
+* Classes tend to be small and methods does not have long list of input parameters.
+* It is well (and consistiently) organized on the directory, project and solution level.
 
 </br>
 
@@ -33,55 +36,65 @@ Developers write code for machines to execute it, but for other developers to ma
 Code should reflect shared vocabulary used by all team members involved in the project. 
 
 So in general naming should be :
-* well thought through, and should reflect business concepts and rules
-* consistent through the software ( pascal case or camel case, it does not matter as long as it is consistent)
-* truthful - this applies especially on the method level, where method name should not be too general or misleading due to method`s side effects.
+* Well thought through, and should reflect business concepts and rules.
+* Consistent through the software.
+* Truthful - this applies especially on the method level, where method name should not be too general or misleading due to method`s side effects.
 
+
+</br>
 
 ##### Comments 
 
-Comments are part of source code, and if not consisted of significant info, then comments act as noise, and even worse if not well maintained they can lead developers to false conclusions. In general, developers should avoid writing the comments. If the code is unclear, it is a good sign it should be rewritten.
+Comments are part of source code, and if not consisted of significant info, then comments act as noise, and even worse if not well maintained they can lead developers to false conclusions. In general, developers should avoid writing the comments. If the code is unclear, it is a sign it should be rewritten.
 
 Exceptions :
-* Describe an example or porint to resources in decumentation.
+* Describe an example or porint to resources in decumentation
 * Todos
 * Swagger documentation 
 
 
+</br>
+
 ##### Methods 
 
 Methods should be short and have single responsibility. 
-Logic contained in a single method should reflect the same level of abstraction. Mixing different levels of details or abstraction in the same function is code smell. 
-* Prefer methods no longer than 10 lines
-* Number of input parameters should be up to 4. If there is a need for more params, they should be encapsulated in an object.
+Logic contained in a single method should reflect the same level of abstraction. Mixing different levels of abstraction in the same function is code smell. 
+
 * Method should not have side effects, and method name should reflect exactly what is meant to do.
-* Method should not have multiple out params. 
+* Prefer methods no longer than 10 lines.
+* Number of input parameters should be up to 4. If there is a need for more params, consider creationg DTO.
+* Method should not have multirple return params (exception is TryDoSomething pattern which returns bool and resulting object via out param).
+* Avoid using flag arguments. Split method into several independent methods that can be called from the client without the flag.
 
 </br>
 
 #### Abstraction & Encapsulation 
 
 It is a good practice to expose abstract interfaces that allow its users to manipulate the essence of the data, without having to know its implementation. 
-When modeling entity classes, encapsulating data state details, lead to increased control over access and manipulation of data, providing a clean, well defined ways to interact with entities. Simply put, you should hide details, and expose behavior.
 
+When modeling entity classes, encapsulating data state details, lead to increased control over entity access and manipulation, providing a clean, well defined ways to interact with entities. Simply put, you should hide details, and expose behaviour. 
 
-###### Law of demeter
+</br>
+
+#### Law of demeter
   
 *Each unit must have limited knowledge of other units: it must see only units closely related to the current unit.**
+
+In other words, the Law of Demeter principle states that a module (class) should not have the knowledge on the inner details of the objects it manipulates. 
 
 ![](../resources/law-of-demeter.png)
 </br>
 
     human
-        .getDigestiveSystem()
-        .getStomach()
-        .add(new Cake()))
+        .getDigestiveSystem() // 1. level of details
+        .getStomach()         // 2. level of details
+        .add(new Cake()))    
 
 </br>
 
 Above code can be described as *sausage code* and express obvious code smell:
 * lack of encapsulation - human class exposes too much details, making other users of this code dependent on low level detail code.
-* lack of abstractions - if the eat behavior is changed, caller code should also change.
+* lack of abstractions - if the eat behaviour is changed, caller code should also change.
 * hard to test 
 * hard to read
 
@@ -92,26 +105,59 @@ Instead above code should be rewritten to :
 
 </br>
 
+
+#### Anemic model as anti-pattern
+
+In development of software that solves not trivial problems and contains rich business logic, code is much more complex than in simple CRUD operation based software. To model the busines entities with integrity, its data state should be hiden while exposing the methods to interact with entity. 
+
+Anemic models are know in industry as business entites modeled as simple DTO-s leaving to the calling code (usually services) responsiblity for interpreting the purpose and way to interact with entity. Usually business logic ends up being implemented in service classes, which can lead to code duplications, leaking of the business logic in to other layers, missing or corrupted entity validations, and many more issues.
+
+Ways to avoid an anemic domain model:
+* Use private setters and expose methods to update data state. 
+* Always validate the state of entities, your entities must self validate and not relay on api (contract) validation. 
+* Constructors without parameters are allowed to be only private as they are used by ORM.
+* Avoid primitve obsession
+
+</br>
+
+#### Primitve obsession
+
+Primitive fields are basic built-in building blocks of a language such as int, dates, strings, etc. Primitive Obsession is when the code relies too much on primitives. 
+Design of business entities relying on primitive types, can result in poor or not centralized entity state validation and often shows as breaking of the single responsibility principle.
+
+    public class CompanyEvent : Entity
+    {
+        private readonly List<Member> _members = new();     // list of members is private and can not be manipulated freely in calling code.
+        public IReadOnlyList<Member> Members => _members;  //  calling code have access to IReadOnlyList, so data integrity is protected.
+        public Name Name { get; } = default!;             //   Name is not just a string, it is Name class that implements validation rules
+        public TimeFrame Time { get; set; } = default!;   //   TimeFrame class is implementing date validation rules
+        
+        /// here you define methods i.e. behaviours of your entity you need to expose
+    }
+    
+
+</br>
+
 #### SOLID
 
 * Single responsibility:
 
-A class should have one and only one reason to change, meaning that a class should have only one job.
+A class/method should have one and only one reason to change, meaning that a class/method should have only one job.
 * Open closed principle
 
-Objects or entities should be open for extension but closed for modification. Class inheritance is not always the best way, coding to an interface is an integral part of SOLID.
+Objects or entities should be open for extension but closed for modification. Class inheritance is not always the best way, coding to an interface is an integral part of SOLID. 
+
 * Liskov Substitution Principle
 
-Let q(x) be a property provable about objects of x of type T. Then q(y) should be provable for objects y of type S where S is a subtype of T.
-
+*Let q(x) be a property provable about objects of x of type T. Then q(y) should be provable for objects y of type S where S is a subtype of T.*
 This means that every subclass or derived class should be substitutable for their base or parent class.
 
 * Interface Segregation Principle
 
-A client should never be forced to implement an interface that it doesn’t use, or clients shouldn’t be forced to depend on methods they do not use. 
-This means interfaces should be small, and should not contain methods not critically linked. It that is the case, consider splitting one interface to multiple smaller interfaces.
+A client should never be forced to implement an interface that it doesn`t use, or clients shouldn`t be forced to depend on methods they do not use. 
+This means interfaces should be small, and should not contain methods not critically linked. If that is the case, consider splitting one interface into multiple smaller interfaces.
 
 * Dependency inversion principle
 
-Entities must depend on abstractions, not on concretions. It states that the high-level module must not depend on the low-level module, but they should depend on abstractions.
+Entities must depend on abstractions, not on concretions. The high-level modules must not depend on the low-level modules, but they both should depend on abstractions.
 
