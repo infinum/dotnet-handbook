@@ -1,7 +1,3 @@
-## Pagination
-
-# Pagination
-
 Here is an obvious sentence: one of the most important jobs of a backend service is fetching data from a database. When fetching a list of data, most of the time it’s not required to get all the items in the list - this is where pagination comes to play. Pagination is a process of dividing a list of items into pages in order to reduce the amount of data being transferred. The prerequisite for any pagination type is that the data is ordered in some way, after which we must determine how should we split it. There are multiple ways to do that, each with its own benefits and drawbacks, so let’s explore them.
 
 ## Offset pagination

@@ -1,5 +1,3 @@
-## Middleware
-
 Middleware is software that is assembled into an app pipeline to handle requests and responses. Middleware are in some ways similar to MVC Filters: they are run in a pipeline, which means that they define what actions must be done before the next middleware, determine whether the next middleware will be executed, and define what must be done after the next middleware finishes.
 
 Middleware can be defined as inline middleware using the `Use` and `Run` methods in app startup, or in a class that contains `Invoke` or `InvokeAsync` method. We tend to use the latter approach, because that enables reuse of the same code on multiple places and doesn’t clog up the startup with execution logic.
