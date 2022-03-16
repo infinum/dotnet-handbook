@@ -42,15 +42,24 @@ public class ExamplesController : ControllerBase
 public class ExamplesController : ControllerBase
 {
     [HttpGet]
-    public string ExampleBoth => "same in both versions";
+    public string ExampleBoth()
+    { 
+        return "same in both versions";
+    } 
 
     [MapToApiVersion("1")]
     [HttpGet("result")]
-    public string ExampleV1() => "result v1";
+    public string ExampleV1() 
+    { 
+        return "result v1"; 
+    }
 
     [MapToApiVersion("2")]
     [HttpGet("result")]
-    public string ExampleV2() => "result v2";
+    public string ExampleV2() 
+    {
+        return "result v2";
+    }
 }
 ```
 
