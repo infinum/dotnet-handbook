@@ -1,7 +1,3 @@
-## Pagination
-
-# Pagination
-
 Here is an obvious sentence: one of the most important jobs of a backend service is fetching data from a database. When fetching a list of data, most of the time it’s not required to get all the items in the list - this is where pagination comes to play. Pagination is a process of dividing a list of items into pages in order to reduce the amount of data being transferred. The prerequisite for any pagination type is that the data is ordered in some way, after which we must determine how should we split it. There are multiple ways to do that, each with its own benefits and drawbacks, so let’s explore them.
 
 ## Offset pagination
@@ -21,7 +17,7 @@ var resultList = await _dbSet
 
 This pagination type is the one that is used the most because of its simplicity and a few key advantages: the ability to jump to a specific page and the ability to see the total number of pages. In most use cases that is more than enough to cover the feature requirements, but there are some cases where this approach is not suitable.
 
-This pagination type must fetch all the data that could potentially be returned, order it, and after that dispose of all the items that are not in the page that must be returned. This can become a problem when the data set becomes large because for a single page a lot more data is processed than it is returned. Another problem arises when a data set that is being queried is changes frequently. We are trying to query based on an item’s position in the set, but when the set size changes, the item’s position also changes, so we might get duplicates or skip some items without knowing.
+This pagination type must fetch all the data that could potentially be returned, order it, and after that dispose of all the items that are not in the page that must be returned. This can become a problem when the data set becomes large because for a single page a lot more data is processed than it is returned. Another problem arises when a data set that is being queried changes frequently. We are trying to query based on an item’s position in the set, but when the set size changes, the item’s position also changes, so we might get duplicates or skip some items without knowing.
 
 But what if, instead of using the item’s position in the whole set, we just remember what was the last item that we got and then use this data to filter the set and get the next page? This is where cursor and seek pagination come in handy.
 

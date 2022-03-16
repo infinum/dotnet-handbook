@@ -1,5 +1,3 @@
-## Filters
-
 API Filters are used to perform various actions and checks before and after specific steps in the MVC pipeline. Filters run within the ASP.NET Core action invocation pipeline, sometimes referred to as the filter pipeline. There are multiple [filter types](https://docs.microsoft.com/en-us/aspnet/core/mvc/controllers/filters?view=aspnetcore-6.0#filter-types) that are executed at different stages in the filter pipeline.
 
 The fact that filters are run within the pipeline means that they are executed in succession - every filter defines what to do before the next one runs and immediately after the next one finishes its execution. The only exception to that rule is when a filter short-circuits the execution by writing something to the Response property of its context. Short-circuiting the pipeline means that all the following filters will not be run, the execution will immediately begin to fall back down the pipeline.

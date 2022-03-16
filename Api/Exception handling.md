@@ -1,5 +1,3 @@
-## Exception handling
-
 Exception handling logic should be universal for the entire application. All the errors that happen in the API should produce the same error response model. That way the consumers of the API will know how to handle all the errors and where to look for solutions.
 ### Response model
 The error model should be simple, containing an error message (or in some cases multiple errors) and an error code if needed:
