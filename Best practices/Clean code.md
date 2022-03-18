@@ -1,7 +1,7 @@
 ### What is the clean code ? 
 
 
-![celanCodeImg](../resources/wtf.png)
+![celanCodeImg](/resources/wtf.png)
 
 
 Image above is a pretty good explanation on how to distinguish between good and bad code. It is WTF/s, and almost every code will have it, but good code will make your colleagues less mead, software easy to manage and grow, and enable the company to evolve.  
@@ -70,7 +70,7 @@ When modeling entity classes, encapsulating data state details, lead to increase
 
 In other words, the Law of Demeter principle states that a module (class) should not have the knowledge on the inner details of the objects it manipulates. 
 
-![](../resources/law-of-demeter.png)
+![LoD](/resources/law-of-demeter.png)
 
 
 ```c#
