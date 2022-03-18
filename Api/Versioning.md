@@ -1,5 +1,3 @@
-## Versioning
-
 Using explicit route based API versioning client is always aware of what version of the API is being used and it allows the backend to maintain a backwards compatible endpoints.
 
 Our policy is to always embedded version string in the path of the request URL, at the end of the service root: eg. `https://service.infinum.com/api/v1.0/`
