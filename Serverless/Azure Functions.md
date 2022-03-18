@@ -120,7 +120,7 @@ or with storage account settings configured as attribute
 #### Function app files 
 Default function app consists of :
 * Function.cs class - Contains function method with defined trigger and input output bindings. ``[FunctionName]`` attribute marks the method as a function entry point. Name must be unique within a project.
-* local.settings.json - Contains all app settings, connectionstrings and settings needed in function development. By default, it contains  ``AzureWebJobsStorage`` key with a value set to ``UseDevelopmentStorage=true``, which is the connection string for the local Azure Storage Emulator. 
+* local.settings.json - Contains all app settings, connectionstrings and configurations needed for the function development. Settings in the local.settings.json file are used only when you're running project locally so it is not deployed. By default, it contains  ``AzureWebJobsStorage`` key with a value set to ``UseDevelopmentStorage=true``, which is the connection string for the local Azure Storage Emulator. 
 Azure Functions are interlocked with Azure Storage services, meaning that every Azure function needs Azure storage configured to be able to run. The storage account connection is used by the Functions host for operations such as managing triggers and logging function executions. It's also used when dynamically scaling function apps. 
 * host.json - Contains the global config options for all functions within a Function app. Here you can configure logging, retry logic. See options in detail [here](https://docs.microsoft.com/en-us/azure/azure-functions/functions-host-json#sample-hostjson-file).
 * Program.cs  (applicable for out-of-process) - Contains host builder logic, DI configuration, middleware configuration. 
