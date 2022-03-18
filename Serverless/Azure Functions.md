@@ -1,5 +1,3 @@
-## Azure Functions
-
 Azure Functions is a Function-as-a-Service (“FaaS”), i.e. a platform for running configurable blocks of code that run in response to some event.
 Functions support several different programming languages such as C# and JavaScript, F#, Java, Python, and PowerShell.
 
