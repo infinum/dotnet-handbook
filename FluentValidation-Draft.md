@@ -290,6 +290,8 @@ public class Startup
     }
 }
 ```
+- Comment out all of the used properties from the appsettings.json, as the properties will be read from 
+it for configuration and the checker will not work 
 - Done
 
 **Disclamer:** this will validate the property as well as the configuration section!
