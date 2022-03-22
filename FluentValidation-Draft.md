@@ -150,7 +150,7 @@ if (validator.Validate(googleUserInfo).IsValid)`{...}
 ...
 ```
 
-#### Errors and exceptions
+### Errors and exceptions
 Combining all error messages into a single string:
 
 - in the braces, you can pass a separator of your choice
@@ -171,7 +171,7 @@ validator.ValidateAndThrow(googleUserInfo)
 
 
 
-#### Configuration checker
+### Configuration checker
 
  With fluent validation we can validate **any** class, and there is nothing stopping us from using it to validate 
 configuration properties in the project. This is a very neat way of checking if all the configuration is set up before we fire up the solution. 
