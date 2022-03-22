@@ -191,13 +191,13 @@ public class SomeOption
 ```
 
 
-- Create validators and specify the rules. Pay attention to include .NotNull() and .NotEmpty() methods, but you can add any validation you deem to be needed
+- Create validators and specify the rules. Pay attention to include .NotEmpty() method, but you can add any validation you deem to be needed
 ```c#
 public class SomeOptionValidator : AbstractValidator<SomeOption>
 {
     public SomeOptionValidator()
     {
-        RuleFor(c=>c.Option1).NotEmpty().NotNull().WithMessage("{PropertyName} cannot be empty or null.");
+        RuleFor(c=>c.Option1).NotEmpty().WithMessage("{PropertyName} cannot be empty or null.");
     }
 }
 ```
