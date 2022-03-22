@@ -150,7 +150,7 @@ if (validator.Validate(googleUserInfo).IsValid)`{...}
 ...
 ```
 
-#####Errors and exceptions
+#### Errors and exceptions
 Combining all error messages into a single string:
 
 - in the braces, you can pass a separator of your choice
@@ -166,9 +166,132 @@ You can also throw exceptions, by using ValidateAndThrow, like this:
 ```c#
 using FluentValidation;
 ...
-validator.ValidateAndThrow(googleUserInfo)`
+validator.ValidateAndThrow(googleUserInfo)
+```  
+
+
+
+#### Configuration checker
+
+ With fluent validation we can validate **any** class, and there is nothing stopping us from using it to validate 
+configuration properties in the project. This is a very neat way of checking if all the configuration is set up before we fire up the solution. 
+The project will build normally, but when started it will throw an error and remind us of which configuration we are missing.
+It's a really good solution for the dev-ops team when they are setting application configuration.
+We will also bypass annoying unspecified errors which we usually get when the configuration is missing. 
+
+**How to do it?**
+
+
+- Take all of the classes which are used in the IOptions pattern (this is an example)
+```c#
+public class SomeOption
+{
+    public string Option1 {get; set;}
+}
 ```
 
 
+- Create validators and specify the rules. Pay attention to include .NotNull() and .NotEmpty() methods, but you can add any validation you deem to be needed
+```c#
+public class SomeOptionValidator : AbstractValidator<SomeOption>
+{
+    public SomeOptionValidator()
+    {
+        RuleFor(c=>c.Option1).NotEmpty().NotNull().WithMessage("{PropertyName} cannot be empty or null.");
+    }
+}
+```
+
+- Register the validators to validate at the start of the application
+```c#
+public static class ServiceCollectionExtensions
+    {
+        public static void BindOptions(
+            this IServiceCollection services, 
+            IConfiguration config)
+        {
+            services.ConfigureOptionsSettings<SomeOption>(config);
+        }
+
+        public static void ConfigureOptionsSettings<T>(
+            this IServiceCollection services,
+            IConfiguration config,
+            string? name = null) where T : class
+        {
+            var configurationSectionName = name ?? typeof(T).Name;
+
+            var value = GetConfigurationValue<T>(config, configurationSectionName);
+
+            var validationResult = IsValid(value, out string validationMessage);
+
+            services.AddOptions<T>()
+                .Bind(config.GetSection(configurationSectionName))
+                .Validate(x => validationResult, validationMessage)
+                .ValidateOnStart();
+        }
+
+        private static T GetConfigurationValue<T>(
+            IConfiguration config,
+            string configurationSectionName) where T : class
+        {
+            var value = config
+                .GetSection(configurationSectionName)
+                .Get<T>();
+
+            if (value == default)
+            {
+                throw new Exception($"Validation error: Configuration section is missing for {configurationSectionName} settings.");
+            }
+
+            return value;
+        }
+
+        private static bool IsValid<T>(T value, out string message) where T : class
+        {
+            var validator = GenerateValidator<T>();
+            var result = validator.Validate(value);
+            message = FormatError(result);
+            return result.IsValid;
+        }
+
+        private static BaseAbstractValidator<T> GenerateValidator<T>() where T : class
+        {
+            var type = FindValidatorImplementationType<T>();
+            return Activator.CreateInstance(type) as BaseAbstractValidator<T>;
+        }
+
+        private static string FormatError(ValidationResult result)
+            => $"Validation error: {string.Join(' ', result?.Errors?.Select(x => x.ErrorMessage))}";
+
+        private static Type FindValidatorImplementationType<T>() where T : class
+        {
+            var type = Assembly
+                .GetAssembly(typeof(BaseAbstractValidator<>))?
+                .GetTypes()
+                .FirstOrDefault(type => type.BaseType == typeof(BaseAbstractValidator<T>));
+            if (type == default)
+            {
+                throw new ArgumentException($"Validator is not set for {typeof(T).Name} configuration.");
+            }
+            return type;
+        }
+    }
+```
+- Call the first static method in the Startup class
+```c#
+public class Startup
+{
+    ...
+    public void ConfigureServices(IServiceCollection services)
+    {
+        ...
+        services.BindOptions(Configuration);
+        ...
+    }
+}
+```
+- Done
+
+**Disclamer:** this will validate the property as well as the configuration section!
 
 Congratulations, we covered the basics, if you want to know more visit this link: [Fluent Validation Documentation](https://docs.fluentvalidation.net/)
