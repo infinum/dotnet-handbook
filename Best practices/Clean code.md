@@ -1,11 +1,7 @@
-## Clean code
-
-##### What is the clean code ? 
-
-</br>
+### What is the clean code ? 
 
 
-![](../resources/wtf.png)
+![celanCodeImg](/resources/wtf.png)
 
 
 Image above is a pretty good explanation on how to distinguish between good and bad code. It is WTF/s, and almost every code will have it, but good code will make your colleagues less mead, software easy to manage and grow, and enable the company to evolve.  
@@ -13,9 +9,8 @@ Image above is a pretty good explanation on how to distinguish between good and 
 
 To develop code that will put us on the left side of the above image, developers should always strive to apply a set of principles, patterns and well known best practices.
 
-</br>
 
-##### Clean code reflects in :
+### Clean code reflects in :
 * Elegant, efficient and simple to read code.
 * It is self-explanatory, logic is straightforward, without the need of explanatory comments.
 * If favors exception throwing instead of error codes, and has complete and centralized error handling.
@@ -28,9 +23,8 @@ To develop code that will put us on the left side of the above image, developers
 * Classes tend to be small and methods does not have long list of input parameters.
 * It is well (and consistiently) organized on the directory, project and solution level.
 
-</br>
 
-##### Naming
+### Naming
 
 Developers write code for machines to execute it, but for other developers to maintain it and extend it. So code should be easy to read and understand. 
 Code should reflect shared vocabulary used by all team members involved in the project. 
@@ -41,9 +35,7 @@ So in general naming should be :
 * Truthful - this applies especially on the method level, where method name should not be too general or misleading due to method`s side effects.
 
 
-</br>
-
-##### Comments 
+### Comments 
 
 Comments are part of source code, and if not consisted of significant info, then comments act as noise, and even worse if not well maintained they can lead developers to false conclusions. In general, developers should avoid writing the comments. If the code is unclear, it is a sign it should be rewritten.
 
@@ -53,9 +45,7 @@ Exceptions :
 * Swagger documentation 
 
 
-</br>
-
-##### Methods 
+### Methods 
 
 Methods should be short and have single responsibility. 
 Logic contained in a single method should reflect the same level of abstraction. Mixing different levels of abstraction in the same function is code smell. 
@@ -66,31 +56,29 @@ Logic contained in a single method should reflect the same level of abstraction.
 * Method should not have multirple return params (exception is TryDoSomething pattern which returns bool and resulting object via out param).
 * Avoid using flag arguments. Split method into several independent methods that can be called from the client without the flag.
 
-</br>
 
-#### Abstraction & Encapsulation 
+### Abstraction & Encapsulation 
 
 It is a good practice to expose abstract interfaces that allow its users to manipulate the essence of the data, without having to know its implementation. 
 
 When modeling entity classes, encapsulating data state details, lead to increased control over entity access and manipulation, providing a clean, well defined ways to interact with entities. Simply put, you should hide details, and expose behaviour. 
 
-</br>
 
-#### Law of demeter
+### Law of demeter
   
 *Each unit must have limited knowledge of other units: it must see only units closely related to the current unit.**
 
 In other words, the Law of Demeter principle states that a module (class) should not have the knowledge on the inner details of the objects it manipulates. 
 
-![](../resources/law-of-demeter.png)
-</br>
+![LoD](/resources/law-of-demeter.png)
 
+
+```c#
     human
         .getDigestiveSystem() // 1. level of details
         .getStomach()         // 2. level of details
         .add(new Cake()))    
-
-</br>
+```
 
 Above code can be described as *sausage code* and express obvious code smell:
 * lack of encapsulation - human class exposes too much details, making other users of this code dependent on low level detail code.
@@ -99,14 +87,13 @@ Above code can be described as *sausage code* and express obvious code smell:
 * hard to read
 
 Instead above code should be rewritten to :
-</br>
 
+```c#
     human.Eat(new Cake()))
+```
 
-</br>
 
-
-#### Anemic model as anti-pattern
+### Anemic model as anti-pattern
 
 In development of software that solves not trivial problems and contains rich business logic, code is much more complex than in simple CRUD operation based software. To model the busines entities with integrity, its data state should be hiden while exposing the methods to interact with entity. 
 
@@ -118,13 +105,14 @@ Ways to avoid an anemic domain model:
 * Constructors without parameters are allowed to be only private as they are used by ORM.
 * Avoid primitve obsession
 
-</br>
 
-#### Primitve obsession
+
+### Primitve obsession
 
 Primitive fields are basic built-in building blocks of a language such as int, dates, strings, etc. Primitive Obsession is when the code relies too much on primitives. 
 Design of business entities relying on primitive types, can result in poor or not centralized entity state validation and often shows as breaking of the single responsibility principle.
 
+```c#
     public class CompanyEvent : Entity
     {
         private readonly List<Member> _members = new();     // list of members is private and can not be manipulated freely in calling code.
@@ -134,11 +122,9 @@ Design of business entities relying on primitive types, can result in poor or no
         
         /// here you define methods i.e. behaviours of your entity you need to expose
     }
-    
+```
 
-</br>
-
-#### SOLID
+### SOLID
 
 * Single responsibility:
 
