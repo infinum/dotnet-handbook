@@ -197,6 +197,6 @@ Update-Database
 And that's it, the database tables are created, you can check them in the Server Explorer! It's very easy and you don't need to use a single line of SQL!
 
 
-##### What to do when we updated the class and want to apply the changes to the database?
+#### What to do when we updated the class and want to apply the changes to the database?
 
 Rinse and repeat, create the migration again as we did above and update it, the whole process is handled by the Entity framework core for you! The new model is now compared to the snapshot of the old model, EF detects which column was added or changed and scaffolds an appropriate migration for you.
