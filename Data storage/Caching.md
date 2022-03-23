@@ -1,11 +1,13 @@
-Advantages
-- Easy to use.
-- Significantly improves the performance and scalability of an application by reducing the work required to generate content.
+Advantages:
 
-Disadvantages
-- Potentially high memory usage (if not limited).
-- Can have stale data (we must update cache).
-- Possible concurrency issues (if not handled correctly).
+* Easy to use.
+* Significantly improves the performance and scalability of an application by reducing the work required to generate content.
+
+Disadvantages:
+
+* Potentially high memory usage (if not limited).
+* Can have stale data (we must update cache).
+* Possible concurrency issues (if not handled correctly).
 
 ### In-Memory Cache
 
