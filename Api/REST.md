@@ -1,5 +1,3 @@
-## REST
-
 We follow RESTFUL conventions in order to have a consistency between client and server communication. We are always using JSON as standard way of communicating for making the request and getting the response.
 
 Here are some guidelines for the best practices.
@@ -27,7 +25,7 @@ Default route should be set ether on controller level or on base controller if c
 
 ### Versioning
 
-In order to provide long time support and migration, it is recommended to use versioning. For details of API versioning, please refer to [Versioning](Versioning.md) chapter.
+In order to provide long time support and migration, it is recommended to use versioning. For details of API versioning, please refer to [Versioning](Versioning) chapter.
 
 
 
@@ -55,6 +53,8 @@ In .NET there are attributes for each RESTFUL method. Most common that are used 
 
 Get is a method reserved for getting information about a resource. Get shouldn't have any side effects, meaning any number of calls should produce a same set of results.
 
+
+
 ```c#
 	[HttpGet]
     public async Task<IActionResult> Get()
@@ -65,6 +65,9 @@ Get is a method reserved for getting information about a resource. Get shouldn't
 ```
 
 Get is also used to get information about a single resource.
+
+
+
 ```c#
     [HttpGet("{customerId}")]
     public async Task<IActionResult> Get(Guid customerId)
