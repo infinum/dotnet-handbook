@@ -1,4 +1,4 @@
-By right clicking on a project, in Visual Studio, you can select **Manage User Secrets**. It provides an alternative to **appSettings.json** file that overrides its values. Use this to store any type of credentials or sensitive information that is related to your local setup.
+In Visual Studio, by right clicking on a project, you can select **Manage User Secrets**. It provides an alternative to **appSettings.json** file that overrides its values. Use this to store any type of credentials or sensitive information that is related to your local setup.
 
 User secrets are stored on your local machine and are ignored by Git. Sections that are not provided in user secrets will be taken from **appSettings.json**.
 
