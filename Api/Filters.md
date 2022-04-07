@@ -6,7 +6,7 @@ Filters can be applied to various scopes. When implemented as a `FilterAttribute
 
 ### Action filter example
 
-In order to demonstrate the usage of filters, we will implement a action filter that measures how long does it take to execute a controller action and then logs it. Logging is done using the ILogger service, which is a scoped service. Since filters are executed inside a request scope, we can use DI to get the required instance. The filter instance is kept alive until all the other filters and actions down the pipeline are done, which means that we can keep the stopwatch as a private variable:
+In order to demonstrate the usage of filters, we will implement an action filter that measures how long does it take to execute a controller action and then logs it. Logging is done using the ILogger service, which is a scoped service. Since filters are executed inside a request scope, we can use DI to get the required instance. The filter instance is kept alive until all the other filters and actions down the pipeline are done, which means that we can keep the stopwatch as a private variable:
 
 ```csharp
 public class TimerActionFilter : IActionFIlter
