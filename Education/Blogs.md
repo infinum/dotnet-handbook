@@ -8,7 +8,7 @@ Here you can find a few .NET based blogs you might want to follow or check once 
  - [Telerik blog](https://www.telerik.com/blogs) - Telerik is a component and UI tool, but is also covering interesting .NET topics on their blog
  - [The Morning Brew](https://blog.cwa.me.uk/) - a link blog which collects a few articles and shares them on daily basis
 
-Also here are a few blogs managed by some interesting Microsoft and .NET people: 
+Also here are a few blogs managed by some interesting people tightly connected to Microsoft and .NET: 
 
  - [Scott Hanselman](https://www.hanselman.com/blog/)
  - [Jon Skeet](https://codeblog.jonskeet.uk/)
@@ -16,3 +16,12 @@ Also here are a few blogs managed by some interesting Microsoft and .NET people:
  - [Troy Hunt](https://www.troyhunt.com/)
  - [Stephen Cleary](https://blog.stephencleary.com/)
  - [Steve Smith](https://ardalis.com/blog)
+
+### Books
+If you like to read books here are some recommendations of .NET specific books that are relevant independently of a specific framework or a version:
+
+ - [Dependency Injection Principles, Practices, and    Patterns](https://www.manning.com/books/dependency-injection-principles-practices-patterns)
+ - [The Art of Unit Testing](https://www.manning.com/books/the-art-of-unit-testing-second-edition)
+ - [CLR via C#](https://www.oreilly.com/library/view/clr-via-c/9780735668737/) - although it is lastly published in 2012. it is still very relevant to .NET
+ - [Pro .NET Memory management: For Better Code, Performance, and Scalability](https://www.oreilly.com/library/view/pro-net-memory/9781484240274/)
+ - [Concurrency in C# Cookbook](https://www.oreilly.com/library/view/concurrency-in-c/9781492054498/)
