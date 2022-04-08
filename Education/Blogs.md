@@ -20,7 +20,7 @@ Also here are a few blogs managed by some interesting people tightly connected t
 ### Books
 If you like to read books here are some recommendations of .NET specific books that are relevant independently of a specific framework or a version:
 
- - [Dependency Injection Principles, Practices, and    Patterns](https://www.manning.com/books/dependency-injection-principles-practices-patterns)
+ - [Dependency Injection Principles, Practices, and Patterns](https://www.manning.com/books/dependency-injection-principles-practices-patterns)
  - [The Art of Unit Testing](https://www.manning.com/books/the-art-of-unit-testing-second-edition)
  - [CLR via C#](https://www.oreilly.com/library/view/clr-via-c/9780735668737/) - although it is lastly published in 2012. it is still very relevant to .NET
  - [Pro .NET Memory management: For Better Code, Performance, and Scalability](https://www.oreilly.com/library/view/pro-net-memory/9781484240274/)
