@@ -8,7 +8,7 @@ Here are some guidelines for the best practices.
 
 Standard route format, for an endpoint that returns customers information, should be *`api/v1/customers`*.  We achieve this by using *`Route`* attribute and .NET routing keywords such as *`{version:apiVersion}`*, *`[controller]`* etc.
 
-Default route should be set ether on controller level or on base controller if controllers are inheriting it.
+Default route should be set either on controller level or on base controller if controllers are inheriting it.
 
 
 

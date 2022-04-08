@@ -2,7 +2,7 @@ In order to pass some of the automated security tests, as well as to keep your .
 
 ## CORS
 
-If your application is going to be consumed by a frontend application running on a browser, it is important to setup [CORS](https://www.codecademy.com/articles/what-is-cors) rules. 
+If your application is going to be consumed by a frontend application running on a browser, it is important to setup [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) rules. 
 
 If your application is hosted on Azure, you can use cloud built in settings and configuration for CORS found on Azure portal.
 
