@@ -20,7 +20,7 @@ ASP.NET Core promotes the use of strongly typed settings as a way of letting con
 
 Your options classes need to be non-abstract and have a public parameterless constructor to be eligible for binding. The binder will set any public properties that match configuration values!
 
-To help facilitate the binding of configuration values to your custom options classes, ASP.NET Core introduces the *`IOptions<T>`* interface. This is a simple interface with a single property, Value, which contains your configured options class at runtime. Options classes are set up in the *`ConfigureServices`* section of *`Startup`*:
+To help facilitate the binding of configuration values to your custom options classes, ASP.NET Core introduces the *`IOptions<T>`* interface. This is a simple interface with a single property, Value, which contains instance of your configured options class at runtime. Option settings are configured in the *`ConfigureServices`* section of *`Startup`*:
 
 ``` c#
 	---
