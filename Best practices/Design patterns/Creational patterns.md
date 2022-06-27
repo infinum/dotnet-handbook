@@ -2,46 +2,123 @@
 
 In this pattern we define an interface for object creation but the actual instantiation is done by subclass. This way we are creating an abstraction to a object creation. One of the main advantages is decoupling the code.
 
-Lets say our application is receiving different events through a web socket and we need to handle each one in it's own way. Here is what would the implementation look like:
+```c#
+class Taxes
+{
+    public const int GREENTAX = 1.15;
+}
+
+abstract class Vehicle
+{
+    int price;
+}
+
+class Car: Vehicle
+{
+}
+
+class Bike : Vehicle
+{
+}
+
+abstract class VehicleCatalog
+{
+    public List<IVehicle> Items;
+
+    public void AddToCatalog(int price);
+    {
+        var newVehicle = CreateVehicle(price);
+        Items.Add(newVehicle);
+    }
+
+    // factory method
+    public abstract IVehicle CreateVehicle(int price);
+}
+
+class BikeCatalog : VehicleCatalog
+{
+    public override IVehicle CreateVehicle(int price)
+    {
+        return new Bike()
+	  {
+		this.price = price;
+	  }
+    }
+}
+
+class CarCatalog : VehicleCatalog
+{
+    public override IVehicle CreateVehicle(int price)
+    {
+        return new Car()
+	  {
+		this.price = price * GREENTAX;
+	  }
+    }
+}
+```
+
+
+
+#### Abstract Factory
+
+We use Abstract Factory Pattern when we need an interface for creating families of related or dependent objects without specifying their concrete classes. This family of related objects is often designed to be used together so with Abstract Factory Pattern we enforce this constraint. Most often the methods of an Abstract Factory are implemented as factory methods.
+
+To use the factory, you instantiate one and pass it into some code that is written against the abstract type. So, like in Factory Method pattern,  clients are decoupled from the actual concrete classes they use.
 
 ```c#
-enum EventType
+interface ICarPartsFactory
 {
-    Temperature,
-    Fan
+    IEngine CreateEngine();
+    ITire CreateTire();
 }
-
-interface IEvent
+ 
+class PorcheFactory : ICarPartsFactory
 {
-    void Handle();
-}
-
-class TemperatureEvent : Event
-{}
-
-class FanEvent : Event
-{}
-
-class EventHandler
-{
-    public Event HandleEvent(EventType eventType, string eventMessage)
+    public ICarPartsFactory CreateEngine();
     {
-        var event = GetEvent();
-        event.Handle(eventMessage);
+        return new BoxerEngine();
     }
-    
-    public IEvent GetEvent(EventType eventType)
+ 
+    public ITire CreateTire()
     {
-        switch(eventType)
-        {
-             case(EventType.Temperature):
-                event = new TemperatureEvent();
-                break;
-             case(EventType.Fan):
-                event = new FanEvent();
-                break;
-             ...
-        }
+        return new PerformanceTires();
+    }
+}
+ 
+class JeepFactory : ICarPartsFactory
+{
+    public IEngine CreateEngine()
+    {
+        return new V6Engine();
+    }
+ 
+    public ITire CreateTire()
+    {
+        return new AllTerrainTires();
+    }
+}
+ 
+interface IEngine { ... }
+class BoxerEngine : IEngine { ... }
+class V6Engine : IEngine { ... }
+ 
+interface ITire { ... } 
+class PerformanceTires : ITire { ... }
+class AllTerrainTires : ITire { ... }
+
+
+//client
+class CarAssembler 
+{
+    private IEngine _productA;
+    private ITire _productB;
+ 
+    public Assembly(ICarPartsFactory factory)
+    {
+        _productA = factory.CreateEngine();
+        _productB = factory.CreateTire();
+	  ...
     }
 }
 ```
