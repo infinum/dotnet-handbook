@@ -8,7 +8,6 @@ The subject doesn't have to be aware of observer object's implementation, but it
 
 Here we have a simple example of the observer pattern. Subject class allows observers to subscribe (or unsubscribe) to the objects that are inherited from subject class. By changing something in the login object, we automatically update the lists in NewsletterSubscription and DiscountSubscription class.  Every time a new Email is added, all objects which inherited the Observer class update themselves to the new Email.
 
-
 ```c#
 abstract class Subject
 {
@@ -80,3 +79,84 @@ public class NewsletterSubscription : IObserver
 }
 ```
 
+
+
+
+#### Chain of Responsability
+
+With Chain of Responsability pattern we avoid coupling the sender of a request to its receiver by giving more than one object a chance to handle the request. 
+
+To implement this pattern we create a chain of objects to examine requests. Each object in turn examines a request and either handles it or passes it on to the next object in the chain. Client that sends request doesn’t have to know the chain’s structure nor keep direct references to its members.
+
+```c#
+abstract class CarService
+{
+    protected CarService _successor;
+ 
+    public abstract void Service(Car car);
+ 
+    public void SetSuccessor(CarService successor)
+    {
+        _successor = successor;
+    }
+}
+
+class EngineService : CarService
+{
+    public override void Service(Car car)
+    {
+        if (EngineDiagnostics(car))
+        	EngineRepair(car);
+        else if (_successor != null)
+            _successor.Service(Car car);
+    }
+	
+    private bool EngineDiagnostics(Car car){...}
+    private void EngineRepair(Car car){...}
+}
+ 
+class TransmissionService: CarService
+{
+    public override void Service(Car car)
+    {
+        if (TransmissionDiagnostics(car))
+        	TransmissionRepair(car);
+        else if (_successor != null)
+            _successor.Service(request);
+    }
+
+    private bool TransmissionDiagnostics(Car car){...}
+    private void TransmissionRepair(Car car){...}
+}
+```
+
+
+
+#### Template Method
+
+Template method pattern is all about encapsulating an algorithm. It defines the skeleton of an algorithm in the superclass but lets subclasses override specific steps of the algorithm without changing its structure.
+
+The template method defines sequence of steps, each represented by a method. Concrete methods already have some default implementation, but still can be overridden if needed, while abstract methods must be implemented by every subclass. There is also a hook, which is an concrete method with an empty body. A template method would work even if a hook isn’t overridden. Usually, hooks are placed before and after crucial steps of algorithms, providing subclasses with additional extension points for an algorithm.
+
+```c#
+abstract class Worker
+{
+    // template method
+    public final void MorningRoutine()
+    {
+        WakeUp();
+        EatBreakfast();
+        GoToWork();
+    }
+
+    public void GoToWork() {...};
+    public void EatBreakfast() {...};
+    public abstract void GoToWork();
+
+}
+
+class FireFighter : Worker
+{
+    public override void GoToWork() {...}
+}
+```
