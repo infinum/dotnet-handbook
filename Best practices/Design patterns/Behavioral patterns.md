@@ -144,19 +144,19 @@ abstract class Worker
     // template method
     public final void MorningRoutine()
     {
-        wakeUp();
-	  eatBreakfast();
-        goToWork();
+        WakeUp();
+        EatBreakfast();
+        GoToWork();
     }
 
-    public void goToWork() {...};
-    public void eatBreakfast() {...};
-    public abstract void goToWork();
+    public void GoToWork() {...};
+    public void EatBreakfast() {...};
+    public abstract void GoToWork();
 
 }
 
 class FireFighter : Worker
 {
-    public override void goToWork() {...}
+    public override void GoToWork() {...}
 }
 ```
