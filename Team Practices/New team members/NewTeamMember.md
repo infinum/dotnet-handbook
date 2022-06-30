@@ -2,7 +2,7 @@ If you are reading this, you recently joined the .Net team, congratulations!!!
 
 You are probably eager to jump on your first project, code, test, deploy, all that awesome stuff! But before you do, we would like to familiarize you with the team`s best practices as well as the agile development process.
 
-.Net handbook is a collection of best practices the team came to through years of experience. How it looks to put theory in practice, you can check an example project here[].
+.Net handbook is a collection of best practices the team came to through years of experience. How it looks to put theory in practice, you can check .NET example project.
 
 Before you jump into your first project, you should try out approaches described by Handbook and implement example API applying team standards. 
 
@@ -10,14 +10,12 @@ Onboarding is equally important for junior colleagues that will have a chance to
 
 In general, the purpose of this onboarding project is to familiarize you with team processes, best practices and standards while you implement real-world apps. 
 
-###### In this process we expect you to:
+###### In this process you should:
 * Understand Task, Subtask and Todos in Productive
 * Do a task estimation and manipulation (In progress, Under Review, Done)
 * Time tracking using Productive (track each task separately under its time log and description)
 * Create a small PR, that will contain only one feature linked to a specific task.
 * Ask for more questions if the acceptance criteria is not clear (some things are intentionally omitted). 
-
-
 
 
 
@@ -37,8 +35,6 @@ Above described is a Feature task. It should be broken down in Subtasks in a fol
     * Implement queue upload service 
     * Extend Blog Create method logic to create DTO that contains Blog ID, Blog Name and Author Name and upload this dto as queue message
     * Implement queue triggered function that will read DTO and send it via implemented email service.
-
-
 
 
 * PRs

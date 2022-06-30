@@ -1,11 +1,11 @@
 Congrats to you too! Being a mentor you will get a chance to meet new colleagues better, discuss various topics and promote the team`s values.
-With that, mentoring is not just simply answering questions and giving advice; it requires a set of skills, such as listening, creativity, patience and willingness to learn from the person you mentor!
+With that, mentoring is not just simply answering questions and giving advice; it requires a set of skills, such as listening, creativity, patience and willingness to learn from the person you mentor.
 To prepare more for your role,you can check out https://www.indeed.com/career-advice/career-development/mentorship-skills
 
-###### In this process it is expected from you to:
+###### In this process you should:
 
 * Support colleagues with questions related to task definition, acceptance criteria, and time tracking. 	
-* Review colleagues  PRs, by not proposing solutions but starting discussions. 
+* Review colleagues PRs, by not proposing solutions but starting discussions. 
 Colleagues should be guided to get to the best solution. For example, minor things that can be discussed in PR threads are fine, but sometimes you will need to continue discussion on call and dive deep into the topic. You should encourage this type of communication, as it showed to be more productive and beneficial. 
 
 Example :  
