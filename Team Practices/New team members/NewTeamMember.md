@@ -26,10 +26,10 @@ Each task should define a complete feature. It should explain the purpose and ac
 
 Hypothetical example:
  
-Implement a service that will send email reminders to the Admins email address, when a new Blog is created.  Email should contain Blog ID, Blog Name and Author Name.
+Implement a service that will send email reminders to the Admins email address, when a new Blog is created. Email should contain Blog ID, Blog Name and Author Name.
 That way Admin will be notified and able to review new blogs as they are created. 
 
-Above described is a Feature task. It should be broken down in Subtasks in a following way :
+Above described is a Feature task. It should be broken down in Subtasks in a following way:
 
     * Implement email service using Sendgrid 
     * Implement queue upload service 
@@ -39,7 +39,7 @@ Above described is a Feature task. It should be broken down in Subtasks in a fol
 
 * PRs
 
-Each PR should be self contained, meaning it should contain whole SUBTASK acceptance criteria. Using the above example, if you put all logic from the Feature task in PR it would be quite a lot of files to review. But if you create PR for each subtask, it is just right, as you have one unit of functionality covered by your PR . 
+Each PR should be self contained, meaning it should contain whole SUBTASK acceptance criteria. Using the above example, if you put all logic from the Feature task in PR it would be quite a lot of files to review. But if you create PR for each subtask, it is just right, as you have one unit of functionality covered by your PR. 
 For example: Implement queue upload service. It will contain service logic, configuration, and unit tests. 
 
 
