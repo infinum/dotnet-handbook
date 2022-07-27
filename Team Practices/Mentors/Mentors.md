@@ -8,18 +8,18 @@ To prepare more for your role,you can check out https://www.indeed.com/career-ad
 * Review colleagues PRs, by not proposing solutions but starting discussions. 
 Colleagues should be guided to get to the best solution. For example, minor things that can be discussed in PR threads are fine, but sometimes you will need to continue discussion on call and dive deep into the topic. You should encourage this type of communication, as it showed to be more productive and beneficial. 
 
-Example :  
+Example:  
 
 Lambda expression formatting issue. PR comment: Please check out .Net code style formatting and format this section accordingly.
 
 Invalid business logic rule, with missing tests. 
 Can you explain, what would happen in case api receives X value of param? How can we make sure we do not forget to check this use case?
 
-In general :
+In general:
 * Be open for discussion. Encourage your colleague to openly share their point of view, challenge their assumptions by asking questions and then share solutions providing examples.
 * Show it is ok not to know, and that it is the path of the learning process.
 * Encourage colleagues to approach other colleagues that are available to help when you are not. We are a team, and during onboarding collaboration with other team members should be promoted. 
-* Give constructive feedback, advice and propose additional  resources if needed.
+* Give constructive feedback, advice and propose additional resources if needed.
 * Communicate progress of onboarding to Team Lead
 
 
