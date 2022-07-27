@@ -22,7 +22,7 @@ In general, the purpose of this onboarding project is to familiarize you with te
 ###### Onboarding API
 * Tasks
 
-Each task should define a complete feature. It should explain the purpose and acceptance criteria i.e. what is considered as a DONE.  Features should be estimated and potentially broken into TODOs. Each todo can be implemented and submitted in its own PR request. This way we keep our PRs small and easy to review. 
+Each task should define a complete feature. It should explain the purpose and acceptance criteria i.e. what is considered as a DONE. Features should be estimated and potentially broken into TODOs. Each todo can be implemented and submitted in its own PR request. This way we keep our PRs small and easy to review. 
 
 Hypothetical example:
  
