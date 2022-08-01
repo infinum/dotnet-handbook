@@ -22,7 +22,7 @@ Visual Studio also allows you to create your own templates for the project. The 
 
 ### Extensions
 
-VS allows you to add extensions that enhance or alter functionalities provided by the IDE. There are a lot extensions that can be found at 'Extensions' tab or searched on the internet. Some of the extensions are free and some of them are paid. 
+VS allows you to add extensions that enhance or alter functionalities provided by the IDE. There are a lot of extensions that can be found at 'Extensions' tab or searched on the internet. Some of the extensions are free and some of them are paid. 
 
 Some free extensions that we suggest:
 
@@ -35,7 +35,7 @@ Some free extensions that we suggest:
 
 ### App settings configuration
 
-Different projects require different setting configurations, like connection string to database or URL to external API etc. These configurations in .NET are usually stored in appsettings.json file. Visual studio allows you to create different configurations through 'Configuration Manager' found in the 'Build' tab. By default projects are run in 'Debug' configuration with appsettings.json but it can be changed to use different settings, example appsettings.Test.json.
+Different projects require different setting configurations, like connection string to database or URL to external API etc. These configurations in .NET are usually stored in appsettings.json file. Visual studio allows you to create different configurations through 'Configuration Manager' found in the 'Build' tab. By default projects are run in 'Debug' configuration with appsettings.json but it can be changed to use different settings, for example appsettings.Test.json.
 
 Additionally VS allows you to use 'user secrets' by right clicking on project and clicking on 'Manage User Secrets'. These secrets are stored on your machine and cannot be pushed to github. These secrets override appsettings.json and are useful for local development.
 
@@ -43,7 +43,7 @@ Additionally VS allows you to use 'user secrets' by right clicking on project an
 
 ### Connecting to Azure 
 
-VS can be connected to Azure account by clicking on 'Manage connections' in 'Team' tab. When VS is connected to Azure it allows you a several different features, such as accessing DevOps git repository, selecting specific existing trigger (like blob or queue) from your Azure account etc. These Azure connections can also be used to connect to Azure database or other resources and manage them through VS itself.
+VS can be connected to Azure account by clicking on 'Manage connections' in 'Team' tab. When VS is connected to Azure it allows you to use several different features, such as accessing DevOps git repository, selecting specific existing trigger (like blob or queue) from your Azure account etc. These Azure connections can also be used to connect to Azure database or other resources and manage them through VS itself.
 
 
 
@@ -53,18 +53,26 @@ VS provides shortcuts to some most common actions.  All shortcuts can be found b
 
 Some of the most common that we use:
 
-- `ctril+s` - to save a file.
+- `ctrl+s` - to save a file.
 - `ctrl+e,d` - to format a file.
 - `ctrl+w` - to close a file (needs to be mapped in 'Keyboard' menu to command 'File.Close').
 - `ctrl+t` - to navigate through files, properties, methods etc.
 - `ctrl+g` - to navigate to specific line number in the file. 
 - `ctrl+f` - to search through files.
-- `ctrl+h` - open find and replace menu. 
+- `ctrl+h` - to open find and replace menu. 
+- `ctrl+q` - to search through whole project.
 - `alt+enter` or `ctrl+.`- to open intelisense for the line you are at.
+- `F12` - to navigate to the code definition.
 - `ctrl+F12` - to navigate to method implementation or class definition.
 - `ctrl+r,a` - to run all tests.
 - `ctrl+d` - to make a copy of the line you are at.
 - `F2` - to rename a file, property or method.
+- `ctrl+shift+l` - to delete the current line.
+- `shift+del` - to cut the current line.
+- `ctrl+k+c` - to comment selected lines of code.
+- `ctrl+k+u` - to uncomment selected lines of code.
+- `ctrl+m+o` - to collapse all methods in the current file.
+- `ctrl+m+p` - to expand all methods in the current file.
 
 
 
