@@ -1,3 +1,103 @@
+#### Decorator
+
+We use Decorator Pattern when we need to attach additional responsibilities to an individual objects dynamically. The decorator conforms to the interface of the component it decorates so that its presence is transparent to the component's clients. The decorator forwards requests to the component and may perform additional actions. Transparency lets us nest decorators recursively.
+
+It is important to notice that we are subclassing the abstraction of component we are decorating in order to have the correct type, not to inherit its behavior. The behavior comes in through the composition of decorators with the base components as well as other decorators.
+
+```c#
+interface Car
+{
+    string Model { get; }
+    int Price { get; }
+}
+
+
+class Porche : Car
+{
+    public string Model
+    {
+        get { return "Porche"; }
+    }
+
+    public double Price
+    {
+        get { return 399999; }
+    }
+}
+
+
+abstract class CarDecorator : Car
+{
+    private Vehicle _vehicle;
+
+    public CarDecorator(Vehicle vehicle)
+    {
+        _vehicle = vehicle;
+    }
+
+    public string Model
+    {
+        get { return _vehicle.Model; }
+    }
+
+    public double Price
+    {
+        get { return _vehicle.Price; }
+    }
+
+}
+
+class Discounted : CarDecorator
+{
+    public Discounted(Car car) : base(car) { }
+
+    public int Percentage { get; set; }
+
+    public double Price
+    {
+        get { return _vehicle.Price * (1 - Percentage); }
+    }
+}
+```
+
+#### Adapter
+
+Adapter pattern is a structural design pattern that we use when we need objects with incompatible interfaces to collaborate. Adapters convert the interface of a class into another interface clients expect. 
+
+```c#
+class Adapter : PolarVector
+{
+    private readonly CartesianVector _v;
+
+    Adapter(CartesianVector v)
+    {
+	  _v = v;
+    }
+    
+    public double Magnitude = get { Sqrt(Pow(_v.X, 2) + Pow(_v.Y, 2)); }
+    public double Angle = get { 1 / Tan(_v.Y / _v.X); }
+
+}
+
+// adaptee
+class CartesianVector
+{
+    ...
+    public double X { get; };
+    public double Y { get; };
+}
+
+// target
+class PolarVector
+{
+    ...
+    public double Angle { get; };
+    public double Magnitude { get; };
+}
+```
+
+
+
 #### Repository and Unit of work (Facade)
 
 One of the best definitions of repository is the one provided by Martin Fowler:
