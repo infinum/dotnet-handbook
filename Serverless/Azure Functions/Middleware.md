@@ -12,7 +12,7 @@ If you want to add middleware to Azure functions, all you have to do is create a
     }
 ```
 
-Now register **CustomMiddleware** in **Program.cs** class where you initialized your host builder. 
+Now register **CustomMiddleware** in the **Program.cs** class where you initialized your host builder. 
 
 ```c#
     var host = new HostBuilder()
