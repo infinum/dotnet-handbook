@@ -7,6 +7,7 @@ Main benefits of using Azure Functions and serverless solutions are:
 * Maintain less infrastructure - Cloud infrastructure providers manage servers, security and scaling. Functions are scaled automatically.
 * Save on costs - No need to buy resources in advance - pay as you go.
 
+### Scaling
 
 There are three basic hosting plans available for Azure Functions:
 
@@ -16,9 +17,6 @@ There are three basic hosting plans available for Azure Functions:
 
 Note: If there is already existing App service hosting some API that needs some background job to be executed, good candidate can be Azure Web job.
 To learn more, see [here](https://docs.microsoft.com/en-us/azure/app-service/webjobs-create).
-
-
-### Scaling
 
  A single function app in Consumption plan, scales out to the maximum of 200 instances, while a single instance can process more than one message / request at a time.
 
