@@ -56,7 +56,7 @@ At this point, you can go ahead and remove **Microsoft.NET.Sdk.Functions** and a
 
 Rebuilding Trigger Functions:
 
-The first thing you need to do is install the package **Microsoft.Azure.Functions.Worker.Extensions.Http**, which will give you access to the types required by our HTTP Trigger function. Then, make the following changes:
+The first thing you need to do is install the package **Microsoft.Azure.Functions.Worker.Extensions.Http**, which will give you access to the types required by your HTTP Trigger function. Then, make the following changes:
 
 * Change HttpRequest to HttpRequestData
 * Change IActionResult to HttpResponseData
