@@ -34,13 +34,13 @@ Example: If for some reason, we needed queue messages to be processed by a funct
 Retry options are : ``fixedDelay`` or ``ExponentialBackoff``. Learn more [here](https://docs.microsoft.com/en-us/azure/azure-functions/functions-bindings-error-pages?tabs=csharp#retry-policies-preview).
 
 ```json
-               {
-		   "retry":{
-		      "strategy":"fixedDelay",
-		      "maxRetryCount":2,
-		      "delayInterval":"00:00:03"
-		   }
-		}
+{
+	"retry":{
+		"strategy":"fixedDelay",
+		"maxRetryCount":2,
+		"delayInterval":"00:00:03"
+	}
+}
 ```
 
 Note:  Some of the triggers come with default retry logic. Queue triggered functions retry 5 times before sending message to poison queue, while the timer trigger function doesn't retry at all. When a time trigger function fails, it isn't called again until the next time on the schedule.

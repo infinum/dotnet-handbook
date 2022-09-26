@@ -8,56 +8,55 @@ To trigger function execution, different triggers can be used. Most popular ones
 * Timer - Allow running a function by a schedule ( Example: run a function at midnight every night). Schedule format and samples can be found [here](https://docs.microsoft.com/en-us/azure/azure-functions/functions-bindings-timer?tabs=csharp#ncrontab-expressions).
 
 ```c#
-		[Function("FunctionName")]
-		public void Run([TimerTrigger("0 */5 * * * *")] MyInfo myTimer)
-		{
-		    _logger.LogInformation($"C# Timer trigger function executed at: {DateTime.Now}");
-		    _logger.LogInformation($"Next timer schedule at: {myTimer.ScheduleStatus.Next}");
-		    // your logic
-		}
+[Function("FunctionName")]
+public void Run([TimerTrigger("0 */5 * * * *")] MyInfo myTimer)
+{
+	_logger.LogInformation($"C# Timer trigger function executed at: {DateTime.Now}");
+	_logger.LogInformation($"Next timer schedule at: {myTimer.ScheduleStatus.Next}");
+	// your logic
+}
 ```
 
 * Queue message / Service bus trigger - Whenever message appears on a particular queue/topic function is invoked to process the contents of message. Input parameter of queue triggered function is base64 encoded string message.
 
 ```c#
-		[FunctionName("QueueTrigger")]
-		public static void Run(
-		    [QueueTrigger("myqueue-items", Connection = "StorageConnectionAppSetting")] string myQueueItem,
-		    ILogger log)
-		{
-		   // your logic
-		}
+[FunctionName("QueueTrigger")]
+public static void Run(
+	[QueueTrigger("myqueue-items", Connection = "StorageConnectionAppSetting")] string myQueueItem,
+	ILogger log)
+{
+	// your logic
+}
 ```
 
 or with storage account settings configured as attribute
 
 ```c#
-
-		[StorageAccount("ClassLevelStorageAppSetting")]
-		public static class AzureFunctions
-		{
-		    [FunctionName("QueueTrigger")]
-		    [StorageAccount("FunctionLevelStorageAppSetting")]
-		    public static void Run( //...
-		    {
-			// your logic
-		    }
-		}
+[StorageAccount("ClassLevelStorageAppSetting")]
+public static class AzureFunctions
+{
+	[FunctionName("QueueTrigger")]
+	[StorageAccount("FunctionLevelStorageAppSetting")]
+	public static void Run( //...
+	{
+	// your logic
+	}
+}
 ```
 
 * HTTP trigger - Allow using Azure Functions to create web APIs, responding to the various HTTP methods like GET, POST, and PUT
 
 ```c#
-		[Function("FunctionName")]
-		public HttpResponseData Run([HttpTrigger(AuthorizationLevel.Function, "get", "post")] HttpRequestData req)
-		{
-		    _logger.LogInformation("C# HTTP trigger function processed a request.");
-		    // your logic
-		    var response = req.CreateResponse(HttpStatusCode.OK);
-		    response.Headers.Add("Content-Type", "text/plain; charset=utf-8");
-		    response.WriteString("Welcome to Azure Functions!");
-		    return response;
-		}
+[Function("FunctionName")]
+public HttpResponseData Run([HttpTrigger(AuthorizationLevel.Function, "get", "post")] HttpRequestData req)
+{
+	_logger.LogInformation("C# HTTP trigger function processed a request.");
+	// your logic
+	var response = req.CreateResponse(HttpStatusCode.OK);
+	response.Headers.Add("Content-Type", "text/plain; charset=utf-8");
+	response.WriteString("Welcome to Azure Functions!");
+	return response;
+}
 ```
 
 ### Function app files
@@ -75,29 +74,29 @@ Azure Functions are interlocked with Azure Storage services, meaning that every 
 If you want to add middleware to Azure functions, all you have to do is create a new class that inherits from ``IFunctionsWorkerMiddleware`` and register it in your ``HostBuilder``.
 
 ```c#
-    public class CustomMiddleware : IFunctionsWorkerMiddleware
+public class CustomMiddleware : IFunctionsWorkerMiddleware
+{
+    public async Task Invoke(FunctionContext context, FunctionExecutionDelegate next)
     {
-        public async Task Invoke(FunctionContext context, FunctionExecutionDelegate next)
-        {
-            // code before exexecution
-            await next(context);
-            // code after execution
-        }
+        // code before exexecution
+        await next(context);
+        // code after execution
     }
+}
 ```
 
 Now register ``CustomMiddleware`` in the ``Program.cs`` class where you initialized your host builder. 
 
 ```c#
-    var host = new HostBuilder()
-        .ConfigureFunctionsWorkerDefaults(
-            builder =>
-            {
-                builder.UseMiddleware<ExceptionLoggingMiddleware>();
-            })
-        .Build();
+var host = new HostBuilder()
+    .ConfigureFunctionsWorkerDefaults(
+        builder =>
+        {
+            builder.UseMiddleware<ExceptionLoggingMiddleware>();
+        })
+    .Build();
 
-    host.Run();
+host.Run();
 ```
 
 To learn more, read [here](https://learn.microsoft.com/en-us/azure/azure-functions/dotnet-isolated-process-guide#middleware).

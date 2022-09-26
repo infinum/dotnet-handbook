@@ -27,13 +27,13 @@ Now you need to write your startup code to make the functions available to the h
 Now add **Program.cs** file, delete everything and write (copy and paste) the following code:
 
 ```c#
-    using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Hosting;
 
-    var host = new HostBuilder()
-        .ConfigureFunctionsWorkerDefaults()
-        .Build();
+var host = new HostBuilder()
+    .ConfigureFunctionsWorkerDefaults()
+    .Build();
 
-    await host.RunAsync();
+await host.RunAsync();
 ```
 
 Dependency Injection:
@@ -41,15 +41,15 @@ Dependency Injection:
 If you use dependency injection into a function app, you just need to add a call to the **ConfigureServices** method on your host builder:
 
 ```c#
-    var host = new HostBuilder()
-        .ConfigureFunctionsWorkerDefaults()
-        .ConfigureServices(services =>
-        {
-            services.AddScoped<IService, Service>();
-        })
-        .Build();
+var host = new HostBuilder()
+    .ConfigureFunctionsWorkerDefaults()
+    .ConfigureServices(services =>
+    {
+        services.AddScoped<IService, Service>();
+    })
+    .Build();
 
-    host.Run();
+host.Run();
 ```
 
 At this point, you can go ahead and remove **Microsoft.NET.Sdk.Functions** and any package reference to Azure Functions or WebJobs that don't include the term **Worker**, because they are meant to be used with in-process function apps.
@@ -65,10 +65,10 @@ The first thing you need to do is install the package **Microsoft.Azure.Function
 This means, for example, your HTTP trigger function should look like this:
 
 ```c#
-    [Function("YourFunction")]
-    public async Task<HttpResponseData> Run([HttpTrigger(AuthorizationLevel.Function, "get", "post")] HttpRequestData req)
-    {
-        // your logic...
-	    return req.CreateResponse(HttpStatusCode.OK);
-    }
+[Function("YourFunction")]
+public async Task<HttpResponseData> Run([HttpTrigger(AuthorizationLevel.Function, "get", "post")] HttpRequestData req)
+{
+    // your logic...
+	return req.CreateResponse(HttpStatusCode.OK);
+}
 ```
