@@ -70,6 +70,38 @@ Azure Functions are interlocked with Azure Storage services, meaning that every 
 * **host.json** - Contains the global config options for all functions within a Function app. Here you can configure logging, retry logic. See options in detail [here](https://docs.microsoft.com/en-us/azure/azure-functions/functions-host-json#sample-hostjson-file).
 * **Program.cs**  (applicable for out-of-process) - Contains host builder logic, DI configuration, middleware configuration.
 
+### Middleware
+
+If you want to add middleware to Azure functions, all you have to do is create a new class that inherits from ``IFunctionsWorkerMiddleware`` and register it in your ``HostBuilder``.
+
+```c#
+    public class CustomMiddleware : IFunctionsWorkerMiddleware
+    {
+        public async Task Invoke(FunctionContext context, FunctionExecutionDelegate next)
+        {
+            // code before exexecution
+            await next(context);
+            // code after execution
+        }
+    }
+```
+
+Now register ``CustomMiddleware`` in the ``Program.cs`` class where you initialized your host builder. 
+
+```c#
+    var host = new HostBuilder()
+        .ConfigureFunctionsWorkerDefaults(
+            builder =>
+            {
+                builder.UseMiddleware<ExceptionLoggingMiddleware>();
+            })
+        .Build();
+
+    host.Run();
+```
+
+To learn more, read [here](https://learn.microsoft.com/en-us/azure/azure-functions/dotnet-isolated-process-guide#middleware).
+
 ### Best practices
 
 * Function should be short-lived, so whenever possible, refactor large functions into smaller function sets that work together and return responses fast.
