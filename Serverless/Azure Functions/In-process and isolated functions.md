@@ -69,6 +69,7 @@ This means, for example, your HTTP trigger function should look like this:
 public async Task<HttpResponseData> Run([HttpTrigger(AuthorizationLevel.Function, "get", "post")] HttpRequestData req)
 {
     // your logic...
-	return req.CreateResponse(HttpStatusCode.OK);
+
+    return req.CreateResponse(HttpStatusCode.OK);
 }
 ```
