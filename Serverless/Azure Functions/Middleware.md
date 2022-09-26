@@ -1,4 +1,4 @@
-If you want to add middleware to Azure functions, all you have to do is create a new class that inherits from **IFunctionsWorkerMiddleware** and register it in your **HostBuilder**.
+If you want to add middleware to Azure functions, all you have to do is create a new class that inherits from ``IFunctionsWorkerMiddleware`` and register it in your ``HostBuilder``.
 
 ```c#
     public class CustomMiddleware : IFunctionsWorkerMiddleware
