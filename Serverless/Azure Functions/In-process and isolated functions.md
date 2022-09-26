@@ -14,7 +14,7 @@ In .Net 7 out-of-process will support full set of features so out-of-process wil
 
 ### Move from in-process to isolated function
 
-When you want to move from in-process azure function to isolated azure function, the first thing you need to do in your .csproj file is set **OutputType** property in your **.csproj** file to **Exe**. Then, change your **FUNCTIONS_WORKER_RUNTIME** app setting in **local.settings.json** to **dotnet-isolated**. At this point, your project won't build. Have no fear, you just need to add startup code.
+When you want to move from in-process azure function to isolated azure function, the first thing you need to do is set ``OutputType`` property in your ``.csproj`` file to ``Exe``. Then, change your ``FUNCTIONS_WORKER_RUNTIME`` app setting in ``local.settings.json`` to ``dotnet-isolated``. At this point, your project won't build. Have no fear, you just need to add startup code.
 
 Creating Host:
 
@@ -24,7 +24,7 @@ Now you need to write your startup code to make the functions available to the h
 * Microsoft.Azure.Functions.Worker.Extensions.Abstractions 
 * Microsoft.Azure.Functions.Worker.Sdk
 
-Now add **Program.cs** file, delete everything and write (copy and paste) the following code:
+Now add ``Program.cs`` file, delete everything and write (copy and paste) the following code:
 
 ```c#
 using Microsoft.Extensions.Hosting;
@@ -38,7 +38,7 @@ await host.RunAsync();
 
 Dependency Injection:
 
-If you use dependency injection into a function app, you just need to add a call to the **ConfigureServices** method on your host builder:
+If you use dependency injection into a function app, you just need to add a call to the ``ConfigureServices`` method on your host builder:
 
 ```c#
 var host = new HostBuilder()
@@ -52,11 +52,11 @@ var host = new HostBuilder()
 host.Run();
 ```
 
-At this point, you can go ahead and remove **Microsoft.NET.Sdk.Functions** and any package reference to Azure Functions or WebJobs that don't include the term **Worker**, because they are meant to be used with in-process function apps.
+At this point, you can go ahead and remove ``Microsoft.NET.Sdk.Functions`` and any package reference to Azure Functions or WebJobs that don't include the term ``Worker``, because they are meant to be used with in-process function apps.
 
 Rebuilding Trigger Functions:
 
-The first thing you need to do is install the package **Microsoft.Azure.Functions.Worker.Extensions.Http**, which will give you access to the types required by your HTTP Trigger function. Then, make the following changes:
+The first thing you need to do is install the package ``Microsoft.Azure.Functions.Worker.Extensions.Http``, which will give you access to the types required by your HTTP Trigger function. Then, make the following changes:
 
 * Change HttpRequest to HttpRequestData
 * Change IActionResult to HttpResponseData
