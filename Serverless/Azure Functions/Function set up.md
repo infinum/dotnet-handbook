@@ -99,7 +99,9 @@ var host = new HostBuilder()
 host.Run();
 ```
 
-To learn more, read [here](https://learn.microsoft.com/en-us/azure/azure-functions/dotnet-isolated-process-guide#middleware).
+There is a limitation when using DI in this kind of middleware. You can use constructor injection just like in MVC middleware, but you can't use method injection because the ``Invoke`` method from ``IFunctionsWorkerMiddleware`` interface accepts only two parameters.
+
+To learn more about azure function middlewares, read [here](https://learn.microsoft.com/en-us/azure/azure-functions/dotnet-isolated-process-guide#middleware).
 
 ### Best practices
 
