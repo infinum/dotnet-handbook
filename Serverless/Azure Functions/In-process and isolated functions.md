@@ -16,7 +16,7 @@ In .Net 7 out-of-process will support full set of features so out-of-process wil
 
 When you want to move from in-process azure function to isolated azure function, the first thing you need to do is set ``OutputType`` property in your ``.csproj`` file to ``Exe``. Then, change your ``FUNCTIONS_WORKER_RUNTIME`` app setting in ``local.settings.json`` to ``dotnet-isolated``. At this point, your project won't build. Have no fear, you just need to add startup code.
 
-Creating Host:
+#### Creating Host
 
 Now you need to write your startup code to make the functions available to the host. In order to do that you will require three packages to be installed:
  
@@ -36,7 +36,7 @@ var host = new HostBuilder()
 await host.RunAsync();
 ```
 
-Dependency Injection:
+#### Dependency Injection
 
 If you use dependency injection into a function app, you just need to add a call to the ``ConfigureServices`` method on your host builder:
 
@@ -54,7 +54,7 @@ host.Run();
 
 At this point, you can go ahead and remove ``Microsoft.NET.Sdk.Functions`` and any package reference to Azure Functions or WebJobs that don't include the term ``Worker``, because they are meant to be used with in-process function apps.
 
-Rebuilding Trigger Functions:
+#### Rebuilding Trigger Functions
 
 The first thing you need to do is install the package ``Microsoft.Azure.Functions.Worker.Extensions.Http``, which will give you access to the types required by your HTTP Trigger function. Then, make the following changes:
 
