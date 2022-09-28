@@ -1,8 +1,8 @@
 ## What are Source Generators?
 
-According to official [documentation](https://docs.microsoft.com/en-us/dotnet/csharp/roslyn-sdk/source-generators-overview) a source generator is a part of the .NET Compiler Platform ("Roslyn") SDK which allows developers to generate source files during compilation and add those files to the compilation object. 
+According to official [documentation](https://docs.microsoft.com/en-us/dotnet/csharp/roslyn-sdk/source-generators-overview) a source generator is a part of the .NET Compiler Platform ("Roslyn") SDK which allows developers to generate source files during compilation and add those files to the compilation object.
 
-In order for this to be possible, source generators also have the possibility to retrieve a compilation object which contains all the code a developer has written.
+For this to be possible, source generators can retrieve a compilation object which contains all the code a developer has written. The most common use case for source generators is code analysis during compilation, after which more code is generated and added to the compilation object. It can also shift the controller discovery phase from startup to compile time, reducing startup time. Another usage of source generators can be in ASP.NET Core applications routing where it can be strongly typed with the necessary strings being generated as a compile-time detail. This approach could prevent a mistyped string literal leading to a request not hitting the correct controller.
 
 The image below shows the process which happens during compilation if a developer uses source generators.
 
@@ -12,7 +12,7 @@ The image below shows the process which happens during compilation if a develope
 
 There are multiple advantages of using source generators which include better performance because the source generator is analyzing code during the compilation. An alternative to this approach is runtime reflection which is used during startup of an application and therefore can prolong the startup time. Another advantage is posibility to catch errors during compile time instead of catching them during runtime.
 
-## Source Generator project setup
+## Project setup
 
 Projects that contain source generators are just ordinary class libraries which require some adjustments. Here are some basic steps that can be used for source generator project setup.
 
@@ -64,7 +64,7 @@ namespace SourceGenerator
 
 After these three steps your source generator is configured and order to do something with it, you need to implement *Execute* method. Implementation of *Initialize* method is optional because it is not always required to initialize a source generator.
 
-## Debugging a Source Generator
+## Debugging
 
 If you've used source generators then you must know that it can be quite challenging to test generator's output and find out what kind of error it throws.
 
@@ -142,6 +142,7 @@ In the end add some breakpoints to the source generator code, run the project in
 
 Sources:
 
+- [Introducing C# Source Generators](https://devblogs.microsoft.com/dotnet/introducing-c-source-generators/)
 - [dotnet-how-to-debug-source-generator-vs2022](https://github.com/JoanComasFdz/dotnet-how-to-debug-source-generator-vs2022)
 - [Source Generators](https://docs.microsoft.com/en-us/dotnet/csharp/roslyn-sdk/source-generators-overview)
 - [Debugging C# Source Generators with Visual Studio 2019 16.10](https://stevetalkscode.co.uk/debug-source-generators-with-vs2019-1610)
