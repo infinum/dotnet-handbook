@@ -1,4 +1,4 @@
-Azure Functions is a Function-as-a-Service (“FaaS”), i.e. a platform for running configurable blocks of code that run in response to some event.
+Azure Functions is a Function-as-a-Service ("FaaS"), i.e. a platform for running configurable blocks of code that run in response to some event.
 Functions support several different programming languages such as C# and JavaScript, F#, Java, Python, and PowerShell.
 
 Main benefits of using Azure Functions and serverless solutions are:
@@ -24,7 +24,7 @@ Timer trigger functions are singleton (trigger only one instance of function).
 
 In real world scenarios we need to control scaling of instances. Sometimes azure functions deal with databases or other services which may have scaling limits so over-scaling azure functions could put other resources under pressure. Scaling rules can be configured for function depending on trigger type.
 
-Example: If for some reason, we needed queue messages to be processed by a function one at a time, than we need to configure function app scale-out to one function instance. Than the function concurent proccessing should be limited too, and that is done by setting ``batchSize`` to 1 in the host.json. Learn more [here](https://docs.microsoft.com/en-us/azure/azure-functions/functions-bindings-storage-queue-trigger?tabs=csharp#concurrency) and [here](https://docs.microsoft.com/en-us/azure/azure-functions/functions-concurrency).
+Example: If for some reason, we needed queue messages to be processed by a function one at a time, than we need to configure function app scale-out to one function instance. Than the function concurrent processing should be limited too, and that is done by setting `batchSize` to 1 in the `host.json`. Learn more [here](https://docs.microsoft.com/en-us/azure/azure-functions/functions-bindings-storage-queue-trigger?tabs=csharp#concurrency) and [here](https://docs.microsoft.com/en-us/azure/azure-functions/functions-concurrency).
 
 
 ### Function properties
