@@ -1,11 +1,13 @@
-Add as a new project, through VS Function App template. This creates azure function app that can contain multiple functions that share common configuration such as environment variables, app settings and host.
-All functions will be deployed together under same function-app umbrella and  scaled together.
+### Project creation
+
+Add a new project through the VS Function App template. This creates azure function app that can contain multiple functions that share a common configuration such as environment variables, app settings, and host.
+All functions will be deployed together under the same function-app umbrella and scaled together.
 
 ### Triggers
 
-To trigger function execution, different triggers can be used. Most popular ones are :
+Different triggers can be used to trigger function execution. Here are some of the more popular ones:
 
-* Timer - Allow running a function by a schedule ( Example: run a function at midnight every night). Schedule format and samples can be found [here](https://docs.microsoft.com/en-us/azure/azure-functions/functions-bindings-timer?tabs=csharp#ncrontab-expressions).
+* Timer - Allow running a function by a schedule ( Example: run a function at midnight every night). The schedule format and samples can be found [here](https://docs.microsoft.com/en-us/azure/azure-functions/functions-bindings-timer?tabs=csharp#ncrontab-expressions).
 
 ```c#
 [Function("FunctionName")]
@@ -17,7 +19,7 @@ public void Run([TimerTrigger("0 */5 * * * *")] MyInfo myTimer)
 }
 ```
 
-* Queue message / Service bus trigger - Whenever message appears on a particular queue/topic function is invoked to process the contents of message. Input parameter of queue triggered function is base64 encoded string message.
+* Queue message / Service bus trigger - Whenever a message appears on a particular queue/topic, a function is invoked to process the contents of a message. The input parameter of a queue triggered function is a base64 encoded string message:
 
 ```c#
 [FunctionName("QueueTrigger")]
@@ -29,7 +31,7 @@ public static void Run(
 }
 ```
 
-or with storage account settings configured as attribute
+In cases where we need to use a different storage account than other functions in the library, you can use the `StorageAccount` attribute to specify the name of the configuration value that contains the storage connection string:
 
 ```c#
 [StorageAccount("ClassLevelStorageAppSetting")]
@@ -61,17 +63,17 @@ public HttpResponseData Run([HttpTrigger(AuthorizationLevel.Function, "get", "po
 
 ### Function app files
 
-Default function app consists of:
+The default function app consists of:
 
-* **Function.cs** class - Contains function method with defined trigger and input output bindings. ``[FunctionName]`` attribute marks the method as a function entry point. Name must be unique within a project.
-* **local.settings.json** - Contains all app settings, connectionstrings and configurations needed for the function development. Settings in the local.settings.json file are used only when you're running project locally so it is not deployed. By default, it contains  ``AzureWebJobsStorage`` key with a value set to ``UseDevelopmentStorage=true``, which is the connection string for the local Azure Storage Emulator.
+* **Function.cs** class -Contains a function method with defined triggers and input/output bindings. The ``[FunctionName]`` attribute marks the method as a function entry point. The name must be unique within a project.
+* **local.settings.json** - Contains all app settings, connection strings, and configurations. Settings in the local.settings.json file are used only when you're running the project locally so it is not deployed. By default, it contains  ``AzureWebJobsStorage`` key with a value set to ``UseDevelopmentStorage=true``, which is the connection string for the local Azure Storage Emulator.
 Azure Functions are interlocked with Azure Storage services, meaning that every Azure function needs Azure storage configured to be able to run. The storage account connection is used by the Functions host for operations such as managing triggers and logging function executions. It's also used when dynamically scaling function apps.
-* **host.json** - Contains the global config options for all functions within a Function app. Here you can configure logging, retry logic. See options in detail [here](https://docs.microsoft.com/en-us/azure/azure-functions/functions-host-json#sample-hostjson-file).
-* **Program.cs**  (applicable for out-of-process) - Contains host builder logic, DI configuration, middleware configuration.
+* **host.json** - Contains the global config options for all functions within a Function app. Here you can configure logging and retry logic. See options in detail [here](https://docs.microsoft.com/en-us/azure/azure-functions/functions-host-json#sample-hostjson-file).
+* **Program.cs**  (applicable for out-of-process) - Contains host builder logic, DI configuration and middleware configuration.
 
 ### Middleware
 
-If you want to add middleware to Azure functions, all you have to do is create a new class that inherits from ``IFunctionsWorkerMiddleware`` and register it in your ``HostBuilder``.
+If you want to add middleware to Azure functions, all you have to do is create a new class that inherits from ``IFunctionsWorkerMiddleware`` and register it in your ``HostBuilder``:
 
 ```c#
 public class CustomMiddleware : IFunctionsWorkerMiddleware
@@ -85,7 +87,7 @@ public class CustomMiddleware : IFunctionsWorkerMiddleware
 }
 ```
 
-Now register ``CustomMiddleware`` in the ``Program.cs`` class where you initialized your host builder.
+Now register ``CustomMiddleware`` in the ``Program.cs`` class where you initialized your host builder:
 
 ```c#
 var host = new HostBuilder()
