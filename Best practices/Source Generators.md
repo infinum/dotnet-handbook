@@ -39,7 +39,7 @@ Here is an example of what a project file should look like after the first two s
 </Project>
 ```
 
-3. Create a *ExampleSourceGenerator.cs* file which implements *Microsoft.CodeAnalysis.ISourceGenerator* interface and annotate it with *Microsoft.CodeAnalysis.GeneratorAttribute*
+3. Create an *ExampleSourceGenerator.cs* file which implements *Microsoft.CodeAnalysis.ISourceGenerator* interface and annotate it with *Microsoft.CodeAnalysis.GeneratorAttribute*
 
 ```c#
 using Microsoft.CodeAnalysis;
@@ -83,7 +83,7 @@ Fortunately, Visual Studio comes to the rescue with its possibility to debug sou
     |:--:|
     | Figure 3 - Visual Studio modifying window |
 
-2. Add IsRoslynComponent property in source generator project file:
+2. Add the IsRoslynComponent property in the source generator project file:
    
     ```xml
     <Project Sdk="Microsoft.NET.Sdk">
@@ -103,7 +103,7 @@ Fortunately, Visual Studio comes to the rescue with its possibility to debug sou
     </Project>
     ```
 
-3. Add a reference to source generator in a project that will be using it (if it already isn't added):
+3. Add a reference to the source generator in a project that will be using it (if it already isn't added):
    
     ```xml
     <ItemGroup>
@@ -124,7 +124,7 @@ Fortunately, Visual Studio comes to the rescue with its possibility to debug sou
       | ![deleteProfile](/resources/delete-existing-profile.png) |
       |:--:|
       | Figure 5 - Delete existing profile |
-   6. Add new `Roslyn Component` profile
+   6. Add a new `Roslyn Component` profile
       | ![createProfile](/resources/create-roslyn-component-profile.png) |
       |:--:|
       | Figure 6 - Add new profile |
@@ -139,7 +139,7 @@ Fortunately, Visual Studio comes to the rescue with its possibility to debug sou
 |:--:|
 | Figure 7 - Debug profile after creation |
 
-In the end add some breakpoints to the source generator code, run the project in debug mode, and resolve the issues that were bothering you in the first place or just explore how your source generator works in the background.
+In the end, add some breakpoints to the source generator code, run the project in debug mode, resolve the issues that were bothering you in the first place or just explore how your source generator works in the background.
 
 Sources:
 
