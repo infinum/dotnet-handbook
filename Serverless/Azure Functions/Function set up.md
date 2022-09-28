@@ -85,7 +85,7 @@ public class CustomMiddleware : IFunctionsWorkerMiddleware
 }
 ```
 
-Now register ``CustomMiddleware`` in the ``Program.cs`` class where you initialized your host builder. 
+Now register ``CustomMiddleware`` in the ``Program.cs`` class where you initialized your host builder.
 
 ```c#
 var host = new HostBuilder()
@@ -106,11 +106,7 @@ To learn more about azure function middlewares, read [here](https://learn.micros
 ### Best practices
 
 * Function should be short-lived, so whenever possible, refactor large functions into smaller function sets that work together and return responses fast.
-
 * Functions should be stateless and idempotent if possible. Associate any required state information with your data. A function could process data based on that state while the function itself remains stateless.
-
 * Function could encounter an exception at any time. Design your functions with the ability to continue from a previous fail point during the next execution.
-
 * Plan scaling, it is important to understand how your function app responds to load and how the triggers can be configured to handle incoming events.
-
-* Newly built functions should be out-of process.
+* Newly built functions should be out-of-process.
