@@ -23,9 +23,9 @@ But what if, instead of using the item’s position in the whole set, we just re
 
 ## Cursor pagination
 
-The idea behind the cursor pagination (aka keyset pagination) is to have a pointer to a specific item in the data set which is later used to determine the item from which the pagination will continue. That way the pagination will continue from the correct item in the list, regardless if the list changed between the two paginated API calls. The client doesn’t need to understand what the cursor is pointing to, it just needs to store it temporarily and add it to the request for the next page.
+The idea behind cursor pagination (aka keyset pagination) is to have a pointer to a specific item in the data set which is later used to determine the item from which the pagination will continue. That way the pagination will continue from the correct item in the list, regardless if the list changed between the two paginated API calls. The client doesn’t need to understand what the cursor is pointing to, it just needs to store it temporarily and add it to the request for the next page.
 
-In order for this to work, items in the set we’re querying must have a unique value (or values) that will be used both for ordering and for pointing. The pointer should be used as an instruction for filtering, rather than just a simple value (see Seek pagination for that option).
+For this to work, items in the set we’re querying must have a unique value (or values) that will be used both for ordering and for pointing. The pointer should be used as an instruction for filtering, rather than just a simple value (see Seek pagination for that option).
 
 As an example, let’s say that we need to fetch a list of events from a calendar. The unique value that can be used in a pointer could be the start time of an event. The response for such a request could look something like this
 
@@ -50,7 +50,7 @@ As an example, let’s say that we need to fetch a list of events from a calenda
 }
 ```
 
-The cursor in this example uses the start time of the last event in the fetched list to build the instruction for getting the next page. Using that, the next client’s request would include the cursor:
+The cursor in this example uses the start time of the last event in the fetched list to build the instruction for fetching the next page. Using that, the next client’s request would include the cursor:
 
 ```json
 {
@@ -59,7 +59,7 @@ The cursor in this example uses the start time of the last event in the fetched 
 }
 ```
 
-This example doesn’t have any encoding on the cursor, but since the cursor must be understood only by the backend server, the cursor is often base64 encoded in order to reduce the bandwidth and to enable changing the cursor without the need to change anything on the client side. As far as they know, the cursor is a magic string that they must pass back to the server in order to get the next page - and nothing more!
+This example doesn’t have any encoding on the cursor, but since the cursor must be understood only by the backend server, the cursor is often base64 encoded in order to reduce the bandwidth and to enable changing the cursor without the need to change anything on the client side. As far as they know, the cursor is a magic string that they must pass back to the server to fetch the next page - and nothing more!
 
 This approach addresses the drawbacks of offset pagination, but at a cost:
 

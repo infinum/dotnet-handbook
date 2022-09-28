@@ -31,7 +31,7 @@ public static void Run(
 }
 ```
 
-In cases where we need to use a different storage account than other functions in the library, you can use the `StorageAccount` attribute to specify the name of the configuration value that contains the storage connection string:
+In cases where we need to use a different storage account than other functions in the library, you can use the `StorageAccount` attribute. That attribute specifies the name of the configuration value that contains the storage connection string:
 
 ```c#
 [StorageAccount("ClassLevelStorageAppSetting")]
