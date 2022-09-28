@@ -19,15 +19,15 @@ When you want to move from in-process azure function to isolated azure function,
 #### Creating Host
 
 Now you need to write your startup code to make the functions available to the host. In order to do that you will require three packages to be installed:
- 
-* Microsoft.Azure.Functions.Worker 
-* Microsoft.Azure.Functions.Worker.Extensions.Abstractions 
+
+* Microsoft.Azure.Functions.Worker
+* Microsoft.Azure.Functions.Worker.Extensions.Abstractions
 * Microsoft.Azure.Functions.Worker.Sdk
 
 Now add ``Program.cs`` file, delete everything and write (copy and paste) the following code:
 
 ```c#
-using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Hosting;§
 
 var host = new HostBuilder()
     .ConfigureFunctionsWorkerDefaults()
@@ -58,9 +58,9 @@ At this point, you can go ahead and remove ``Microsoft.NET.Sdk.Functions`` and a
 
 The first thing you need to do is install the package ``Microsoft.Azure.Functions.Worker.Extensions.Http``, which will give you access to the types required by your HTTP Trigger function. Then, make the following changes:
 
-* Change HttpRequest to HttpRequestData
-* Change IActionResult to HttpResponseData
-* Change FunctionName to Function
+* Change the request type from `HttpRequest` to `HttpRequestData`
+* Change the response type from `IActionResult` to `HttpResponseData`
+* Change the method attribute from `FunctionName` to `Function`
 
 This means, for example, your HTTP trigger function should look like this:
 
