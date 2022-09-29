@@ -1,6 +1,6 @@
-Middleware is software that is assembled into an app pipeline to handle requests and responses. Middleware are in some ways similar to MVC Filters: they are run in a pipeline, which means that they define what actions must be done before the next middleware, determine whether the next middleware will be executed, and define what must be done after the next middleware finishes.
+Middleware is software that is assembled into an app pipeline to handle requests and responses. Middlewares are in some ways similar to MVC Filters: they are run in a pipeline, which means that they define what actions must be done before the next middleware, determine whether the next middleware will be executed, and define what must be done after the next middleware finishes.
 
-Middleware can be defined as inline middleware using the `Use` and `Run` methods in app startup, or in a class that contains `Invoke` or `InvokeAsync` method. We tend to use the latter approach, because that enables reuse of the same code on multiple places and doesn’t clog up the startup with execution logic.
+Middleware can be defined as inline middleware using the `Use` and `Run` methods in app startup, or in a class that contains the `Invoke` or `InvokeAsync` method. We tend to use the latter approach because that enables the reuse of the same code in multiple places and doesn’t clog up the startup with execution logic.
 
 ### Common usages
 
@@ -15,7 +15,7 @@ This list is not exhaustive, to find the rest of the built-in middleware check o
 
 There are some cases where we need to create our own Middleware. Here are some examples of such cases:
 
-- Error handling - implementing error handling inside a middleware enables us to handle not only exceptions thrown by controller actions, but also exceptions thrown by other middleware, as long as they are executed after this Middleware.
+- Error handling - implementing error handling inside a middleware enables us to handle not only exceptions thrown by controller actions but also exceptions thrown by other middleware, as long as they are executed after this Middleware.
 - Authorization - in order to avoid passing the Id of the current user from the controller all the way to the service that actually uses it, we can implement a middleware that fills the user data into a scoped service.
 
 ### Execution order
