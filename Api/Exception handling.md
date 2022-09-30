@@ -14,7 +14,7 @@ It’s a good practice to reference this error model in the Swagger documentatio
 
 ### Error handler
 
-In order to have the handling logic in one place, we could implement a class with a static method that accepts the exception, processes it, and generates a response. That way, we can use that logic wherever we need it (e.g. API middleware, Azure Functions Middleware, ...). Exception processing consists of determining which exception type was thrown, whether it should be logged and whether its message should be passed to the consumer when generating an error response:
+In order to have the handling logic in one place, we could implement a class with a static method that accepts the exception, processes it, and generates a response. That way, we can use that logic wherever we need it (e.g. API middleware, Azure Functions Middleware, ...). Exception processing consists of determining which exception type was thrown, whether it should be logged, and whether its message should be passed to the consumer when generating an error response:
 
 ```csharp
 public static class ExceptionHandler
@@ -74,7 +74,7 @@ public async Task Invoke(HttpContext context)
 	{
 		var response = ExceptionHandler.Handle(ex);
 		await context.Response.WriteJsonAsync(response);
-		// Or even better yet, determine status code based on the exception thrown:
+		// Or even better yet, determine the status code based on the exception thrown:
 		context.Response.StatusCode = (int)HttpErrorCodes.InternalServerError;
 }
 ```

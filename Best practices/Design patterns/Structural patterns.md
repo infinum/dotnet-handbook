@@ -62,7 +62,7 @@ class Discounted : CarDecorator
 
 #### Adapter
 
-Adapter pattern is a structural design pattern that we use when we need objects with incompatible interfaces to collaborate. Adapters convert the interface of a class into another interface clients expect. 
+The Adapter pattern is a structural design pattern that we use when we need objects with incompatible interfaces to collaborate. Adapters convert the interface of a class into another interface clients expect. 
 
 ```c#
 class Adapter : PolarVector
@@ -73,7 +73,7 @@ class Adapter : PolarVector
     {
 	  _v = v;
     }
-    
+
     public double Magnitude = get { Sqrt(Pow(_v.X, 2) + Pow(_v.Y, 2)); }
     public double Angle = get { 1 / Tan(_v.Y / _v.X); }
 
@@ -112,14 +112,14 @@ Here is the simplified example of the pattern:
 interface IRepository<T> where T : class
 {
     Task<T> GetAsync(int id);
-    
-    // More methods would be added 
+
+    // More methods would be added
 }
 
 class Repository<T> : IRepository<T> where T : class
 {
     private readonly DbSet<T> _dbSet;
-    
+
     public async Task<T> GetAsync(int id)
     {
         return await _dbSet.FindAsync(id);
@@ -142,7 +142,7 @@ class UnitOfWork : IUnitOfWork
         _context = context;
     }
 
-    public IExampleRepository Examples 
+    public IExampleRepository Examples
         => _exampleRepository ??= new Repository<Example>(_context);
 
     public async Task SaveChangesAsync()
@@ -155,12 +155,12 @@ class UnitOfWork : IUnitOfWork
 class ExampleService
 {
     private readonly IUnitOfWork _uow;
-    
+
     public ExampleService(IUnitOfWork uow)
     {
      	_uow = uow;   
     }
-    
+
     public async Task<Example> GetExample(int exampleId)
     {
         return await _uow.Examples.GetAsync(exampleId);
@@ -172,9 +172,9 @@ class ExampleService
 
 #### Strategy pattern
 
-By using this pattern we enable a selection of needed algorithms at runtime. For instance, validation, which is dependent on the incoming type of data. We don't know beforehand which algorithm will be needed, but we can develop a few strategies and use them when needed. Algorithms should be defined in a way that they could be used interchangeably. 
+By using this pattern we enable a selection of needed algorithms at runtime. For instance, validation, which is dependent on the incoming type of data. We don't know beforehand which algorithm will be needed, but we can develop a few strategies and use them when needed. Algorithms should be defined in a way that they could be used interchangeably.
 
-This pattern allows us to decouple the code, encapsulate each algorithm, and lets the algorithm be independent of the clients which use it. 
+This pattern allows us to decouple the code, encapsulate each algorithm, and lets the algorithm be independent of the clients which use it.
 
 
 

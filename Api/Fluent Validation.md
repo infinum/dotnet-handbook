@@ -39,12 +39,12 @@ Here we have an example Validator class where we validate the LoginDetailsDto cl
 - The class must inherit from AbstractValidator <T> where T is the class you wish to validate
 - Validation rules :
   - should be defined in the validator class constructor
-  - property that we wish to validate should be passed a lambda expression
+  - the property we want to validate should be passed a lambda expression
   - validators in the rule can be chained together and they can be followed by a message
     - there are a lot of **built-in validators** which you can check out on this [Built-in Validators](https://docs.fluentvalidation.net/en/latest/built-in-validators.html) page
     - you can also write your own, **custom validators**, by implementing the predicate validator which is accessed by using the **Must** method
 
-- With function ValidateUsername we are making sure the username isn't already existing in the database because in our example we don't want duplicate usernames. The function must return Boolean data type.
+- With the function `ValidateUsername` we are making sure the username isn't already existing in the database because in our example we don't want duplicate usernames. The function must return a Boolean data type.
 
 ```c#
 using FluentValidaton;
@@ -90,7 +90,7 @@ public class LoginDetailsDtoValidator : AbstractValidator<LoginDetailsDto>
 
 **Later** we can use this validation where we see fit, in this case, we are validating if the input data is correct before we save it to the database.  
 
-- To use the validator we should **register** it in Startup class in ConfigureServices method like this:
+- To use the validator we should **register** it in the Startup class in ConfigureServices method like this:
 
 ```c#
 public void ConfigureServices(IServiceCollection services)
@@ -105,7 +105,7 @@ public void ConfigureServices(IServiceCollection services)
 }
 ```
 
-  - for this to work the FluentValidation.AspNetCore package reference must be added
+  - for this to work, FluentValidation.AspNetCore package reference must be added
     `Install-Package FluentValidation.AspNetCore`
   - validation results are then added to ModelState, so we can use MVC's model binding infrastructure to validate the objects
 
@@ -169,7 +169,7 @@ validator.ValidateAndThrow(googleUserInfo)
 
 ### Configuration checker
 
- With fluent validation we can validate **any** class, and there is nothing stopping us from using it to validate
+ With fluent validation, we can validate **any** class, and there is nothing stopping us from using it to validate
 configuration properties in the project. This is a very neat way of checking if all the configuration is set up before we fire up the solution.
 The project will build normally, but when started it will throw an error and remind us of which configuration we are missing.
 It's a really good solution for the dev-ops team when they are setting application configuration.
@@ -188,7 +188,7 @@ public class SomeOption
 ```
 
 
-- Create validators and specify the rules. Pay attention to include .NotEmpty() method, but you can add any validation you deem to be needed
+- Create validators and specify the rules. Pay attention to include `.NotEmpty()` method, but you can add any validation you deem to be needed
 
 ```c#
 public class SomeOptionValidator : AbstractValidator<SomeOption>
@@ -296,6 +296,6 @@ public class Startup
 it for configuration and the checker will not work
 - Done
 
-**Disclamer:** this will validate the property as well as the configuration section!
+**Disclaimer:** this will validate the property as well as the configuration section!
 
 Congratulations, we covered the basics, if you want to know more visit this link: [Fluent Validation Documentation](https://docs.fluentvalidation.net/)
