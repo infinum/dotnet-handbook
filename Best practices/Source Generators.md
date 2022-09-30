@@ -111,21 +111,13 @@ Fortunately, Visual Studio comes to the rescue with its possibility to debug sou
    2. Click `Properties`
    3. Click `Debug`
    4. Click `Open debug launch profiles UI`
-   
       ![debugProperties](/resources/debug-properties.png)
-
    5. Delete existing profiles
-   
       ![deleteProfile](/resources/delete-existing-profile.png)
-
    6. Add a new `Roslyn Component` profile
-   
       ![createProfile](/resources/create-roslyn-component-profile.png)
-
    7. Choose the target project from a list of projects
-   
       ![chooseTargetProject](/resources/choose-target-project.png)
-
    8. **Optional**: Rename the debug profile so you can easily find and use it later
    9.  Restart Visual Studio and set your source generator project as a startup project
 
