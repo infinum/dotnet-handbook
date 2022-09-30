@@ -117,33 +117,40 @@ Fortunately, Visual Studio comes to the rescue with its possibility to debug sou
    2. Click `Properties`
    3. Click `Debug`
    4. Click `Open debug launch profiles UI`
+   
       | ![debugProperties](/resources/debug-properties.png) |
       |:--:|
       | Figure 4 - Debug properties window |
+
    5. Delete existing profiles
+   
       | ![deleteProfile](/resources/delete-existing-profile.png) |
       |:--:|
       | Figure 5 - Delete existing profile |
+
    6. Add a new `Roslyn Component` profile
+   
       | ![createProfile](/resources/create-roslyn-component-profile.png) |
       |:--:|
       | Figure 6 - Add new profile |
+
    7. Choose the target project from a list of projects
+   
       | ![chooseTargetProject](/resources/choose-target-project.png) |
       |:--:|
       | Figure 7 - Choose the target project |
+
    8. **Optional**: Rename the debug profile so you can easily find and use it later
-   9. Restart Visual Studio and set your source generator project as a startup project
+   9.  Restart Visual Studio and set your source generator project as a startup project
 
 | ![endResult](/resources/end-result.png) |
 |:--:|
-| Figure 7 - Debug profile after creation |
+| Figure 8 - Debug profile after creation |
 
 In the end, add some breakpoints to the source generator code, run the project in debug mode, resolve the issues that were bothering you in the first place or just explore how your source generator works in the background.
 
 Sources:
 
-- [Introducing C# Source Generators](https://devblogs.microsoft.com/dotnet/introducing-c-source-generators/)
 - [Introducing C# Source Generators](https://devblogs.microsoft.com/dotnet/introducing-c-source-generators/)
 - [dotnet-how-to-debug-source-generator-vs2022](https://github.com/JoanComasFdz/dotnet-how-to-debug-source-generator-vs2022)
 - [Source Generators](https://docs.microsoft.com/en-us/dotnet/csharp/roslyn-sdk/source-generators-overview)
