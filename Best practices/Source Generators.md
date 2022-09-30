@@ -17,25 +17,25 @@ Projects that contain source generators are just ordinary class libraries that r
 1. Create a new class library project with .NET Standard 2.0 target framework
 2. Add NuGet packages *Microsoft.CodeAnalysis.Analyzers* and *Microsoft.CodeAnalysis.CSharp*
 
-Here is an example of what a project file should look like after the first two steps:
+    Here is an example of what a project file should look like after the first two steps:
 
-```xml
-<Project Sdk="Microsoft.NET.Sdk">
+    ```xml
+    <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-  </PropertyGroup>
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.0.1" PrivateAssets="all" />
-    <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.3">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-  </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.0.1" PrivateAssets="all" />
+        <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.3">
+        <PrivateAssets>all</PrivateAssets>
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+    </ItemGroup>
 
-</Project>
-```
+    </Project>
+    ```
 
 3. Create an *ExampleSourceGenerator.cs* file which implements *Microsoft.CodeAnalysis.ISourceGenerator* interface and annotate it with *Microsoft.CodeAnalysis.GeneratorAttribute*
 
