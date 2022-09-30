@@ -6,9 +6,7 @@ For this to be possible, source generators can retrieve a compilation object whi
 
 The image below shows the process which happens during compilation if a developer uses source generators.
 
-| ![sourceGenerator](/resources/source-generator-visualization.png) |
-|:--:|
-| Figure 1 - Visualization of compilation that includes a Source Generator |
+![sourceGenerator](/resources/source-generator-visualization.png)
 
 There are multiple advantages of using source generators which include better performance because the source generator is analyzing code during the compilation. An alternative to this approach is runtime reflection which is used during the startup of an application and therefore can prolong the startup time. Another advantage is the possibility to catch errors during compile time instead of catching them during runtime.
 
@@ -75,13 +73,9 @@ Fortunately, Visual Studio comes to the rescue with its possibility to debug sou
    
     In Visual Studio Installer choose to Modify the Visual Studio version which has a source generator project, and install Visual Studio extension development under tab Workloads > Other Toolsets.
 
-    | ![visualStudioInstallerHome](/resources/visual-studio-installer-home.png) |
-    |:--:|
-    | Figure 2 - Visual Studio Installer |
+    ![visualStudioInstallerHome](/resources/visual-studio-installer-home.png)
 
-    | ![visualStudioModify](/resources/visual-studio-modify.png) |
-    |:--:|
-    | Figure 3 - Visual Studio modifying window |
+    ![visualStudioModify](/resources/visual-studio-modify.png)
 
 2. Add the IsRoslynComponent property in the source generator project file:
    
@@ -118,34 +112,24 @@ Fortunately, Visual Studio comes to the rescue with its possibility to debug sou
    3. Click `Debug`
    4. Click `Open debug launch profiles UI`
    
-      | ![debugProperties](/resources/debug-properties.png) |
-      |:--:|
-      | Figure 4 - Debug properties window |
+      ![debugProperties](/resources/debug-properties.png)
 
    5. Delete existing profiles
    
-      | ![deleteProfile](/resources/delete-existing-profile.png) |
-      |:--:|
-      | Figure 5 - Delete existing profile |
+      ![deleteProfile](/resources/delete-existing-profile.png)
 
    6. Add a new `Roslyn Component` profile
    
-      | ![createProfile](/resources/create-roslyn-component-profile.png) |
-      |:--:|
-      | Figure 6 - Add new profile |
+      ![createProfile](/resources/create-roslyn-component-profile.png)
 
    7. Choose the target project from a list of projects
    
-      | ![chooseTargetProject](/resources/choose-target-project.png) |
-      |:--:|
-      | Figure 7 - Choose the target project |
+      ![chooseTargetProject](/resources/choose-target-project.png)
 
    8. **Optional**: Rename the debug profile so you can easily find and use it later
    9.  Restart Visual Studio and set your source generator project as a startup project
 
-| ![endResult](/resources/end-result.png) |
-|:--:|
-| Figure 8 - Debug profile after creation |
+![endResult](/resources/end-result.png)
 
 In the end, add some breakpoints to the source generator code, run the project in debug mode, resolve the issues that were bothering you in the first place or just explore how your source generator works in the background.
 
