@@ -1,4 +1,4 @@
-Configuration is the set of external parameters provided to an application that controls the application’s behavior in some way. It typically consists of a mixture of settings and secrets that the application will load at runtime.
+Configuration is the set of external parameters provided to an application that controls the application’s behaviour in some way. It typically consists of a mixture of settings and secrets that the application will load at runtime.
 
 The configuration system in ASP.NET Core is very flexible, allowing you to load the configuration from a wide range of locations. Also, ASP.NET Core provides the ability to easily bind this configuration to strongly typed options objects, which then you can inject into your services. This model of strongly typed configuration makes it easy to logically group settings around a given feature and lends itself well to unit testing.
 
