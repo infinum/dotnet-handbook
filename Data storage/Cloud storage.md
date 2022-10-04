@@ -1,4 +1,4 @@
-Cloud services are providing new options when choosing storage for your applications. Although there are several provider options, we will focus mainly on Azure Storage in this handbook.
+Cloud services are providing new options when choosing storage for your applications. While there are several provider options available, we will focus mainly on Azure Storage in this handbook.
 
 
 ## Azure Storage
@@ -35,7 +35,7 @@ Blob storage offers three types of resources:
 
 Since we use Azure Blob to store images and documents, it is important to manage blobs and containers in a way that allows only authorized users and services to access those files. We can do that in a couple of ways:
 
-- Access Blob storage only through our API - that way we can enforce any authorization and validation rules we want before allowing user to upload/download data from the storage, but that also means that all that data is flowing through our API, which can be costly because it is using up both a lot of bandwith as well as additional computing power.
+- Access Blob storage only through our API - that way we can enforce any authorization and validation rules we want before allowing user to upload/download data from the storage, but that also means that all that data is flowing through our API, which can be costly because it is using up both a lot of bandwidth as well as additional computing power.
 - Shared access signatures (SAS) - Azure Blob Storage supports generating SAS tokens which allow access to a specific blob or container for a specified period. By combining the SAS token and resource URIs, we can generate a URI and distribute it to client applications which can then access the blob directly, which reduces the bandwidth used to manage the files.
 - Azure Active Directory (AD) - Azure Storage supports using Azure AD to authorize requests to blob data. We can use Azure role-based access control to grant permissions to a security principal, which may be a user, group, or application service principal.
 
