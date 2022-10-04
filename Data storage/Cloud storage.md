@@ -1,7 +1,7 @@
 Cloud services are providing new options when choosing storage for your applications. Although there are several provider options, we will focus mainly on Azure Storage in this handbook.
 
 
-### Azure Storage
+## Azure Storage
 
 [Official documentation](https://docs.microsoft.com/en-us/azure/storage/common/storage-configure-connection-string)
 
@@ -18,7 +18,7 @@ TableEndpoint=http://127.0.0.1:10001/devstoreaccount1;
 
 This connection string can be used to connect to Blob, Queue and Table storages. If you want to see what data you added to your local storage, we recommend using [Azure Storage Explorer](https://azure.microsoft.com/en-us/features/storage-explorer/#features).
 
-#### Azure Blob Storage
+### Azure Blob Storage
 
 Azure Blob storage is optimized for storing massive amounts of unstructured data like images, documents and other files. You can read more about it [here](https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blobs-introduction).
 
@@ -31,7 +31,7 @@ Blob storage offers three types of resources:
   - Append blobs - made up of blocks like block blobs, but are optimized for append operations, ideal for scenarios such as logging data from virtual machines.
   - Page blobs - store random access files up to 8 TiB in size, they store virtual hard drive files and serve as disks for Azure virtual machines
 
-##### Access control
+#### Access control
 
 Since we use Azure Blob to store images and documents, it is important to manage blobs and containers in a way that allows only authorized users and services to access those files. We can do that in a couple of ways:
 
@@ -39,7 +39,7 @@ Since we use Azure Blob to store images and documents, it is important to manage
 - Shared access signatures (SAS) - Azure Blob Storage supports generating SAS tokens which allow access to a specific blob or container for a specified period. By combining the SAS token and resource URIs, we can generate a URI and distribute it to client applications which can then access the blob directly, which reduces the bandwidth used to manage the files.
 - Azure Active Directory (AD) - Azure Storage supports using Azure AD to authorize requests to blob data. We can use Azure role-based access control to grant permissions to a security principal, which may be a user, group, or application service principal.
 
-##### Usage example
+#### Usage example
 
 The main entry point for communication with Azure Blob Storage is `BlobServiceClient`. There are a couple of ways to create the client, we can use the extension method for `IServiceCollection` that registers the client. The extension method will register the client in the DI service:
 
@@ -108,7 +108,7 @@ public class TestService
 }
 ```
 
-#### Azure Table Storage
+### Azure Table Storage
 
 [Azure Table Storage](https://docs.microsoft.com/en-us/azure/storage/tables/) provides a way to store large amounts of structured data. This service is a NoSQL database. We must note that this is not a replacement for SQL database. For more information, please see [Understanding the differences between NoSQL and Relational Databases.](https://docs.microsoft.com/en-us/azure/cosmos-db/relational-nosql)
 
