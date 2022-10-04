@@ -1,4 +1,4 @@
-Cloud services are providing new options when choosing storage for your applications. While there are several provider options available, we will mainly focus mainly on Azure Storage in this handbook.
+Cloud services are providing new options when choosing storage for your applications. While there are several provider options available, we will mainly focus on Azure Storage in this handbook.
 
 ## Azure Storage
 
