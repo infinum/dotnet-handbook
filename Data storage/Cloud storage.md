@@ -1,11 +1,11 @@
-Cloud services are providing new options when choosing storage for your applications. While there are several provider options available, we will focus mainly on Azure Storage in this handbook.
-
+Cloud services are providing new options when choosing storage for your applications. While there are several provider options available, we will mainly focus mainly on Azure Storage in this handbook.
 
 ## Azure Storage
 
+Azure Storage is a Microsoft's solution for cloud storages. There are a couple of storage options within the the Azure ecosystem, which will be discussed in this section
 [Official documentation](https://docs.microsoft.com/en-us/azure/storage/common/storage-configure-connection-string)
 
-For development we use tool called [Azure storage emulator](https://docs.microsoft.com/en-us/azure/storage/common/storage-use-emulator). Fastest way to connect to your local Azure storage is by setting `UseDevelopmentStorage=true`, which is equivalent to:
+For the local development, Microsoft has provided [Azurite](https://learn.microsoft.com/en-us/azure/storage/common/storage-use-azurite?tabs=visual-studio) (previously called [Azure Storage Emulator](https://docs.microsoft.com/en-us/azure/storage/common/storage-use-emulator)). Azurite is an emulator that provides all the features available on Azure Storage: Blob Storage, Queues and Table storages. The fastest way to connect to your local Azure storage emulator is by setting the connection string to `UseDevelopmentStorage=true`, which is equivalent to:
 
 ```c#
 DefaultEndpointsProtocol=http;
@@ -16,7 +16,7 @@ QueueEndpoint=http://127.0.0.1:10001/devstoreaccount1;
 TableEndpoint=http://127.0.0.1:10001/devstoreaccount1;
 ```
 
-This connection string can be used to connect to Blob, Queue and Table storages. If you want to see what data you added to your local storage, we recommend using [Azure Storage Explorer](https://azure.microsoft.com/en-us/features/storage-explorer/#features).
+This connection string can be used to connect to Blob, Queue and Table storages. If you want to see what data you added to your local storage, we recommend using [Azure Storage Explorer](https://azure.microsoft.com/en-us/features/storage-explorer/#features). This tool can also be used to connect to other storage accounts.
 
 ### Azure Blob Storage
 
@@ -110,7 +110,7 @@ public class TestService
 
 ### Azure Table Storage
 
-[Azure Table Storage](https://docs.microsoft.com/en-us/azure/storage/tables/) provides a way to store large amounts of structured data. This service is a NoSQL database. We must note that this is not a replacement for SQL database. For more information, please see [Understanding the differences between NoSQL and Relational Databases.](https://docs.microsoft.com/en-us/azure/cosmos-db/relational-nosql)
+[Azure Table Storage](https://docs.microsoft.com/en-us/azure/storage/tables/) provides a way to store large amounts of structured data. This service is a NoSQL database. We must note that this is not a replacement for SQL database. For more information, please see [Understanding the differences between NoSQL and Relational Databases](https://docs.microsoft.com/en-us/azure/cosmos-db/relational-nosql).
 
 Use it when you want to:
 
