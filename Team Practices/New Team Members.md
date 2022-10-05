@@ -47,8 +47,8 @@ For example: Implement queue upload service. It will contain service logic, conf
 
 
 ### Learning materials
-[Editor's note: this section should be rewritten because even I don't understand what list this is referring to.]
+[Editor's note: this section should be rewritten because even I'm not sure I understand what list this is referring to.]
 
 This task contains valuable topics and resources that each .NET developer should understand in order to be able to leverage framework features and produce efficient software.
 Depending of your seniority level, you can spend more or less time on these topics, but also feel free to extend the list with additional topics - just make sure you discuss them with your team in order to be provided with good materials.
-You can go through the list at your own pace even after you officially finish the onboarding process. In the following months you should be able to address it and log your acitviity under .NET education service in Productive.
+You can go through the list at your own pace even after you officially finish the onboarding process. In the following months you should be able to address it and log your activity under .NET education service in Productive.
