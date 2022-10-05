@@ -1,10 +1,10 @@
-Using explicit route based API versioning client is always aware of what version of the API is being used and it allows the backend to maintain a backwards compatible endpoints.
+Using explicit route-based API versioning client is always aware of what version of the API is being used and it allows the backend to maintain backwards compatible endpoints.
 
-Our policy is to always embedded version string in the path of the request URL, at the end of the service root: eg. `https://service.infinum.com/api/v1.0/`
+Our policy is to always embed the version string in the path of the request URL, at the end of the service root: eg. `https://service.infinum.com/api/v1.0/`
 
 ### Using `Microsoft.AspNetCore.Mvc.Versioning` package for API versioning
 
-The following snippet needs to be added as a part of `ConfigureServices` step, to configure versioning library :
+The following snippet needs to be added as a part of `ConfigureServices` step, to configure the versioning library :
 
 ```c#
     services.AddApiVersioning(
@@ -14,7 +14,7 @@ The following snippet needs to be added as a part of `ConfigureServices` step, t
         });
 ```
 
-Note : there's no need to configure default API version or fallback resolution, we are always going to use explicit API route segment version reader.
+Note: there's no need to configure the default API version or fallback resolution, we are always going to use the explicit API route segment version reader.
 
 For each endpoint route you need to add `api/v{version:apiVersion}` and need to tag which versions the controller supports with `[ApiVersion("version")]` attribute(s) :
 
@@ -41,27 +41,27 @@ public class ExamplesController : ControllerBase
 {
     [HttpGet]
     public string ExampleBoth()
-    { 
+    {
         return "same in both versions";
-    } 
+    }
 
     [MapToApiVersion("1")]
     [HttpGet("result")]
-    public string ExampleV1() 
-    { 
-        return "result v1"; 
+    public string ExampleV1()
+    {
+        return "result v1";
     }
 
     [MapToApiVersion("2")]
     [HttpGet("result")]
-    public string ExampleV2() 
+    public string ExampleV2()
     {
         return "result v2";
     }
 }
 ```
 
-Implementing API versioning in code highly dependent on existing codebase - it can be as simple as adding a minor revision in the same controller or as complex as having separate namespaces for each version on controller/DTO/service layer.
+Implementing API versioning in code is highly dependent on the existing codebase - it can be as simple as adding a minor revision in the same controller or as complex as having separate namespaces for each version on the controller/DTO/service layer.
 
 #### Deprecating a Service Version
 
@@ -76,7 +76,7 @@ public class ExamplesController : ControllerBase
 }
 ```
 
-Deprecation warning will be shown in the documentation generated and can be included in the generated HTTP headers.
+A deprecation warning will be shown in the documentation generated and can be included in the generated HTTP headers.
 To include versioning headers with each response set `ReportApiVersions` to true in `AddApiVersioning` configuration :
 
 ```C#
@@ -90,13 +90,13 @@ To include versioning headers with each response set `ReportApiVersions` to true
 
 #### Additional documentation
 
-Additional information on API versioning with `Microsoft.AspNetCore.Mvc.Versioning` can be found here : https://github.com/dotnet/aspnet-api-versioning/wiki/How-to-Version-Your-Service
+Additional information on API versioning with `Microsoft.AspNetCore.Mvc.Versioning` can be found here: https://github.com/dotnet/aspnet-api-versioning/wiki/How-to-Version-Your-Service
 
 ### Configuring Swashbuckle for route based API versioning
 
-`Microsoft.AspNetCore.Mvc.Versioning` will add versioning support to Swashbuckle but it will include parameter based versioning.
+`Microsoft.AspNetCore.Mvc.Versioning` will add versioning support to Swashbuckle but it will include parameter-based versioning.
 
-To exclude parameter based routing add the following operation filter to Swashbuckle :
+To exclude parameter based routing add the following operation filter to Swashbuckle:
 
 ```c#
 public class RemoveVersionFromParameter : IOperationFilter
@@ -112,7 +112,7 @@ public class RemoveVersionFromParameter : IOperationFilter
 }
 ```
 
-Services configuration snippet :
+Services configuration snippet:
 
 ```c#
         services.AddSwaggerGen(

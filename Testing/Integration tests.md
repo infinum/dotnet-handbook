@@ -1,8 +1,8 @@
-Integration tests allow us to test multiple parts of our system as a group. They are usually a bit more complex and run slower than unit tests. There are many ways to implement them and our approach is the one that covers the whole flow of a certain functionality. 
+Integration tests allow us to test multiple parts of our system as a group. They are usually a bit more complex and run slower than unit tests. There are many ways to implement them and our approach is the one that covers the whole flow of certain functionality.
 
-A good example is testing an API request, from top to bottom. To create a testing environment for our app we can mock the Startup of the app and override the configuration to suit our needs. By using the in-memory database we can run this test anywhere and not have a dependency to a database server. To make the API call, we can prepare the fixture to include a Http client which makes the call. This way we can test the whole flow and its controllers, services, repositories etc.  
+A good example is testing an API request, from top to bottom. To create a testing environment for our app we can mock the Startup of the app and override the configuration to suit our needs. By using the in-memory database we can run this test anywhere and not have a dependency on a database server. To make the API call, we can prepare the fixture to include an HTTP client which makes the call. This way we can test the whole flow and its controllers, services, repositories, etc.  
 
-This is the example of the test project fixture which we can inject in our test classes and override the setting on the API we are testing: 
+This is the example of the test project fixture which we can inject into our test classes and override the setting on the API we are testing: 
 
 ```c#
 public class TestServerFixture : IDisposable
@@ -24,7 +24,7 @@ public class TestServerFixture : IDisposable
             })
             .UseStartup<FakeStartup>()
             .UseSetting(
-            	WebHostDefaults.ApplicationKey, 
+            	WebHostDefaults.ApplicationKey,
             	typeof(FakeStartup).GetTypeInfo().Assembly.GetName().Name);
 
         Server = new TestServer(builder);
