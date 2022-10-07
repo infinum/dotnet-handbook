@@ -1,4 +1,4 @@
-Caching allows you to store objects in memory that require extensive resources to create. An application can increase performance by storing in memory data that is accessed frequently and that requires significant processing time to create. Caching offers powerful features that allow you to customize how items are cached and how long they are cached.
+Caching allows you to store objects in memory that require extensive resources to create. An application can increase performance by storing in-memory data that is accessed frequently and requires significant processing time to create. Caching offers powerful features that allow you to customize how items are cached and how long they are cached.
 
 Advantages:
 
@@ -11,11 +11,11 @@ Disadvantages:
 * Can have stale data (we must update cache).
 * Possible concurrency issues (if not handled correctly).
 
-You have to be careful with implementing cache, because an inefficient cache can make applications slower. When a request results in a cache miss (requested data does not currently reside in the cache), it increases the end-to-end response time of an application. This is because the application must request data from the cache, and when the cache doesn't contain the requested data, the primary database must be queried as well. There is an additional call that bears no fruit added to the already-existing database call. In these instances, the cache brings no benefit, and it adds the cache response time as added latency. If there are a high number of cache misses, then a cache can slow down an application.
+You have to be careful with implementing a cache because an inefficient cache can make applications slower. When a request results in a cache miss (requested data does not currently reside in the cache), it increases the end-to-end response time of an application. This is because the application must request data from the cache, and when the cache doesn't contain the requested data, the primary database must be queried as well. There is an additional call that bears no fruit added to the already-existing database call. In these instances, the cache brings no benefit and adds the cache response time as added latency. If there are a high number of cache misses, then a cache can slow down an application.
 
 ### In-Memory Cache
 
-[In-memory cache](https://docs.microsoft.com/en-us/aspnet/core/performance/caching/response?view=aspnetcore-5.0) is the easiest way to add caching functionality to your application. It is used when you want to implement cache in single process. This means it won't be shared across multiple instances and will possibly cause issues in these kind of scenarios. It is also [Thread safe](https://docs.microsoft.com/en-us/dotnet/api/system.runtime.caching.memorycache?view=dotnet-plat-ext-5.0#thread-safety) which makes it an even better choice.
+[In-memory cache](https://docs.microsoft.com/en-us/aspnet/core/performance/caching/response?view=aspnetcore-5.0) is the easiest way to add caching functionality to your application. It is used when you want to implement a cache in a single process. This means it won't be shared across multiple instances and will possibly cause issues in these kinds of scenarios. It is also [Thread safe](https://docs.microsoft.com/en-us/dotnet/api/system.runtime.caching.memorycache?view=dotnet-plat-ext-5.0#thread-safety) which makes it an even better choice.
 
 ```c#
 // Setup and usage example
