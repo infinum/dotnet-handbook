@@ -72,3 +72,13 @@ public MyService : IMyService
 ```
 
 Read more about distributed caching [here](https://learn.microsoft.com/en-us/aspnet/core/performance/caching/distributed?view=aspnetcore-6.0).
+
+### When to use in-memory vs when to use distributed cache
+
+In-memory and distributed cache both have their pros and cons, and which one you should use depends on what suits your scenario best.
+
+If you are caching immutable objects, consistency ceases to be an issue. In such a case, an in-memory cache is a better choice as many overheads typically associated with external distributed caches are simply not there. If your application is deployed on multiple nodes, you cache mutable objects and you want your reads to always be consistent rather than eventually consistent, a distributed cache is the way to go.
+
+If you are looking for an always-consistent global cache state in a multi-node deployment, a distributed cache is what you are looking for (at the cost of a performance that you may get from a local in-memory cache).
+
+An in-memory cache is a better option for a small and predictable number of frequently accessed, preferably immutable objects. For a large, unpredictable number of objects, you are better off with a distributed cache.
