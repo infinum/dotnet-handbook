@@ -232,7 +232,7 @@ The route to this endpoint, would be *`api/custom/{customerId}/activateCustomer`
 
 ### Response codes
 
-Most commonly controllers should return a *`OK (200)`* response code and other response codes should be handled in the exception handling middleware. For exception handling, please refer to [Exception Handling](Exception handling.md).
+Most commonly controllers should return a *`OK (200)`* response code and other response codes should be handled in the exception handling middleware. For exception handling, please refer to [Exception Handling](exception-handling).
 
 Other codes that are commonly used are:
 

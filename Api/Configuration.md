@@ -7,7 +7,7 @@ The ASP.NET Core configuration model centers on two main constructs:
 - `ConfigurationBuilder` - describes how to construct the final configuration representation for your app
 - `IConfiguration` - holds the configuration values themselves.
 
-If you want to know more about how to manage configurations during the development, check out our [User secrets](best-practices/user-secrets) section.
+If you want to know more about how to manage configurations during the development, check out our [User secrets](../best-practices/user-secrets) section.
 
 ### Configuration providers
 
