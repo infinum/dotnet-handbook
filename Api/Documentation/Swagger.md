@@ -8,7 +8,7 @@ Swagger uses OpenAPI specification for its generated documentation which is the 
 
 To use Swagger you  need to install one of the NuGet packages that support it and configure it for your needs. In their documentation, Microsoft suggests using two packages - [Swashbuckle](https://github.com/domaindrivendev/Swashbuckle.AspNetCore) or [NSwag](https://github.com/RicoSuter/NSwag). In the example below, we will focus on configuration for Swashbuckle, but other package have a similar principle.
 
-The configuration consists of two parts. The first one is the configuration of a Swagger service which configures document information. That can be specified in the service configuration part of the `Program.cs` (or in older versions in `Startup.ConfigureServices()`): 
+The configuration consists of two parts. The first one is the configuration of a Swagger service which configures document information. That can be specified in the service configuration part in `Program.cs` (or in older versions in `Startup.ConfigureServices()`): 
 
 ```c#
 builder.Services.AddSwaggerGen(options => 
@@ -23,7 +23,7 @@ builder.Services.AddSwaggerGen(options =>
 })
 ```
 
-The second part of the configuration is done in the app configuration part of `Program.cs` (formerly in `Startup.Configure()`) where we set up and enable Swagger middleware that will serve generated Swagger JSON. Here we can also configure the endpoint for SwaggerUI. By default, Swagger will be served at the root of the URL.
+The second part is done in the app configuration part in `Program.cs` (formerly in `Startup.Configure()`) where we set up and enable Swagger middleware that will serve generated the Swagger JSON. This JSON file is the main component of the API documentation. It contains definitions and descriptions of all the endpoints. Other teams that integrate with the API can use this JSON file to generate (and later update) the classes and methods used in the communication. By default, Swagger will be served at the root of the URL.
 
 ```c#
 // This enables middleware for swagger JSON document
@@ -32,6 +32,12 @@ app.UseSwagger(opt =>
 {
     opt.RouteTemplate = = $"{prefix}/{{documentname}}/swagger.json";
 });
+
+```
+
+Since JSON is not that human friendly (especially when it contains a larger data set), Swagger has provided a UI that consumes the JSON file and generates a HTML page where we can browse the endpoints and try them out. To enable the UI, we must add another middleware and point it to the JSON file:
+
+```c#
 
 // This enables SwaggerUI, SwaggerEndpoint setting must match endpoint URL for swagger setup above
 app.UseSwaggerUI(opt => 
