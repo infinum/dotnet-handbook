@@ -75,7 +75,7 @@ interface ICarPartsFactory
 
 class PorcheFactory : ICarPartsFactory
 {
-    public ICarPartsFactory CreateEngine();
+    public IEngine CreateEngine();
     {
         return new BoxerEngine();
     }
@@ -166,7 +166,7 @@ class HouseBuilder : IHouseBuilder
 // Usage
 static void Main(string[] args)
 {
-    var housBuilder = new HouseBuilder();
+    var houseBuilder = new HouseBuilder();
 
     houseBuilder.BuildWalls();
     houseBuilder.BuildRoof();

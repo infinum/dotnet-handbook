@@ -92,7 +92,7 @@ public class Login : Subject
 
     public void SetEmail(string newEmail)
     {
-        _email=newEmail;
+        _email = newEmail;
         NotifyObservers(_email);
     }
 }
@@ -193,7 +193,7 @@ abstract class Worker
         GoToWork();
     }
 
-    public void GoToWork() {...};
+    public void WakeUp() {...};
     public void EatBreakfast() {...};
     public abstract void GoToWork();
 
