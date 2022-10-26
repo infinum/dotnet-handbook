@@ -1,8 +1,8 @@
 #### Decorator
 
-We use Decorator Pattern when we need to attach additional responsibilities to an individual objects dynamically. The decorator conforms to the interface of the component it decorates so that its presence is transparent to the component's clients. The decorator forwards requests to the component and may perform additional actions. Transparency lets us nest decorators recursively.
+We use the Decorator Pattern when we need to attach additional responsibilities to individual objects dynamically. The decorator conforms to the interface of the component it decorates so that its presence is transparent to the component's clients. The decorator forwards requests to the component and may perform additional actions. Transparency lets us, nest decorators, recursively.
 
-It is important to notice that we are subclassing the abstraction of component we are decorating in order to have the correct type, not to inherit its behavior. The behavior comes in through the composition of decorators with the base components as well as other decorators.
+It is important to notice that we are subclassing the abstraction of the component we are decorating to have the correct type, not to inherit its behavior. The behavior comes in through the composition of decorators with the base components as well as other decorators.
 
 ```c#
 interface Car
@@ -100,13 +100,13 @@ class PolarVector
 
 #### Repository and Unit of work (Facade)
 
-One of the best definitions of repository is the one provided by Martin Fowler:
+One of the best definitions of a repository is the one provided by Martin Fowler:
 
 > *Conceptually, a Repository encapsulates the set of objects persisted in a data store and the operations performed over them, providing a more object-oriented view of the persistence layer. Repository also supports the objective of achieving a clean separation and one-way dependency between the domain and data mapping layers.*
 
-This pattern can be used not matter what is used for accessing the data, Entity framework, table storage, external services etc. Since we are mostly using the Entity framework, we will provide an example using that data access approach.
+This pattern can be used no matter what is used for accessing the data, Entity framework, table storage, external services etc. Since we are mostly using the Entity framework, we will provide an example using that data access approach.
 
-Here is the simplified example of the pattern:
+Here is a simplified example of the pattern:
 
 ```c#
 interface IRepository<T> where T : class
@@ -172,7 +172,7 @@ class ExampleService
 
 #### Strategy pattern
 
-By using this pattern we enable a selection of needed algorithms at runtime. For instance, validation, which is dependent on the incoming type of data. We don't know beforehand which algorithm will be needed, but we can develop a few strategies and use them when needed. Algorithms should be defined in a way that they could be used interchangeably.
+By using this pattern we enable a selection of needed algorithms at runtime. For instance, validation is dependent on the incoming type of data. We don't know beforehand which algorithm will be needed, but we can develop a few strategies and use them when needed. Algorithms should be defined in a way that they could be used interchangeably.
 
 This pattern allows us to decouple the code, encapsulate each algorithm, and lets the algorithm be independent of the clients which use it.
 

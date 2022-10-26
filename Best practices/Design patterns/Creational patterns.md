@@ -62,7 +62,7 @@ class CarCatalog : VehicleCatalog
 
 #### Abstract Factory
 
-We use Abstract Factory Pattern when we need an interface for creating families of related or dependent objects without specifying their concrete classes. This family of related objects is often designed to be used together so with Abstract Factory Pattern we enforce this constraint. Most often the methods of an Abstract Factory are implemented as factory methods.
+We use the Abstract Factory Pattern when we need an interface for creating families of related or dependent objects without specifying their concrete classes. This family of related objects is often designed to be used together so with Abstract Factory Pattern we enforce this constraint. Most often the methods of an Abstract Factory are implemented as factory methods.
 
 To use the factory, you instantiate one and pass it into some code that is written against the abstract type. So, like in the Factory Method pattern, clients are decoupled from the actual concrete classes they use.
 
