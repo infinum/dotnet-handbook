@@ -1,3 +1,47 @@
+#### Strategy pattern
+
+By using this pattern we enable a selection of needed algorithms at runtime. For instance, validation is dependent on the incoming type of data. We don't know beforehand which algorithm will be needed, but we can develop a few strategies and use them when needed. Algorithms should be defined in a way that they could be used interchangeably.
+
+This pattern allows us to decouple the code, encapsulate each algorithm, and lets the algorithm be independent of the clients which use it.
+
+
+
+```c#
+public interface IStrategy
+{
+    string Payment();
+}
+
+public class CardPayment : IStrategy
+{
+    public string Payment()
+    {
+        return "Paid by a card";
+    }
+}
+
+public class CashPayment : IStrategy
+{
+    public string Payment()
+    {
+        return "Paid with cash";
+    }
+}
+
+public class PaymentMethod
+{
+    public IStrategy Strategy { get; set; }
+
+    public void GetPaymentMethod()
+    {
+        Console.WriteLine(Strategy.Payment());
+    }
+}
+```
+
+
+
+
 #### Observer pattern
 
 This pattern allows us to make a change of state in a single object and cascade this change to other observer objects. The object which initializes the change is inherited from the subject class and objects which are "subscribed" to that object are inherited from the observer class. This works by having the subject class notify other observers when a change of state happens in a class that inherited the subject class. Observer objects can subscribe or unsubscribe from the subject at any time.
