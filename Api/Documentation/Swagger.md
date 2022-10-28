@@ -112,7 +112,7 @@ public async Task<IActionResult> GetImportantStuffList(
 
 #### Endpoint results
 
-By default, Swagger will expect that every endpoint will only return an OK result with an empty body. Since in a lot of our endpoints that will not be the case, we have to define all the results that could be produced by that endpoint. We can do that by using Data Annotation attributes:
+By default, Swagger will expect that every endpoint will always return an OK result with an empty body. More often than not, that will not be the case, so we have to define all the results that could be produced by that endpoint. We can do that by using Data Annotation attributes:
 
 - **`[ProducesResponseType]`** - specifies what HTTP response codes will be returned with corresponding models (if needed).
 - **`[ProducesErrorResponseType]`** - specifies the default error model for all the error response codes (4xx and 5xx). Just have in mind that this only defines the response model, not the response codes - those should still be defined using the `[ProducesResponseType]` attribute.
