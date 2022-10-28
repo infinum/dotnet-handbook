@@ -77,14 +77,14 @@ builder.Services.AddSwaggerGen(c =>
 });
 ```
 
-And that's it, the setup is done. Now all you have to do is add the comments on the endpoints, describing the endpoint functionality and all the parameters. We recommend using the following XML sections:
+This concludes the configuration, but you're still not done. Now you have to add the comments and attributes on the endpoints, describing the endpoint functionality and all the parameters. We recommend using the following XML sections:
 
 - `<summary>` - a short description of the endpoint's functionality
 - `<remarks>` - some additional information about the endpoint. This is displayed in the endpoint description only after it's expanded, meaning that here we can add more details about the endpoint (e.g. description of the flow, available enum values, different behaviors for different user roles, etc.).
 - `<param>` - description of a specified parameter.
 - `<returns>` - description of the returned value.
 
-Having those sections in mind, a fully commented could look something like this:
+Having those sections in mind, a fully commented endpoint could look something like this:
 
 ```c#
 /// <summary>
@@ -112,14 +112,12 @@ public async Task<IActionResult> GetImportantStuffList(
 
 #### Endpoint results
 
-By default, Swagger will expect that every endpoint will only return an OK result with an empty body. Since in most of our endpoints that will not be the case, we have to define all the results that could be produced by that endpoint. We can do that by using Data Annotation attributes:
+By default, Swagger will expect that every endpoint will always return an OK result with an empty body. More often than not, that will not be the case, so we have to define all the results that could be produced by that endpoint. We can do that by using Data Annotation attributes:
 
 - **`[ProducesResponseType]`** - specifies what HTTP response codes will be returned with corresponding models (if needed).
 - **`[ProducesErrorResponseType]`** - specifies the default error model for all the error response codes (4xx and 5xx). Just have in mind that this only defines the response model, not the response codes - those should still be defined using the `[ProducesResponseType]` attribute.
 
-These attributes can be placed on both method and class levels, which apply them on a certain endpoint and controller (meaning all the endpoints inside the controller) respectively.
-
-Having these attributes in mind, an endpoint described like this:
+These attributes can be placed on both method and class levels, which apply them on a certain endpoint and controller (meaning all the endpoints inside the controller) respectively:
 
 ```c#
 [ProducessErrorResponseType(typeof(ErrorResponseDto))]
@@ -139,6 +137,6 @@ public class ExampleController : ControllerBase
 }
 ```
 
-... will produce the response type definitions that look something like this:
+This example will produce definitions that look like this:
 
 ![Endpoint return values](/resources/swagger-return-models.png)
