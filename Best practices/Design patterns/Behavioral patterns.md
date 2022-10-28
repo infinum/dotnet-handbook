@@ -1,3 +1,49 @@
+#### Strategy pattern
+
+By using this pattern we enable a selection of needed algorithms at runtime. The Strategy pattern lets us extract different ways of doing something specific from one class into different classes called strategies.
+
+For instance, route calculation depends on the way of traveling. Different routes are calculated for walking, driving and flying respectively. We don't know beforehand which algorithm to use, but we can develop a few strategies and use them when needed. Algorithms should be defined in a way that they could be used interchangeably. In case we need to add a new algorithm, we don't need to change the existing classes. With that, we follow the rules of the Open-Closed principle.
+
+This pattern allows us to decouple the code, encapsulate each algorithm, and lets the algorithm be independent of the clients which use it.
+
+
+
+```c#
+public interface IStrategy
+{
+    string Payment();
+}
+
+public class CardPayment : IStrategy
+{
+    public string Payment()
+    {
+        return "Paid by a card";
+    }
+}
+
+public class CashPayment : IStrategy
+{
+    public string Payment()
+    {
+        return "Paid with cash";
+    }
+}
+
+public class PaymentMethod
+{
+    public IStrategy Strategy { get; set; }
+
+    public void GetPaymentMethod()
+    {
+        Console.WriteLine(Strategy.Payment());
+    }
+}
+```
+
+
+
+
 #### Observer pattern
 
 This pattern allows us to make a change of state in a single object and cascade this change to other observer objects. The object which initializes the change is inherited from the subject class and objects which are "subscribed" to that object are inherited from the observer class. This works by having the subject class notify other observers when a change of state happens in a class that inherited the subject class. Observer objects can subscribe or unsubscribe from the subject at any time.
@@ -48,7 +94,7 @@ public class Login : Subject
 
     public void SetEmail(string newEmail)
     {
-        _email=newEmail;
+        _email = newEmail;
         NotifyObservers(_email);
     }
 }
@@ -84,9 +130,9 @@ public class NewsletterSubscription : IObserver
 
 #### Chain of Responsability
 
-With Chain of Responsability pattern we avoid coupling the sender of a request to its receiver by giving more than one object a chance to handle the request.
+With the Chain of Responsibility pattern, we avoid coupling the sender of a request to its receiver by giving more than one object a chance to handle the request.
 
-To implement this pattern we create a chain of objects to examine requests. Each object in turn examines a request and either handles it or passes it on to the next object in the chain. Client that sends request doesn’t have to know the chain’s structure nor keep direct references to its members.
+To implement this pattern we create a chain of objects to examine requests. Each object in turn examines a request and either handles it or passes it on to the next object in the chain. A client that sends request doesn’t have to know the chain’s structure nor keep direct references to its members.
 
 ```c#
 abstract class CarService
@@ -136,7 +182,7 @@ class TransmissionService: CarService
 
 Template method pattern is all about encapsulating an algorithm. It defines the skeleton of an algorithm in the superclass but lets subclasses override specific steps of the algorithm without changing its structure.
 
-The template method defines sequence of steps, each represented by a method. Concrete methods already have some default implementation, but still can be overridden if needed, while abstract methods must be implemented by every subclass. There is also a hook, which is an concrete method with an empty body. A template method would work even if a hook isn’t overridden. Usually, hooks are placed before and after crucial steps of algorithms, providing subclasses with additional extension points for an algorithm.
+The template method defines a sequence of steps, each represented by a method. Concrete methods already have some default implementation, but still can be overridden if needed, while abstract methods must be implemented by every subclass. There is also a hook, which is a concrete method with an empty body. A template method would work even if a hook isn’t overridden. Usually, hooks are placed before and after crucial steps of algorithms, providing subclasses with additional extension points for an algorithm.
 
 ```c#
 abstract class Worker
@@ -149,7 +195,7 @@ abstract class Worker
         GoToWork();
     }
 
-    public void GoToWork() {...};
+    public void WakeUp() {...};
     public void EatBreakfast() {...};
     public abstract void GoToWork();
 
