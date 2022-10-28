@@ -1,6 +1,8 @@
 #### Strategy pattern
 
-By using this pattern we enable a selection of needed algorithms at runtime. For instance, validation is dependent on the incoming type of data. We don't know beforehand which algorithm will be needed, but we can develop a few strategies and use them when needed. Algorithms should be defined in a way that they could be used interchangeably.
+By using this pattern we enable a selection of needed algorithms at runtime. The Strategy pattern lets us extract different ways of doing something specific from one class into different classes called strategies.
+
+For instance, route calculation depends on the way of traveling. Different routes are calculated for walking, driving and flying respectively. We don't know beforehand which algorithm to use, but we can develop a few strategies and use them when needed. Algorithms should be defined in a way that they could be used interchangeably. In case we need to add a new algorithm, we don't need to change the existing classes. With that, we follow the rules of the Open-Closed principle.
 
 This pattern allows us to decouple the code, encapsulate each algorithm, and lets the algorithm be independent of the clients which use it.
 
