@@ -117,9 +117,7 @@ By default, Swagger will expect that every endpoint will always return an OK res
 - **`[ProducesResponseType]`** - specifies what HTTP response codes will be returned with corresponding models (if needed).
 - **`[ProducesErrorResponseType]`** - specifies the default error model for all the error response codes (4xx and 5xx). Just have in mind that this only defines the response model, not the response codes - those should still be defined using the `[ProducesResponseType]` attribute.
 
-These attributes can be placed on both method and class levels, which apply them on a certain endpoint and controller (meaning all the endpoints inside the controller) respectively.
-
-Having these attributes in mind, an endpoint described like this:
+These attributes can be placed on both method and class levels, which apply them on a certain endpoint and controller (meaning all the endpoints inside the controller) respectively:
 
 ```c#
 [ProducessErrorResponseType(typeof(ErrorResponseDto))]
@@ -139,6 +137,6 @@ public class ExampleController : ControllerBase
 }
 ```
 
-... will produce the response type definitions that look something like this:
+This example will produce definitions that look like this:
 
 ![Endpoint return values](/resources/swagger-return-models.png)
