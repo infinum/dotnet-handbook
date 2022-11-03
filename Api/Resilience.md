@@ -2,7 +2,9 @@ Resilience is an extremely important factor in software projects. We always stri
 
 Resilience can be defined as the software's ability to continue to work despite some parts failing unexpectedly. Failures can happen due to network issues, or external dependencies. 
 
-Some errors are temporary, and it is important having a retry mechanism to ensure the best user experience and return a result when possible. Retry functionality can be implemented with custom loops and try-catch functionalities. However, we can provide a cleaner solution using [Polly](https://github.com/App-vNext/Polly).
+Some errors are temporary, and it is important having a retry mechanism to ensure the best user experience and return a result when possible. Retry functionality can be implemented with custom loops and try-catch functionalities. 
+
+Luckily, in a .NET world, we can use different libraries that provide resilience support. In most cases, if the library is available, we should go with it to avoid writing boilerplate code. One of the most popular libraries nowadays is [Polly](https://github.com/App-vNext/Polly).
 
 To ensure our software is resilient, we need to handle:
 
@@ -10,27 +12,11 @@ To ensure our software is resilient, we need to handle:
 - Network issues
 - Dependency failures (eg. third-party libraries)
 
-### Polly
-
-Polly is a .NET library based on resilience and fault handling. With a few lines of code, we can retry failed requests or avoid spamming a service that is down at the moment. If a request to the external resource is taking too long, we can return a default value and retry after some time. With that, we can prevent additional exhaustion from an already heavily loaded service. Polly is available on Web APIs, mobile apps, desktop apps and containers as a .NET Standard Library.
-
-We can install Polly through the NuGet package manager or dotnet CLI:
-
-```bash
-Install-Package Polly
-```
-
-or
-
-```bash
-dotnet add package Polly
-```
-
 ### Retry Mechanism
 
 The Retry policy is one of the most important aspects of any resilient system. It allows us to retry a failed request a specified number of times and wait for some time before executing another request. For example, we are trying to execute an HTTP request to an external service that is down at the moment.
 
-In this case, we want to retry our operation with Polly. Initially, create the `AsyncRetryPolicy` to specify configuration and behavior:
+In this case, we will retry our operation with Polly. Initially, create the `AsyncRetryPolicy` to specify the behavior:
 
 ``` c#
 	AsyncRetryPolicy retryOnExceptionPolicy =
@@ -46,12 +32,12 @@ With the `AsyncRetryPolicy` configured, we can wrap our external service call:
 		.ExecuteAsync(async () => await _customerService.GetAll());
 ```
 
-Our external API call is now much more resilient. In addition to that, Polly offers some advanced retry functionalities:
+Our external API call is now much more resilient. In addition to that, advanced retry functionalities can be helpful as well:
 
 - Retry forever (until the operation is successful)
 - Wait and retry - waits for a specified duration between retries
   
-What happens if the error is authentication related for example? It doesn't make sense to retry an action that won't succeed. However, we can use the `onRetry` delegate from Polly:
+What happens if the error is authentication related for example? It doesn't make sense to retry an action that won't succeed. However, usually, we can provide a delegate to handle such cases:
 
 ``` c#
 	AsyncRetryPolicy retryOnExceptionPolicy =
@@ -64,7 +50,7 @@ What happens if the error is authentication related for example? It doesn't make
 		});
 ```
 
-The retry policy is not always useful and should be avoided in some cases. For example, it doesn't make sense to keep retrying when the external service produces an error that stands for a long time. That said, the retry policy is not a long-term solution for issues but can be used as a mitigation for accidental error occurrences.
+The retry policy is not always useful and should be avoided sometimes. For example, it doesn't make sense to keep retrying when the external service produces an error that stands for a long time. That said, the retry policy is not a long-term solution for issues but can be used as a mitigation for accidental error occurrences.
 
 ### Circuit Breaker pattern
 
@@ -90,8 +76,6 @@ Polly allows us to specify an `AsyncCircuitBreakerPolicy`:
 
 With a Circuit Breaker policy in place, the circuit will break if there are two consecutive failures within 30 seconds.
 
-In case of complex use cases, Polly offers the Advanced Circuit Breaker.
-
 ### Combining Retry Mechanism with the Circuit Breaker
 
 The resilience of a system corresponds with handling a variety of scenarios. To achieve this, different approaches can be used and policies for the Retry mechanism and the Circuit Breaker combined.
@@ -103,13 +87,7 @@ The resilience of a system corresponds with handling a variety of scenarios. To 
 
 In this example, the `retryOnExceptionPolicy` is wrapped with the Circuit Breaker policy defined before. This approach can be extremely efficient to retry occasional failures (Retry policy) and save resources (Circuit Breaker policy).
 
-Additional features of Polly include:
-
-- Fallbacks - return default behavior or perform actions like logging
-- Caching - reduce networking or repetitive data access that is not frequently changed
-- Dependency Injection - eg. registering HttpClient with policies
-
-However, the disadvantages of resiliency approaches should always be considered before implementation. Polly should never be used to hide actual software problems to handle functionalities under our control.
+However, the disadvantages of resiliency approaches should always be considered before implementation. We shouldn't use this technique to hide actual software problems that are under our control.
 
 ### Documentation
 
