@@ -68,7 +68,9 @@ The retry policy is not always useful and should be avoided in some cases. For e
 
 ### Circuit Breaker pattern
 
-Circuit Breaker is another very important resiliency pattern. It comes in handy when the external API is unreliable and it's better to stop spamming the service for a specified amount of time. If the service is under heavy load, we should stop for a while, and try again later. Each house is powered by electricity nowadays and has a circuit breaker. The main task of the circuit breaker is to stop everything when an issue occurs to protect the electrical devices. The Circuit Breaker pattern works in the same way.
+Circuit Breaker is another very important resiliency pattern. It comes in handy when the external API is unreliable and it's better to stop spamming the service for a specified amount of time. If the service is under heavy load, we should stop for a while, and try again later. 
+
+To compare it to the real-world example, we can think of a house that is powered by electricity and has a circuit breaker. The main task of the circuit breaker is to stop everything when an issue occurs to protect the electrical devices. The Circuit Breaker pattern works in the same way.
 
 The idea behind the Circuit Breaker pattern is to fail fast. The timeout issue is a good example, if an external service is timing out, it could be under heavy load. In this case, we want to wait for some time, and then retry.
 
