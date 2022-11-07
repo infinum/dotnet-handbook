@@ -1,6 +1,6 @@
 API documentation is a manual on how to use and integrate with the API. It consists of all the information required to work with it, usually containing endpoint descriptions with their parameters and return values, but can also include tutorials and examples. It should be simple and easily understandable, mainly meant for other developers that need to use the API. Although API documentation is very important, it should never be considered to be the full documentation of a certain system, as it only describes the communication with the API.
 
-This helps us a lot when collaborating with other teams since it provides an excellent interface to API. In our APIs, we mostly use [Swagger](https://swagger.io/) toolset to automatically generate documentation which enables us to quickly update it whenever something changes.
+This helps us a lot when collaborating with other teams since it provides an excellent interface to API. In our APIs, we mostly use the [Swagger](https://swagger.io/) toolset to automatically generate documentation which enables us to quickly update it whenever something changes.
 
 Swagger uses OpenAPI specification for its generated documentation which is the industry standard for describing REST APIs. Using it allows both computers and humans to understand the available endpoints of a REST API without access to the source code. 
 
@@ -8,7 +8,7 @@ Swagger uses OpenAPI specification for its generated documentation which is the 
 
 To use Swagger you need to install one of the NuGet packages that support it and configure it for your needs. In their documentation, Microsoft suggests using two packages - [Swashbuckle](https://github.com/domaindrivendev/Swashbuckle.AspNetCore) or [NSwag](https://github.com/RicoSuter/NSwag). In the example below, we will focus on the configuration for Swashbuckle, but other packages have a similar principle.
 
-The configuration consists of two parts. The first one is the configuration of a Swagger service which configures document information. That can be specified in the service configuration part in `Program.cs` (or in older versions in `Startup.ConfigureServices()`): 
+The configuration consists of two parts. The first one is the configuration of a Swagger service which configures document information. That can be specified in the service configuration part of the `Program.cs` file (or in older versions in `Startup.ConfigureServices()`): 
 
 ```c#
 builder.Services.AddSwaggerGen(options => 
@@ -23,7 +23,7 @@ builder.Services.AddSwaggerGen(options =>
 })
 ```
 
-The second part is done in the app configuration part in `Program.cs` (formerly in `Startup.Configure()`) where we set up and enable Swagger middleware that will serve generated the Swagger JSON. This JSON file is the main component of the API documentation. It contains definitions and descriptions of all the endpoints. Other teams that integrate with the API can use this JSON file to generate (and later update) the classes and methods used in the communication. By default, Swagger will be served at the root of the URL.
+The second part is done in the app configuration part of the `Program.cs` file (formerly in `Startup.Configure()`) where we set up and enable Swagger middleware that will serve generated Swagger JSON. This JSON file is the main component of the API documentation. It contains definitions and descriptions of all the endpoints. Other teams that integrate with the API can use this JSON file to generate (and later update) the classes and methods used in the communication. By default, Swagger will be served at the root of the URL.
 
 ```c#
 // This enables middleware for swagger JSON document

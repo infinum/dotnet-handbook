@@ -17,7 +17,7 @@ There are three basic hosting plans available for Azure Functions:
 Note: If there is already an existing App service hosting some API that needs some background job to be executed, it might be a good candidate for Azure Web job.
 To learn more, see [here](https://docs.microsoft.com/en-us/azure/app-service/webjobs-create).
 
- A single function app in the Consumption plan scales out to the maximum of 200 instances, while a single instance can process more than one message/request at a time.
+ A single-function app in the Consumption plan scales out to a maximum of 200 instances, while a single instance can process more than one message/request at a time.
 
 Timer trigger functions are singleton (trigger only one instance of function).
 

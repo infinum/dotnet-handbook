@@ -19,11 +19,11 @@ This is an example of a project structure that is mostly used for standard .NET 
 
 **Example.Services** library contains all the service implementations for the Example application.
 
-**Example.Data.Db** library contains the database and ORM implementation for the Example application. This project  would contain all the database configurations, mappings, migrations, and repository implementation.
+**Example.Data.Db** library contains the database and ORM implementation for the Example application. This project would contain all the database configurations, mappings, migrations, and repository implementation.
 
 **Example.Data.SomeOtherSource** library should be used if we are using some kind of third-party service to fetch the data. An example would be using Google Drive API to fetch files, which would then be named `Example.Data.Google`.
 
-All the projects that are not used as a "presentation" layer are implemented as a .NET Standard projects. The rest depends on the needs, but in our example, we would use .NET Core for our API.  
+All the projects that are not used as a "presentation" layer are implemented as .NET Standard projects. The rest depends on the needs, but in our example, we would use .NET Core for our API.  
 
 
 
@@ -33,13 +33,13 @@ This is where most of the configuration for the application is located. We use i
 
 It is a good practice to group specific configuration sections like services and repositories to keep things organized. One of the ways to do this is through the implementation of IServiceBuilder extensions.
 
-Since we use [Options pattern](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/configuration/options?view=aspnetcore-3.1) for app configuration the bindings are done in the startup class. There are more details for this pattern in the Design pattern section of this handbook.
+Since we use the [Options pattern](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/configuration/options?view=aspnetcore-3.1) for app configuration the bindings are done in the startup class. There are more details for this pattern in the Design pattern section of this handbook.
 
 
 
 #### AppSettings.json
 
-`appsettings.json` file is usually used for app configuration like connection strings, configurable parameters, etc. Since it is not a good practice to keep app secrets here and upload them to the repository, we mostly use environment variables for configuring the app in non-development environment. In a development environment, we use [user secrets](https://docs.microsoft.com/en-us/aspnet/core/security/app-secrets?view=aspnetcore-3.1&tabs=windows).
+`appsettings.json` file is usually used for app configuration like connection strings, configurable parameters, etc. Since it is not a good practice to keep app secrets here and upload them to the repository, we mostly use environment variables for configuring the app in a non-development environment. In a development environment, we use [user secrets](https://docs.microsoft.com/en-us/aspnet/core/security/app-secrets?view=aspnetcore-3.1&tabs=windows).
 
 
 
@@ -49,7 +49,7 @@ It is a good practice to keep app packages updated, and for installing and updat
 
 #### Test projects
 
-Regardless of the test framework we are using, we try to keep a simple test project structure. For each app project, we create additional test projects. We use simple naming strategies for the projects, only adding the suffix ".Test" for the test project. For example:
+Regardless of the test framework, we try to keep a simple test project structure. For each app project, we create additional test projects. We use simple naming strategies for the projects, only adding the suffix ".Test" for the test project. For example:
 
 Example.API would be Example.API.Test
 

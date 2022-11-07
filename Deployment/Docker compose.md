@@ -1,10 +1,10 @@
 `docker-compose` is a tool built on top of docker and is used to start multiple service containers and connect them together.
 
-Compose is usually used to create an entire development environment: A typical docker-compose will start up a service for database, backend, frontend, HTTP proxy and so on. Then you need to connect them all together in a private network and expose public ports on the host.
+Compose is usually used to create an entire development environment: A typical docker-compose will start up a service for the database, backend, frontend, HTTP proxy and so on. Then you need to connect them all in a private network and expose public ports on the host.
 
-docker-compose can be used to create production environments, but there are other solutions which are often better suited for that. Because of that, docker-compose is usually used to simplify setting up the development environment.
+docker-compose can be used to create production environments, but other solutions are often better suited for that. Because of that, docker-compose is usually used to simplify setting up the development environment.
 
-Compose configuration is contained within a docker-compose.yml script. This script references 'Dockerfiles' which can be built locally or prebuilt images which can be started as a service. You can specify environment variables to be passed to the container inside of `docker-compose.yml`, volumes, port mappings, etc. For details see the [reference for docker-compose.yml](https://docs.docker.com/compose/compose-file/)
+Compose configuration is contained within a docker-compose.yml script. This script references 'Dockerfiles' which can be built locally or prebuilt images which can be started as a service. You can specify environment variables to be passed to the container inside of the `docker-compose.yml` file, volumes, port mappings, etc. For details see the [reference for docker-compose.yml](https://docs.docker.com/compose/compose-file/)
 
 Some basic commands when using `docker-compose` :
 
@@ -34,16 +34,16 @@ Some basic commands when using `docker-compose` :
   docker-compose up --scale example-api=4
   ```
 
-  This will spin up 4 instances of example-api container inside of compose network. Note that you will need to handle networking configuration slightly differently: you can either map a range of `ports` or use `expose` setup a load balancer if you want to access the API on host.
+  This will spin up 4 instances of the example-api container inside of compose network. Note that you will need to handle networking configuration slightly differently: you can either map a range of `ports` or use `expose` setup a load balancer if you want to access the API on a host.
 
 ### Compose networking
 
-Like mentioned before, docker-compose creates a private network for it's services. Some helpful facts about this network :
+As mentioned before, docker-compose creates a private network for it's services. Some helpful facts about this network :
 
-- containers inside of a network can access other containers by service name (eg. you can connect to your database container from api on `example-db`)
-- specifying `ports` mapping on a service, similar to `docker run -p` exposes the service ports to host machine
-- specifying `expose` list on a service exposes those ports to internal network only (communication between services)
-- you can access host network on `host.docker.internal`
+- containers inside of a network can access other containers by service name (eg. you can connect to your database container from API on `example-db`)
+- specifying `ports` mapping on a service, similar to `docker run -p` exposes the service ports to the host machine
+- specifying `expose` list on a service exposes those ports to the internal network only (communication between services)
+- you can access the host network on `host.docker.internal`
 
 ## Example docker-compose.yml
 
@@ -102,7 +102,7 @@ volumes:
   logvolume: {}
 ```
 
-This script specifies 3 containers need to get started, `example-api` and `example-migration` are built locally from two separate `Dockerfiles` and `example-db` is started from Microsoft SQL server 2019 image.
+This script specifies 3 containers that need to get started, `example-api` and `example-migration` are built locally from two separate `Dockerfiles` and `example-db` is started from a Microsoft SQL server 2019 image.
 
 `example-migration` could then be configured to build a .NET project similar to `example-api` and run migrations from .NET CLI :
 

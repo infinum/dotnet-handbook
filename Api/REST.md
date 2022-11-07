@@ -1,4 +1,4 @@
-We follow RESTFUL conventions in order to have consistency in the communication between clients and servers. We are always using JSON as a standard request and response format.
+We follow RESTFUL conventions to have consistency in the communication between clients and servers. We are always using JSON as a standard request and response format.
 
 Here are some guidelines for the best practices.
 
@@ -28,7 +28,7 @@ In order to provide long time support and migration, it is recommended to use ve
 
 ### Controllers
 
-API controllers should be used to separate actions by entities. Usually, controllers are able to return array of entities, therefore they should be named in plural. Giving meaningful and consistent names to controllers will result in cleaner code and cleaner routes. The name should be followed by the suffix "Controller" as it is a keyword in .NET that is handled in routing.
+API controllers should be used to separate actions by entities. Usually, controllers are able to return an array of entities, therefore they should be named in the plural. Giving meaningful and consistent names to controllers will result in cleaner code and cleaner routes. The name should be followed by the suffix "Controller" as it is a keyword in .NET that is handled in routing.
 
 ``` c#
 [ApiVersion("1.0")]
@@ -103,7 +103,7 @@ Put is a method reserved for creating or updating a resource. Put requires compl
 
 #### Patch
 
-Patch is a method reserved for updating a resource. Unlike Put, Patch method updates only properties provided in the request and cannot create a new resource.
+A Patch is a method reserved for updating a resource. Unlike Put, a Patch method updates only properties provided in the request and cannot create a new resource.
 
 ```c#
     [HttpPatch("{customerId}")]
@@ -131,7 +131,7 @@ Delete is a method reserved for deleting a resource.
 
 ### Method arguments
 
-A controller method can get its arguments in three ways: through the route, the body of the request, and through URL parameters. Note that all arguments in .NET can be value types, like Boolean or number, or reference types, like GUID or other classes. The mapping between the HTTP request and the argument is handled automatically.
+A controller method can get its arguments in three ways: through the route, the body of the request, and URL parameters. Note that all arguments in .NET can be value types, like Boolean or number, or reference types, like GUID or other classes. The mapping between the HTTP request and the argument is handled automatically.
 
 #### Route parameter argument
 
@@ -168,7 +168,7 @@ Arguments can also be passed in the body of the request. By default, this is a J
     }
 ```
 
-In *`Post`* and *`Put`* methods it is not required to put *`FromBody`* attribute as the code will work and default to it. Both of these samples would work as body arguments.
+In *`Post`* and *`Put`* methods it is not required to put the *`FromBody`* attribute as the code will work and default to it. Both of these samples would work as body arguments.
 
 #### URL parameter argument
 
@@ -183,7 +183,7 @@ URL parameters are usually used for filtering resources, for example, pagination
     }
 ```
 
-The route to this endpoint, following the previous code, would be *`api/v1/customers?pageNumber=1&pageSize=10`* where *`pageNumber`* and *`pageSize`* are public properties of *`Pagination`* class.
+The route to this endpoint, following the previous code, would be *`api/v1/customers?pageNumber=1&pageSize=10`* where *`pageNumber`* and *`pageSize`* are public properties of the *`Pagination`* class.
 
 #### Combined arguments
 
@@ -232,7 +232,7 @@ The route to this endpoint, would be *`api/custom/{customerId}/activateCustomer`
 
 ### Response codes
 
-Most commonly controllers should return a *`OK (200)`* response code and other response codes should be handled in the exception handling middleware. For exception handling, please refer to [Exception Handling](exception-handling).
+Most commonly controllers should return an *`OK (200)`* response code and other response codes should be handled in the exception handling middleware. For exception handling, please refer to [Exception Handling](exception-handling).
 
 Other codes that are commonly used are:
 
@@ -246,7 +246,7 @@ Other codes that are commonly used are:
 
 *`METHODNOTALLOWED (405)`* - the client does not have enough permissions to access this resource.
 
-*`INTERNALSERVERERROR (500)`* - unhandled exception on server side.
+*`INTERNALSERVERERROR (500)`* - unhandled exception on the server side.
 
 ### Documentation
 

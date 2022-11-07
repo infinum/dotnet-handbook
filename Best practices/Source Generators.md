@@ -71,7 +71,7 @@ Fortunately, Visual Studio comes to the rescue with its possibility to debug sou
 
 1. Install .NET Compiler Platform SDK 
    
-    In Visual Studio Installer choose to Modify the Visual Studio version which has a source generator project, and install Visual Studio extension development under tab Workloads > Other Toolsets.
+    In Visual Studio Installer choose to Modify the Visual Studio version which has a source generator project, and install Visual Studio extension development under the tab Workloads > Other Toolsets.
 
     ![visualStudioInstallerHome](/resources/visual-studio-installer-home.png)
 
@@ -97,7 +97,7 @@ Fortunately, Visual Studio comes to the rescue with its possibility to debug sou
     </Project>
     ```
 
-3. Add a reference to the source generator in a project that will be using it (if it already isn't added):
+3. Add a reference to the source generator in a project that will be using it (if it isn't added already):
    
     ```xml
     <ItemGroup>

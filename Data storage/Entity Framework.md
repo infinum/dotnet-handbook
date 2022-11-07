@@ -120,9 +120,9 @@ public class Comment
 
 ### Migrations
 
-In the example above, we created User and Comment classes with **Entity Type Configuration** which describes how the data should "behave". Now, if we want to take a snapshot of that data with the configuration and translate it to the database automatically, Entity framework has the easy solution for us! **Migrations** help us create entity types by reverse engineering the schema of a database.
+In the example above, we created User and Comment classes with **Entity Type Configuration** which describes how the data should "behave". Now, if we want to take a snapshot of that data with the configuration and translate it to the database automatically, Entity framework has an easy solution for us! **Migrations** help us create entity types by reverse engineering the schema of a database.
 
-First step is to go into your **Startup** Class and configure the Database Context in a way it knows where to look for configurations for the migrations, we will just upgrade the code we had above (we don't need to do this if we are using Data Annotations, but we avoid using them):
+The first step is to go into your **Startup** Class and configure the Database Context in a way it knows where to look for configurations for the migrations, we will just upgrade the code we had above (we don't need to do this if we are using Data Annotations, but we avoid using them):
 
 ```c#
 services.AddDbContext<YourTypeOfDbContext>(options =>
@@ -131,7 +131,7 @@ services.AddDbContext<YourTypeOfDbContext>(options =>
 ```
 
 
-Now, lets try to create our first migration, we will migrate our User and Comment classes with their configuration to the the database.
+Now, let's try to create our first migration, we will migrate our User and Comment classes with their configuration to the database.
 
 There are two ways to do that (look for them in the search tab if they are not in your main window):
 
@@ -194,7 +194,7 @@ Update-Database
 
 ```
 
-And that's it, the database tables are created, you can check them in the Server Explorer! It's very easy and you don't need to use a single line of SQL!
+And that's it, the database tables are created. You can check them in the Server Explorer! It's very easy and you don't need to use a single line of SQL!
 
 
 #### What to do when we updated the class and want to apply the changes to the database?
