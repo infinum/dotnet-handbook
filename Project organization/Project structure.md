@@ -33,7 +33,7 @@ This is where most of the configuration for the application is located. We use i
 
 It is a good practice to group specific configuration sections like services and repositories to keep things organized. One of the ways to do this is through the implementation of IServiceBuilder extensions.
 
-Since we use the [Options pattern](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/configuration/options?view=aspnetcore-3.1) for app configuration the bindings are done in the startup class. There are more details for this pattern in the Design pattern section of this handbook.
+Since we use the [Options pattern](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/configuration/options?view=aspnetcore-3.1) for app configuration, the bindings are done in the startup class. There are more details for this pattern in the [Configuration](../Api/configuration) section of this handbook.
 
 
 
@@ -49,8 +49,6 @@ It is a good practice to keep app packages updated, and for installing and updat
 
 #### Test projects
 
-Regardless of the test framework, we try to keep a simple test project structure. For each app project, we create additional test projects. We use simple naming strategies for the projects, only adding the suffix ".Test" for the test project. For example:
-
-Example.API would be Example.API.Test
+Regardless of the test framework, we try to keep a simple test project structure. For each app project, we create additional test projects. We use simple naming strategies for the projects, only adding the suffix ".Test" for the test project. For example, Example.API would be Example.API.Test
 
 You can find more information about app testing in the Testing section of the handbook.

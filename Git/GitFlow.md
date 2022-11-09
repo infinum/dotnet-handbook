@@ -1,6 +1,6 @@
 ## .gitignore
 
-.[gitignore](https://git-scm.com/docs/gitignore) file tells Git which files in your project should be ignored. It is usually (most often) located in the root directory of your project. A file content example for the .Net Core project can be found [here](https://github.com/dotnet/core/blob/master/.gitignore).
+.[gitignore](https://git-scm.com/docs/gitignore) file tells Git which files in your project should be ignored. It is usually (most often) located in the root directory of your project. A file content example for the .NET Core project can be found [here](https://github.com/dotnet/core/blob/master/.gitignore).
  Be aware that adding a certain path to .gitignore will have no effect if the file is already being tracked by Git. In this case, you can remove the file and then update the .gitignore file.
 
 ## GitFlow
@@ -30,4 +30,4 @@ Each new feature needs to be implemented in a separate branch. This is always br
 
 ### hotfix
 
-If we recognize a bug or important change request that needs to be resolved on production as soon as possible, we can create a hotfix branch. A hotfix is branched off the master branched and then merged back into master and develop branches. We use a standard hotfix naming convention which is similar to the feature one: **hotfix/T-3456-name**.
+If we recognize a bug or important change request that needs to be resolved on production as soon as possible, we can create a hotfix branch. A hotfix is branched off the master branch and then merged back into master and develop branches. We use a standard hotfix naming convention which is similar to the feature one: **hotfix/T-3456-name**.

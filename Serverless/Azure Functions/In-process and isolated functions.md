@@ -3,14 +3,14 @@
 
 Differences:
 
-* Dependency injection for out-of-process functions is done via the usual .Net core pattern while in-process functions need a custom StartUp class.
+* Dependency injection for out-of-process functions is done via the usual .NET core pattern while in-process functions need a custom StartUp class.
 * Out-of-process function supports middleware configuration.
 * In-process functions support rich binding classes while out-of-process binding classes are simple DTOs, strings, bytes.
 
 For more info read [here](https://docs.microsoft.com/en-us/azure/azure-functions/dotnet-isolated-process-guide?tabs=browser&pivots=development-environment-vs#differences-with-net-class-library-functions).
 
 .NET 6 functions support both in-process and out-of-process options, but out-of-process does not support all bindings and features supported in in-process.
-In .Net 7 out-of-process will support a full set of features so out-of-process will be the only supported option. To find out more read [here](https://techcommunity.microsoft.com/t5/apps-on-azure-blog/net-on-azure-functions-roadmap/ba-p/2197916).
+In .NET 7 out-of-process will support a full set of features so out-of-process will be the only supported option. To find out more read [here](https://techcommunity.microsoft.com/t5/apps-on-azure-blog/net-on-azure-functions-roadmap/ba-p/2197916).
 
 ### Move from in-process to isolated function
 
