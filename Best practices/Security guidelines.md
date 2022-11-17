@@ -147,9 +147,17 @@ Once the library is added to the project, the following configuration can be use
 The library is dependent on a couple of services and they can be injected in **Startup.cs**. The following code sets up the library to use in-memory cache to store the IP rate policy and rate limit counter. It also uses configuration from the *IpRateLimiting* section from **appSettings.json**.
 
 ```c#
+services.AddMemoryCache();
 services.AddSingleton<IIpPolicyStore, MemoryCacheIpPolicyStore>();
 services.AddSingleton<IRateLimitCounterStore, MemoryCacheRateLimitCounterStore>();
 services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
 services.Configure<IpRateLimitOptions>(Configuration.GetSection("IpRateLimiting"));
 ```
 
+To enable IP rate limiting, you can add the following code:
+
+**Startup.cs**:
+
+```c#
+app.UseIpRateLimiting();
+```
