@@ -1,10 +1,10 @@
-In order to pass some of the automated security tests, as well as to keep your .NET application safe it is advised to use some standard security measurements.  This section of handbook will provide insights of some of the most common used strategies.
+In order to pass some of the automated security tests, as well as to keep your .NET application safe it is advised to use some standard security measurements.  This section of the handbook will provide insights into some of the most commonly used strategies.
 
 ## CORS
 
 If your application is going to be consumed by a frontend application running on a browser, it is important to setup [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) rules. 
 
-If your application is hosted on Azure, you can use cloud built in settings and configuration for CORS found on Azure portal.
+If your application is hosted on Azure, you can use cloud built-in settings and configuration for CORS found on the Azure portal.
 
 To allow all methods and headers, as well as credentials for an array of domains you can use this sample of code:
 
@@ -32,7 +32,7 @@ services.AddCors(options =>
 }
 ```
 
-To enable CORS access for your application, you can use following sample:
+To enable CORS access for your application, you can use the following sample:
 
 **Startup.cs**:
 
@@ -44,7 +44,7 @@ app.UseCors("AppCors");
 
 ## Security headers and HTTPS
 
-In order to prevent malicious attacks, it is advised to add additional headers as well as to include to your API responses to keep application secure. A following sample can be used.
+In order to prevent malicious attacks, it is advised to add additional headers as well as to include in your API responses to keep the application secure. The following sample can be used.
 
 **Startup.cs**:
 
@@ -59,7 +59,7 @@ app.Use(async (context, next) =>
             });
 ```
 
-To restrict application to only be accessible by https calls you can use following sample of code:
+To restrict the application to only be accessible by HTTPS calls you can use the following sample of code:
 
 **Startup.cs**:
 
@@ -72,9 +72,9 @@ app.UseHttpsRedirection();
 
 ## Cookie security
 
-If your application is using cookies, make sure that anti forgery headers are included and that cookie is secure. This is applicable only to MVC apps that have server side rendering. It blocks submitting the form from different domain.
+If your application is using cookies, make sure that anti-forgery headers are included and that cookie is secure. This applies only to MVC apps that have server side rendering. It blocks submitting the form from a different domain.
 
-To add anti forgery headers you can use following sample:
+To add anti-forgery headers you can use the following sample:
 
 **Startup.cs**:
 
@@ -86,7 +86,7 @@ services.AddAntiforgery(options =>
             });
 ```
 
-To add a secured cookie to API response you can use following sample:
+To add a secured cookie to the API response you can use the following sample:
 
 **SampleController.cs**:
 
@@ -105,11 +105,11 @@ Response.Cookies.Append("token", accessToken, new CookieOptions
 
 ## IP rate limiting
 
-In order to prevent same IP address from targeting a specific end point multiple times in short period, you can use IP rate limiting. It is advised to set this up for all end points that are validating passwords and sensitive information that could potentially under brute force attack.
+In order to prevent the same IP address from targeting a specific end point multiple times in a short period, you can use IP rate limiting. It is advised to set this up for all end points that are validating passwords and sensitive information that could potentially be under brute force attack.
 
 **AspNetCoreRateLimit** is a library that is most commonly used. 
 
-Once the library is added to the project, following configuration can be used:
+Once the library is added to the project, the following configuration can be used:
 
 **appSettings.json**:
 
@@ -144,7 +144,7 @@ Once the library is added to the project, following configuration can be used:
 
 **Startup.cs**
 
-The library is depended on couple of services and they can be injected in **Startup.cs**. Following code sets up library to use in memory cache to store IP rate policy and rate limit counter. It also uses configuration from *IpRateLimiting* section from **appSettings.json**.
+The library is dependent on a couple of services and they can be injected in **Startup.cs**. The following code sets up the library to use in-memory cache to store the IP rate policy and rate limit counter. It also uses configuration from the *IpRateLimiting* section from **appSettings.json**.
 
 ```c#
 services.AddSingleton<IIpPolicyStore, MemoryCacheIpPolicyStore>();

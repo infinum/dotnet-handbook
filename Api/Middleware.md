@@ -20,11 +20,11 @@ There are some cases where we need to create our own Middleware. Here are some e
 
 ### Execution order
 
-Middleware has access to `HttpContext` and anything added by the preceding middleware. That means that the order we define the middleware is crucial to their successful execution. The order of execution is defined by the order that middleware components are added in *Program.cs* (or *Startup.cs* for earlier projects). If, for example, a middleware expects that authorization is already done, then that middleware must be defined after `app.UseAuthorization()`.
+Middleware has access to `HttpContext` and anything added by the preceding middleware. That means that the order we define the middleware is crucial to their successful execution. The order of execution is defined by the order that middleware components are added to *Program.cs* (or *Startup.cs* for earlier projects). If, for example, a middleware expects that authorization is already done, then that middleware must be defined after the `app.UseAuthorization()`.
 
 ### Dependencies
 
-Middleware, like any other registered service, can expose its dependencies in its constructor. Those dependencies will be resolved from DI when the middleware is constructed. That being said, have in mind that all middleware is created at app startup, effectively making them singletons. That means that all the services that are not registered as singletons cannot be injected using DI in the constructor, but they can be injected into the `InvokeAsync` method by adding them into the method’s signature:
+Middleware, like any other registered service, can expose its dependencies in its constructor. Those dependencies will be resolved from DI when the middleware is constructed. That being said, have in mind that all middleware is created at app startup, effectively making them singletons. That means that all the services that are not registered as singletons cannot be injected using DI in the constructor, but they can be injected into the `InvokeAsync` method by adding them to the method’s signature:
 
 ```csharp
 public class VeryImportantMiddleware
