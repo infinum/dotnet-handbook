@@ -48,7 +48,7 @@ public static class ExceptionHandler
 
 ASP.NET MVC comes with a handful of ways to implement error handling in the API layer:
 
-- Overriding `OnException` method on the controller
+- Overriding the `OnException` method on the controller
 - `[HandleError]` attribute on controller methods
 - Exception filter
 - (Custom) Exception Handler middleware

@@ -2,10 +2,10 @@ Cloud services are providing new options when choosing storage for your applicat
 
 ## Azure Storage
 
-Azure Storage is a Microsoft's solution for cloud storages. There are a couple of storage options within the the Azure ecosystem, which will be discussed in this section
+Azure Storage is Microsoft's solution for cloud storages. There are a couple of storage options within the Azure ecosystem, which will be discussed in this section
 [Official documentation](https://docs.microsoft.com/en-us/azure/storage/common/storage-configure-connection-string)
 
-For the local development, Microsoft has provided [Azurite](https://learn.microsoft.com/en-us/azure/storage/common/storage-use-azurite?tabs=visual-studio) (previously called [Azure Storage Emulator](https://docs.microsoft.com/en-us/azure/storage/common/storage-use-emulator)). Azurite is an emulator that provides all the features available on Azure Storage: Blob Storage, Queues and Table storages. The fastest way to connect to your local Azure storage emulator is by setting the connection string to `UseDevelopmentStorage=true`, which is equivalent to:
+For local development, Microsoft has provided [Azurite](https://learn.microsoft.com/en-us/azure/storage/common/storage-use-azurite?tabs=visual-studio) (previously called [Azure Storage Emulator](https://docs.microsoft.com/en-us/azure/storage/common/storage-use-emulator)). Azurite is an emulator that provides all the features available on Azure Storage: Blob Storage, Queues and Table storages. The fastest way to connect to your local Azure storage emulator is by setting the connection string to `UseDevelopmentStorage=true`, which is equivalent to:
 
 ```c#
 DefaultEndpointsProtocol=http;
@@ -35,8 +35,8 @@ Blob storage offers three types of resources:
 
 Since we use Azure Blob to store images and documents, it is important to manage blobs and containers in a way that allows only authorized users and services to access those files. We can do that in a couple of ways:
 
-- Access Blob storage only through our API - that way we can enforce any authorization and validation rules we want before allowing user to upload/download data from the storage, but that also means that all that data is flowing through our API, which can be costly because it is using up both a lot of bandwidth as well as additional computing power.
-- Shared access signatures (SAS) - Azure Blob Storage supports generating SAS tokens which allow access to a specific blob or container for a specified period. By combining the SAS token and resource URIs, we can generate a URI and distribute it to client applications which can then access the blob directly, which reduces the bandwidth used to manage the files.
+- Access Blob storage only through our API - that way we can enforce any authorization and validation rules we want before allowing a user to upload/download data from the storage, but that also means that all that data is flowing through our API, which can be costly because it is using up both a lot of bandwidth as well as additional computing power.
+- Shared access signatures (SAS) - Azure Blob Storage supports generating SAS tokens that allow access to a specific blob or container for a specified period. By combining the SAS token and resource URIs, we can generate a URI and distribute it to client applications which can then access the blob directly, which reduces the bandwidth used to manage the files.
 - Azure Active Directory (AD) - Azure Storage supports using Azure AD to authorize requests to blob data. We can use Azure role-based access control to grant permissions to a security principal, which may be a user, group, or application service principal.
 
 #### Usage example
@@ -64,7 +64,7 @@ public class BlobService
 
 ```
 
-Alternatively we could build our own factory that creates the client:
+Alternatively, we could build our own factory that creates the client:
 
 ```c#
 public interface IAzureBlobServiceClientFactory
@@ -110,10 +110,10 @@ public class TestService
 
 ### Azure Table Storage
 
-[Azure Table Storage](https://docs.microsoft.com/en-us/azure/storage/tables/) provides a way to store large amounts of structured data. This service is a NoSQL database. We must note that this is not a replacement for SQL database. For more information, please see [Understanding the differences between NoSQL and Relational Databases](https://docs.microsoft.com/en-us/azure/cosmos-db/relational-nosql).
+[Azure Table Storage](https://docs.microsoft.com/en-us/azure/storage/tables/) provides a way to store large amounts of structured data. This service is a NoSQL database. We must note that this is not a replacement for an SQL database. For more information, please see [Understanding the differences between NoSQL and Relational Databases](https://docs.microsoft.com/en-us/azure/cosmos-db/relational-nosql).
 
 Use it when you want to:
 
 - Store data that doesn't require complex joins, foreign keys or any relationship.
-- Store data which is de-normalized.
+- Store data that is de-normalized.
 - Have fast queries using a clustered index.

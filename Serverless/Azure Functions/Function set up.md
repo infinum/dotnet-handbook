@@ -1,6 +1,6 @@
 ### Project creation
 
-Add a new project through the VS Function App template. This creates azure function app that can contain multiple functions that share a common configuration such as environment variables, app settings, and host.
+Add a new project through the VS Function App template. This creates an azure function app that can contain multiple functions that share a common configuration such as environment variables, app settings, and host.
 All functions will be deployed together under the same function-app umbrella and scaled together.
 
 ### Triggers
@@ -19,7 +19,7 @@ public void Run([TimerTrigger("0 */5 * * * *")] MyInfo myTimer)
 }
 ```
 
-* Queue message / Service bus trigger - Whenever a message appears on a particular queue/topic, a function is invoked to process the contents of a message. The input parameter of a queue triggered function is a base64 encoded string message:
+* Queue message / Service bus trigger - Whenever a message appears on a particular queue/topic, a function is invoked to process the contents of a message. The input parameter of a queue-triggered function is a base64 encoded string message:
 
 ```c#
 [FunctionName("QueueTrigger")]
@@ -66,7 +66,7 @@ public HttpResponseData Run([HttpTrigger(AuthorizationLevel.Function, "get", "po
 The default function app consists of:
 
 * **Function.cs** class -Contains a function method with defined triggers and input/output bindings. The ``[FunctionName]`` attribute marks the method as a function entry point. The name must be unique within a project.
-* **local.settings.json** - Contains all app settings, connection strings, and configurations. Settings in the local.settings.json file are used only when you're running the project locally so it is not deployed. By default, it contains  ``AzureWebJobsStorage`` key with a value set to ``UseDevelopmentStorage=true``, which is the connection string for the local Azure Storage Emulator.
+* **local.settings.json** - Contains all app settings, connection strings, and configurations. Settings in the local.settings.json file are used only when you're running the project locally so it is not deployed. By default, it contains the ``AzureWebJobsStorage`` key with a value set to ``UseDevelopmentStorage=true``, which is the connection string for the local Azure Storage Emulator.
 Azure Functions are interlocked with Azure Storage services, meaning that every Azure function needs Azure storage configured to be able to run. The storage account connection is used by the Functions host for operations such as managing triggers and logging function executions. It's also used when dynamically scaling function apps.
 * **host.json** - Contains the global config options for all functions within a Function app. Here you can configure logging and retry logic. See options in detail [here](https://docs.microsoft.com/en-us/azure/azure-functions/functions-host-json#sample-hostjson-file).
 * **Program.cs**  (applicable for out-of-process) - Contains host builder logic, DI configuration and middleware configuration.
@@ -101,7 +101,7 @@ var host = new HostBuilder()
 host.Run();
 ```
 
-There is a limitation when using DI in this kind of middleware. You can use constructor injection just like in MVC middleware, but you can't use method injection because the ``Invoke`` method from ``IFunctionsWorkerMiddleware`` interface accepts only two parameters.
+There is a limitation when using DI in this kind of middleware. You can use constructor injection just like in MVC middleware, but you can't use method injection because the ``Invoke`` method from the ``IFunctionsWorkerMiddleware`` interface accepts only two parameters.
 
 To learn more about azure function middlewares, read [here](https://learn.microsoft.com/en-us/azure/azure-functions/dotnet-isolated-process-guide#middleware).
 

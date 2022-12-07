@@ -1,4 +1,4 @@
-User Interface (UI) tests allow us to programmatically test UI through a browser. They are simple to write and can simulate user behavior and test end-to-end integration in any environment. For this, we are using Selenium, am open source library, together with a driver, most commonly the Chrome driver.
+User Interface (UI) tests allow us to programmatically test UI through a browser. They are simple to write and can simulate user behavior and test end-to-end integration in any environment. For this, we are using Selenium, an open-source library, together with a driver, most commonly the Chrome driver.
 
 To set up a testing project, you need to download two NuGet packages: [Selenium.WebDriver](https://www.nuget.org/packages/Selenium.WebDriver) and [Selenium.WebDriver.ChromeDriver](https://www.nuget.org/packages/Selenium.WebDriver.ChromeDriver). Note that any driver (Chrome, Mozilla, Internet Explorer, etc.) needs to be installed on the machine that is running tests and that versions of the installed browser and driver NuGet package need to match.
 

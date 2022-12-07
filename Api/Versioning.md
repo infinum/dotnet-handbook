@@ -1,10 +1,10 @@
-Using explicit route-based API versioning client is always aware of what version of the API is being used and it allows the backend to maintain backwards compatible endpoints.
+Using explicit route-based API versioning client is always aware of what version of the API is being used and it allows the backend to maintain backward compatible endpoints.
 
 Our policy is to always embed the version string in the path of the request URL, at the end of the service root: eg. `https://service.infinum.com/api/v1.0/`
 
 ### Using `Microsoft.AspNetCore.Mvc.Versioning` package for API versioning
 
-The following snippet needs to be added as a part of `ConfigureServices` step, to configure the versioning library :
+The following snippet needs to be added as a part of the `ConfigureServices` step, to configure the versioning library :
 
 ```c#
     services.AddApiVersioning(
@@ -77,7 +77,7 @@ public class ExamplesController : ControllerBase
 ```
 
 A deprecation warning will be shown in the documentation generated and can be included in the generated HTTP headers.
-To include versioning headers with each response set `ReportApiVersions` to true in `AddApiVersioning` configuration :
+To include versioning headers with each response set `ReportApiVersions` to true in the `AddApiVersioning` configuration :
 
 ```C#
     services.AddApiVersioning(
@@ -96,7 +96,7 @@ Additional information on API versioning with `Microsoft.AspNetCore.Mvc.Versioni
 
 `Microsoft.AspNetCore.Mvc.Versioning` will add versioning support to Swashbuckle but it will include parameter-based versioning.
 
-To exclude parameter based routing add the following operation filter to Swashbuckle:
+To exclude parameter-based routing add the following operation filter to Swashbuckle:
 
 ```c#
 public class RemoveVersionFromParameter : IOperationFilter

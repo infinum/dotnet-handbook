@@ -1,17 +1,17 @@
-Motivation behind using docker is having a reproducible environment for application development and deployment.
+The motivation behind using Docker is to have a reproducible environment for application development and deployment.
 
-Instead of setting up application dependencies in each environment (tools, libraries, configuration) we can use a [docker image](#docker-image) which contains all those dependencies. This image is then consistent between development machine, cloud host, Virtual Private Servers. [Docker container](#docker-container) is self-contained and isolated which means other applications or different versions of some tool running on host won't affect container execution. Once something is added to an image it's kept in the image file as a copy. If the remote source is gone or updated the image always contains the files it was built with.
+Instead of setting up application dependencies in each environment (tools, libraries, configuration), we can use a [docker image](#docker-image) that contains all those dependencies. This image is then consistent between the development machine, cloud host, and Virtual Private Servers. A [Docker container](#docker-container) is self-contained and isolated which means other applications or different versions of some tool running on the host won't affect container execution. Once something is added to an image it's kept in the image file as a copy. If the remote source is gone or updated the image always contains the files it was built with.
 
 All cloud providers support running docker images which simplifies the development/deployment/testing cycle (fewer "Works on my machine !" scenarios).
 
 Docker images do add some overhead :
 
-- usually need to run inside of a linux virtual machine (can only run natively on a linux host)
+- usually need to run inside of a Linux virtual machine (can only run natively on a Linux host)
 - contain a copy of all dependencies in every image
-- building and updating the image takes non-trivial amount of time and is usually slower than building the app locally
+- building and updating the image takes a non-trivial amount of time and is usually slower than building the app locally
 - debugging inside of the image is not as straightforward as debugging locally
 
-Without going into too much details (see [official documentation for more information](https://docs.docker.com/desktop/)), here's a basic overview of the important concepts behind Docker useful for a .NET developer.
+Without going into too many details (see the [official documentation for more information](https://docs.docker.com/desktop/)), here's a basic overview of the important concepts behind Docker useful for a .NET developer.
 
 ### Docker image
 
@@ -27,7 +27,7 @@ Instead of manually copying things into a VM, docker images are built from a scr
 
 ### Dockerfile
 
-Script that specifies how a [docker image](#docker-image) will be built (eg. copy source files from project folder, run dotnet build inside of Docker image).
+A script that specifies how a [docker image](#docker-image) will be built (eg. copy source files from the project folder, run dotnet build inside of Docker image).
 
 An important feature of dockerfile is that it can reference existing docker images, eg. :
 
@@ -55,7 +55,7 @@ RUN dotnet publish -c Release -o out
 
 ### Docker container
 
-Container is an instance of a docker image, it can be running or stopped.
+A container is an instance of a docker image, it can be running or stopped.
 
 To start a new container from an image :
 
@@ -63,9 +63,9 @@ To start a new container from an image :
 > docker run -d --name <container-name> -p 8000:80 -p 8001:443 <image-name>
 ```
 
-This will run start a new docker container `<container-name>` and expose ports `80` and `433` from the container to ports `8000` and `8001` on host. You can then open `localhost:8000` on host to access application running inside of the container.
+This will run start a new docker container `<container-name>` and expose ports `80` and `433` from the container to ports `8000` and `8001` on the host. You can then open `localhost:8000` on the host to access the application running inside the container.
 
-The `-d` switch means that docker container should run in background and not capture your current terminal.
+The `-d` switch means that the docker container should run in the background and not capture your current terminal.
 
 To get a list of all containers on the machine :
 
@@ -93,9 +93,9 @@ Removing a docker container :
 
 Removing a container also deletes the data inside of it. If you had a database running in this container all the data would be lost.
 
-To persist the data and share it between different containers (eg. update the database image to a new version will require starting a new container from updated image), you need to use [volumes](https://docs.docker.com/storage/volumes/).
+To persist the data and share it between different containers (eg. update the database image to a new version will require starting a new container from the updated image), you need to use [volumes](https://docs.docker.com/storage/volumes/).
 
-To share files between host and docker image (eg. when developing, files that change often don't want to rebuild the image and start a new container on each change) you can use [binding mounts](https://docs.docker.com/storage/bind-mounts/) to expose your host paths to the docker image.
+To share files between the host and docker image (eg. when developing, files that change often don't want to rebuild the image and start a new container on each change) you can use [binding mounts](https://docs.docker.com/storage/bind-mounts/) to expose your host paths to the docker image.
 
 ## Example Dockerfile for a .NET project
 
@@ -137,9 +137,9 @@ ENTRYPOINT ["dotnet", "Project.Name.API.dll"]
 
 ```
 
-This docker file will do a 2 stage image build, first it will create a temporary image with .NET SDK called build-env, it will copy the source inside of that image and build it.
+This docker file will do a 2 stage image build. First, it will create a temporary image with .NET SDK called build-env, it will copy the source inside of that image and build it.
 
-Second stage will build the runtime image, this image will only contain the .NET runtime and the built project files.
+The second stage will build the runtime image, this image will only contain the .NET runtime and the built project files.
 
 To create a docker image in your project, add a `Dockerfile` to the root of your solution, create a [.dockerignore](#.dockerignore) file, then build and run the image :
 
@@ -178,7 +178,7 @@ On MacOS/Linux :
 > dotnet dev-certs https --trust
 ```
 
-### Pass HTTPS configuration to docker image
+### Pass HTTPS configuration to a docker image
 
 On Windows :
 
@@ -207,7 +207,7 @@ On MacOs/Linux
         <image-name>
 ```
 
-You should now be able to access HTTPS version of your site at `https://localhost:8001`.
+You should now be able to access the HTTPS version of your site at `https://localhost:8001`.
 
 ## Publishing docker images
 
@@ -215,7 +215,7 @@ Docker images can be published to a [registry](https://docs.docker.com/registry/
 
 [Docker Hub](https://hub.docker.com/) is the default registry you are pulling public images from by default.
 
-To publish an image you need to tag it as an image on remote registry and then push the tag :
+To publish an image you need to tag it as an image on a remote registry and then push the tag :
 
 ```bash
 > docker image tag <image-name> <registry-host>/<image-name>
@@ -226,7 +226,7 @@ To publish an image you need to tag it as an image on remote registry and then p
 
 ### Rebuilding images and updating containers
 
-`docker build` builds a new image with latest changes but it does not restart/update currently running containers.
+`docker build` builds a new image with the latest changes but it does not restart/update currently running containers.
 
 Stop the existing docker image, remove it and then start it again from the latest version.
 
@@ -234,13 +234,13 @@ If you're doing this often enough in your workflow consider using docker-compose
 
 ### Container shell access
 
-During development it can be useful to run shell commands inside of docker image :
+During development it can be useful to run shell commands inside of the docker image :
 
 ```bash
 > docker exec -it <image-name> bash
 ```
 
-### Creating an image from running container (manual image patching)
+### Creating an image from a running container (manual image patching)
 
 Create a container, do some modifications (eg. via [shell access](#container-shell-acess)), and create a new image :
 

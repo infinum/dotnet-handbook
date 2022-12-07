@@ -8,7 +8,7 @@ Advantages:
 Disadvantages:
 
 * Potentially high memory usage (if not limited).
-* Can have stale data (we must update cache).
+* Can have stale data (we must update the cache).
 * Possible concurrency issues (if not handled correctly).
 
 You have to be careful with implementing a cache because an inefficient cache can make applications slower. When a request results in a cache miss (requested data does not currently reside in the cache), it increases the end-to-end response time of an application. This is because the application must request data from the cache, and when the cache doesn't contain the requested data, the primary database must be queried as well. There is an additional call that bears no fruit added to the already-existing database call. In these instances, the cache brings no benefit and adds the cache response time as added latency. If there are a high number of cache misses, then a cache can slow down an application.

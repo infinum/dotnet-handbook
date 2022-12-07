@@ -132,7 +132,7 @@ public class NewsletterSubscription : IObserver
 
 With the Chain of Responsibility pattern, we avoid coupling the sender of a request to its receiver by giving more than one object a chance to handle the request.
 
-To implement this pattern we create a chain of objects to examine requests. Each object in turn examines a request and either handles it or passes it on to the next object in the chain. A client that sends request doesn’t have to know the chain’s structure nor keep direct references to its members.
+To implement this pattern we create a chain of objects to examine requests. Each object in turn examines a request and either handles it or passes it on to the next object in the chain. A client that sends a request doesn’t have to know the chain’s structure nor keep direct references to its members.
 
 ```c#
 abstract class CarService
