@@ -31,22 +31,23 @@ To help facilitate the binding of configuration values to your custom options cl
 
 
 ``` c#
-	---
-	services.Configure<ExampleSettings>(
-		configuration.GetSection("ExampleSettings"));
-	---
+services.Configure<ExampleSettings>(
+	configuration.GetSection("ExampleSettings"));
 ```
+
+If you want to know more about where to place the configuration registrations, check out the [Project structure](../project-organization/project-structure) section of this handbook.
 
 After the registration, the configuration can be injected into services using Dependency Injection by resolving the `IOptions<T>` service:
 
 ``` c#
-	---
-	private readonly ExampleSettings _options;
-	public ExampleService(IOptions<ExampleSettings> options)
-	{
-		_options = options.Value;
-	}
-	---
+...
+private readonly ExampleSettings _options;
+
+public ExampleService(IOptions<ExampleSettings> options)
+{
+	_options = options.Value;
+}
+...
 ```
 
 ### Reloading configurations
@@ -54,18 +55,15 @@ After the registration, the configuration can be injected into services using De
 Reloading is generally only available for file-based configuration providers. The `Add*File` extension methods (used for reading various file formats, just replace the "*" with the extension you need) include an overload with a `reloadOnChange` parameter. If this is set to true, the app will monitor the filesystem for changes to the file and will trigger a complete rebuild of the `IConfiguration`, if necessary.
 
 ``` c#
-	---
-	public static void AddAppConfiguration(
-		HostBuilderContext hostingContext,
-		IConfigurationBuilder config)
-	{
-		config.Add*File(
-			"exampleAppSettings.*",
-			optional: true
-			reloadOnChange: true);
-	}
-	---
-
+public static void AddAppConfiguration(
+	HostBuilderContext hostingContext,
+	IConfigurationBuilder config)
+{
+	config.Add*File(
+		"exampleAppSettings.*",
+		optional: true
+		reloadOnChange: true);
+}
 ```
 
 **Disclaimer:** The `IOptions<T>` interface is registered in the DI container as a singleton, so if you need reloading functionality you should use the [`IOptionsSnapshot<T>` interface](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/configuration/options?view=aspnetcore-7.0#use-ioptionssnapshot-to-read-updated-data).
