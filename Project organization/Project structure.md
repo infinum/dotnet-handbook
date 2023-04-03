@@ -1,4 +1,4 @@
-A good project structure makes finding around the code easier, especially for developers which are new to the project. This also makes adding new features or replacing/fixing existing ones.
+A good project structure makes finding their way around the code easier for developers, especially for the ones which are new to the project. This can be directly translated into quick onboarding times and effortless additions of new features or replacement/fixes of existing ones.
 
 The implementation should be separated from the contract. For example, we can have multiple data sources but the services using them should only be aware of the contract and not the implementation. In case we have multiple data sources, each source should be implemented in a separate project
 
