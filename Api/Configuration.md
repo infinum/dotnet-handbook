@@ -19,7 +19,7 @@ We use the `CreateDefaultBuilder` helper method to bootstrap `HostBuilder` for o
 
 But what if we want to have some configuration values that should be used only during the development time? For that exact purpose we can use `appsettings.Development.json`. This file is used only when running the API in debug mode, so we don't have to worry about misconfiguring our app in other environments. 
 
-The above-mentioned files are a part of the source code, meaning that they will end up in the repository. While some configuration values are not secret (e.g. task execution timings, read batch sizes...), there are almost awlways some values which should not be made public (e.g. connection strings, client secrets, ...). Because of that, we mostly use environment variables and cloud secrets managers for configuring the APIs in non-development environments, and [user secrets](../best-practices/user-secrets) in a development environments.
+The above-mentioned files are a part of the source code, meaning that they will end up in the repository. While some configuration values are not secret (e.g. task execution timings, read batch sizes...), there are almost awlways some values which should not be made public (e.g. connection strings, client secrets, ...). Because of that, we mostly use environment variables and cloud secrets managers for configuring the APIs in non-development environments, and [user secrets](../best-practices/user-secrets) in development environments.
 
 ### Options pattern
 
