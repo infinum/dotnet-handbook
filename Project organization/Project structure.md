@@ -61,7 +61,6 @@ Those extension methods should be placed in the project that contains the code w
 If we have direct project dependencies within our solution, we can add the dependant configuration method call inside another configuration method. For example, if our services project depends on some interfaces from `Example.Data.AzureStorage`, then we can call that configuration method from the Services project's configuration method:
 
 ``` c#
-
 using Example.Data.AzureStorage.Configuration;
 
 namespace Example.Services.Configuration;
@@ -70,9 +69,8 @@ public static class ServiceCollectionExtensions
 {
     public static IServiceCollection ConfigureExampleServices(this IServiceCollection services)
     {
-        
         ...
-        // Calling a method from Example.Data.AzureStorage:
+        // Calling the configuration method for Example.Data.AzureStorage:
         services.AddAzureDataServices();
         ...
 
