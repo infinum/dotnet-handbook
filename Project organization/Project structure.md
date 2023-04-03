@@ -53,7 +53,6 @@ using Example.Services.Configuration;
 ...
 
 builder.Services.ConfigureExampleServices();
-
 ```
 
 Those extension methods should be placed in the project that contains the code which the method configures. For example, methods for registering all our services to DI container should be placed in `Example.Services` project, while confguring database-related code should be placed inside `Example.Data.Db`. 
