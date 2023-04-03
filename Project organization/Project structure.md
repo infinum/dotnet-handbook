@@ -1,8 +1,8 @@
-A good project structure makes finding their way around the code easier for developers, especially for the ones which are new to the project. This can be directly translated into quick onboarding times and effortless additions of new features or replacement/fixes of existing ones.
+A good project structure makes finding their way around the code easier for developers, especially for the ones who are new to the project. This can be directly translated into quick onboarding times and effortless additions of new features or replacements/fixes of existing ones.
 
 The implementation should be separated from the contract. For example, we can have multiple data sources but the services using them should only be aware of the contract and not the implementation. In case we have multiple data sources, each source should be implemented in a separate project
 
-All the projects inside a solution are separated into two folders (both solution folder and in the file structure), Src and Test. The former contains all the source code which is run in production environment, while the latter contains test projects for each Src project.
+All the projects inside a solution are separated into two folders (both solution folder and in the file structure), Src and Test. The former contains all the source code for our app, while the latter contains test projects for each Src project.
 
 This is an example of a project structure that is mostly used for standard .NET Core WebAPIs:
 
@@ -28,7 +28,7 @@ You can find more information about app testing in the Testing section of the ha
 
 ### Configurations
 
-Up until .NET 6, the entry point for adding all configurations and registrations was in the `Startup` class. After that, Microsoft has simplified the initial project structure by having all the code necessary to configure and run the API in `Program.cs`. Even though we could add all our registrations and configurations there, we prefer placing them in extension methods for `IServiceCollection` and `ApplicationBuilder`.
+Up until .NET 6, the entry point for adding all configurations and registrations was in the `Startup` class. With .NET 6 came a simplified version of application configuration - instead of having separate classes for configuring and running the API, all that code can now be found in `Program.cs`. Even though we could continue the trend by adding all our registrations and configurations there, we prefer placing them in extension methods for `IServiceCollection` and `ApplicationBuilder`.
 
 ``` c#
 namespace Example.Services.Configuration;
@@ -55,9 +55,9 @@ using Example.Services.Configuration;
 builder.Services.ConfigureExampleServices();
 ```
 
-Those extension methods should be placed in the project that contains the code which the method configures. For example, methods for registering all our services to DI container should be placed in `Example.Services` project, while confguring database-related code should be placed inside `Example.Data.Db`. 
+These extension methods should be placed in the projects which contain the code that the method configures. For example, methods for registering all our services to DI container should be placed in `Example.Services` project, while configuring database-related code should be placed inside `Example.Data.Db`. 
 
-If we have direct project dependencies within our solution, we can add the dependant configuration method call inside another configuration method. For example, if our services project depends on some interfaces from `Example.Data.AzureStorage`, then we can call that configuration method from the Services project's configuration method:
+If we have direct project dependencies within our solution, we can add the dependent configuration method call inside another configuration method. For example, if our services project depends on some interfaces from `Example.Data.AzureStorage`, then we can call that configuration method from the Services project's configuration method:
 
 ``` c#
 using Example.Data.AzureStorage.Configuration;
