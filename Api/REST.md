@@ -18,13 +18,9 @@ The default route should be set either on the controller level or base controlle
     }
 ```
 
-
-
 ### Versioning
 
 In order to provide long time support and migration, it is recommended to use versioning. For more details on API versioning, please refer to the [Versioning](Versioning) chapter.
-
-
 
 ### Controllers
 
@@ -40,8 +36,6 @@ public class CustomersController: BaseApiController
 
 In the given example, we are using *`BaseApiController`* inheritance to inherit the default route. Any routes added to controllers and controller methods will be prefixed by the route defined in *`BaseApiController`*. The route for this controller will be *`api/v1/customers`*.
 
-
-
 ### Methods
 
 In .NET there are attributes for each RESTFUL method. The most common that are used are *`GET`*, *`POST`*, *`PUT`* and *`DELETE`*. Methods without a route will take a default route from the controller, but we can also add a route to the method itself.
@@ -49,8 +43,6 @@ In .NET there are attributes for each RESTFUL method. The most common that are u
 #### GET
 
 Get is a method reserved for getting information about a resource. Gets shouldn't have any side effects, meaning any number of calls should produce the same set of results.
-
-
 
 ```c#
 	[HttpGet]
@@ -63,8 +55,6 @@ Get is a method reserved for getting information about a resource. Gets shouldn'
 
 Get is also used to get information about a single resource.
 
-
-
 ```c#
     [HttpGet("{customerId}")]
     public async Task<IActionResult> Get(Guid customerId)
@@ -73,7 +63,6 @@ Get is also used to get information about a single resource.
        return Ok(customers);
     }
 ```
-
 
 #### Post
 
@@ -101,19 +90,6 @@ Put is a method reserved for creating or updating a resource. Put requires compl
     }
 ```
 
-#### Patch
-
-A Patch is a method reserved for updating a resource. Unlike Put, a Patch method updates only properties provided in the request and cannot create a new resource.
-
-```c#
-    [HttpPatch("{customerId}")]
-    public async Task<IActionResult> Patch(Guid customerId, Customer customer)
-    {
-       var customer = await _customerServices.Update(customerId, customer);
-       return Ok(customer);
-    }
-```
-
 #### Delete
 
 Delete is a method reserved for deleting a resource.
@@ -126,8 +102,6 @@ Delete is a method reserved for deleting a resource.
        return Ok();
     }
 ```
-
-
 
 ### Method arguments
 
@@ -199,8 +173,6 @@ For consistency, we are usually trying to avoid combined arguments, but they are
 ```
 
 This endpoint now serves two routes: *`api/v1/customers/{customerId}`*, *`api/v1/customers/{customerId}?includeOrders={value}`* where *`{customerId}`* is GUID and *`value`* is Boolean (true/false) value.
-
-
 
 ### Custom routes
 
