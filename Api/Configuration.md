@@ -9,7 +9,7 @@ The ASP.NET Core configuration model centers on two main constructs:
 
 ### Configuration providers
 
-ASP.NET Core uses [configuration providers](https://learn.microsoft.com/en-us/dotnet/core/extensions/configuration-providers) to load key-value pairs from a variety of sources. Those configuration providers can load values from files (like `appsettings.json` or the user secrets file), environment variables, command-line arguments, a database, or a remote service. You can even create your custom configuration provider if none of the above satisfy your needs.
+ASP.NET Core uses [configuration providers](https://learn.microsoft.com/en-us/dotnet/core/extensions/configuration-providers) to load key-value pairs from a variety of sources. Those configuration providers can load values from files (like `appsettings.json` or the user secrets file), environment variables, command-line arguments, a database, or a remote service. You can even create your custom configuration provider if none of the above satisfies your needs.
 
 We use the `CreateDefaultBuilder` helper method to bootstrap `HostBuilder` for our app. The `CreateDefaultBuilder` method calls `ConfigureAppConfiguration` and sets up a number of default configuration providers.
 
@@ -19,7 +19,7 @@ We use the `CreateDefaultBuilder` helper method to bootstrap `HostBuilder` for o
 
 But what if we want to have some configuration values that should be used only during the development time? For that exact purpose we can use `appsettings.Development.json`. This file is used only when running the API in debug mode, so we don't have to worry about misconfiguring our app in other environments. 
 
-The above-mentioned files are a part of the source code, meaning that they will end up in the repository. While some configuration values are not secret (e.g. task execution timings, read batch sizes...), there are almost awlways some values which should not be made public (e.g. connection strings, client secrets, ...). Because of that, we mostly use environment variables and cloud secrets managers for configuring the APIs in non-development environments, and [user secrets](../best-practices/user-secrets) in development environments.
+The above-mentioned files are a part of the source code, meaning that they will end up in the repository. While some configuration values are not secret (e.g. task execution timings, read batch sizes...), there are almost always some values which should not be made public (e.g. connection strings, client secrets, ...). Because of that, we mostly use environment variables and cloud secrets managers for configuring the APIs in non-development environments, and [user secrets](../best-practices/user-secrets) in development environments.
 
 ### Options pattern
 
