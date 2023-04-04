@@ -1,24 +1,24 @@
-As it is with a lot of things in software development, when writing tests, we don't want to reinvent the wheel for each project. The .NET ecosystem has a lot of 1st and 3rd party tools available that can make our lifes easier when writing unit tests (and no, we're not thinking of just asking ChatGPT to write them for you). Here are just some of them that we use regularly.
+As it is with a lot of things in software development, when writing tests, we don't want to reinvent the wheel for each project. The .NET ecosystem has a lot of 1st and 3rd party tools available that can make our lifes easier when writing tests (and no, we're not thinking of just asking ChatGPT to write them for you). Here are just some of them that we use regularly.
 
-### Testing framework
+### Testing frameworks
 
-Most popular testing frameworks for .NET are [NUnit](https://nunit.org/), [xUnit](https://xunit.net/) and [MSTest](https://learn.microsoft.com/en-us/dotnet/core/testing/unit-testing-with-mstest). We use xUnit by default because it encourages clean code, reduces the need for code duplication and is simpler to use than other testing frameworks.
+The most popular testing frameworks for .NET are [NUnit](https://nunit.org/), [xUnit](https://xunit.net/) and [MSTest](https://learn.microsoft.com/en-us/dotnet/core/testing/unit-testing-with-mstest). We use xUnit by default because it encourages writing clean code and provides better isolation of tests. Because of that, the following text will mostly concentrate on xUnit features, but the same principles could be applied to different testing frameworks as well.
 
 ### Test parameters
 
-When we want to test a piece of code with different parameters, but similar expected results, we could write a single test case for each parameter value. Although this would work, this kind of code duplication should immediately cause a twitch in your eye. There must be a better way to define those tests, right? Test methods are, after all, methods, so why don't we just pass the differences as parameters and let the method define the testing logic arround them.
+When we want to test a piece of code with different parameters, but similar expected results, we could write a single test case for each parameter value. Although this would work, this kind of code duplication should immediately cause a twitch in your eye. There must be a better way to define those tests, right? Test methods are, after all, methods, so why don't we just pass the differences as parameters and let the method define the testing logic around them?
 
-xUnit supports a few ways of defining the test parameters. When a test method is decorated with the `[Theory]` attribute, the test framework knows that there will be more attributes which define the various test parameters.
+xUnit supports a few ways of defining the test parameters. When a test method is decorated with the `[Theory]` attribute, the test framework knows that there will be more attributes that define the various test parameters.
 
 #### Inline Data
 
-Using the `[InlineData]` attribute is the simplest way to define the test parameters. We repeat the attribute for each set of parameters, and the test framework then knows to repeat that test for each set:
+Using the `[InlineData]` attribute is the simplest way to define the test parameters. We repeat the attribute for each set of parameters, and the test framework then knows to repeat that test for each defined set:
 
 ``` c#
 [Theory]
 [InlineData("")]
 [InlineData("  ")]
-[InlineData(null)]
+[InlineData(default(string))]
 public void Validate_WhenNameIsNullOrEmpty_ThenReturnFalse(string name)
 {
     var user = new AutoFaker<User>()
@@ -35,7 +35,7 @@ public void Validate_WhenNameIsNullOrEmpty_ThenReturnFalse(string name)
 
 Just as you got rid of that eye twitch by using `[InlineData]`, you start writing another test method using the same approach. You add the `[Theory]` attribute, start adding the parameters and suddenly that twitch returns. Are we really adding the same parameters again? Have no fear, the `[MemberData]` attribute is here!
 
-This attribute allows us to define a static property in the test class that contains the list of test data which can be used as test parameters for multiple test methods:
+This attribute allows us to define a static property that contains the list of test data that can be used as test parameters for multiple test methods:
 
 ``` c#
 public static IEnumerable<object[]> EmptyStrings =>
@@ -62,9 +62,9 @@ You might have noticed that the attribute reads a list of object arrays. This fe
 
 #### Class Data
 
-With all the itches scratched and twitches sorted out, you go on with writing the tests for a different class. Equipped with the test parameter knowledge you start writing another test, but just as you've defined the first two parameters, that twitch returns yet again. "Wait," you think to yourself, "I've seen the same parameters in that previous class. There must be a way to avoid this duplication once again!"
+With all your itches scratched and twitches sorted out, you go on with writing the tests for a different class. Equipped with the test parameter knowledge you start writing another test, but just as you've defined the first two parameters, that twitch returns yet again. "Wait," you think to yourself, "I've seen the same parameters in that previous class. There must be a way to avoid this duplication once again!"
 
-Luckily for you, there are solutions for that as well. The `[ClassData]` attribute allows us to reference a class which define a list of test parameter sets. First, we must define that class. The class must implement the `IEnumerable<object[]>` interface by defining what exact data will be returned:
+Luckily for you, there are solutions for that as well. The `[ClassData]` attribute allows us to reference a class that defines a list of test parameter sets. First, we must define that class. The class must implement the `IEnumerable<object[]>` interface and define what exact data will be returned:
 
 ``` c#
 public class EmptyStringTestData
@@ -97,15 +97,13 @@ public void Validate_WhenProductNameIsEmpty_ThenReturnFalse(string name)
 }
 ```
 
-
-
 ### Generating test data
 
 When it comes to generating test data, we use two main approaches: data generators and static mock methods. 
 
 #### Data generators
 
-By default, we use data generators because they are much easier to set up and maintain for simple test cases. Here our weapon of choice is [AutoBogus](https://github.com/nickdodd79/AutoBogus). We use it because it has a lot of powerful options when it comes to specifying rules for specific properties, but also it is very simple if we need to generate an object with filled properties:
+By default, we use data generators because they are much easier to set up and maintain for simple test cases. Our weapon of choice is [AutoBogus](https://github.com/nickdodd79/AutoBogus). We use it because it has a lot of powerful options when it comes to specifying rules for specific properties, but also it is very simple if we need to generate an object with filled properties:
 
 ``` c#
 User user = new AutoFaker<User>();
@@ -134,7 +132,7 @@ public class UserServiceTests
 }
 ```
 
-One important thing to note with data generators is that they generate **random** data every time we run a test. This might sound obvious to you, but it is also a fact that can be easily overlooked. If we don't define the rules properly, we might end up with random test failures when the generator returns some data which breaks some ouf our business rules we weren't expecting to be broken. This can be quite hard to debug because in that process we must encounter the same (or similar) random case which causes the test failure. When using data generators we always must ask ourselves what exactly are we testing, what are our valid data states, and what restrictions we must define.
+One important thing to note with data generators is that they generate **random** data every time we run a test. This might sound obvious to you, but it is also a fact that can be easily overlooked. If we don't define the rules properly, we might end up with random test failures when the generator returns some data which breaks some of our business rules we weren't expecting to be broken. This can be quite hard to debug because in that process we must encounter the same (or similar) random case which causes the test failure. When using data generators we always must ask ourselves what exactly are we testing, what are our valid data states, and what restrictions we must define.
 
 #### Static methods
 
@@ -155,11 +153,11 @@ public static class UserMock
 }
 ```
 
-This approach gives us the flexibility to define the test data exatly how we want it. Of course, there is a downside to this approach: defining every property can be cumbersome, especially when dealing with complex classes, and maintaining the generator methods can take a lot of time. Because of that we use static methods only in cases where data generators don't work for us.
+This approach gives us the flexibility to define the test data exactly how we want it. Of course, there is a downside to this approach: defining every property can be cumbersome, especially when dealing with complex classes and maintaining the generator methods can take a lot of time. Because of that, we use static methods only in cases where data generators don't work for us.
 
 ### Mocking
 
-Now that we know how to generate test parameters and test data, we must set them up in our test cases. This is where mocking frameworks come in. For this purpose we use [Moq](https://github.com/moq/moq4), a powerful mocking framework that allows us to set up behaviours and verify usage of objects.
+Now that we know how to generate test parameters and test data, we must set them up in our test cases. This is where mocking frameworks come in. For this purpose, we use [Moq](https://github.com/moq/moq4), a powerful mocking framework that allows us to set up behaviors and verify the usage of objects.
 
 Moq allows us to define mock objects by wrapping the classes we must use, but are not a part of our test. This approach enables us to skip the logic defined in that method and just define the result we would expect in our test case. First, we must define that wrapper:
 
@@ -173,11 +171,11 @@ After the wrapper is defined, we must pass the mocked object to the class or met
 var sut = new ServiceWeAreTesting(someServiceMock.Object);
 ```
 
-The `ServiceWeAreTesting` doesn't know that the object we passed to it is a mocked one. From its perspective, it is just a regular object whose methods and properties can be called, and they will behave as expected. But that behaviour doesn't just magically come out of the box - it is something we must define in our Setup process.
+The `ServiceWeAreTesting` doesn't know that the object we passed to it is a mocked one. From its perspective, it is just a regular object whose methods and properties can be called, and they will behave as expected. But that behavior doesn't just magically come out of the box - it is something we must define in our Setup process.
 
 #### Setup
 
-In the setup process we must define two parts: what property or method will be called, and what will be the result of that call. Here is an example of a simple setup of a calculator service:
+In the setup process, we must define two parts: what property or method will be called, and what will be the result of that call. Here is an example of a simple setup of a calculator service:
 
 ``` c#
 calculatorServiceMock
@@ -185,16 +183,16 @@ calculatorServiceMock
     .Returns(5);
 ```
 
-In this setup we have defined that if someone calls the `Add()` method with parameters 2 and 3, it will return the result 5. But what if someone calls it with a different set of parameters? Since we haven't defined that behaviour, the mocked service will return `null`.
+In this setup, we have defined that if someone calls the `Add()` method with parameters 2 and 3, it will return the result 5. But what if someone calls it with a different set of parameters? Since we haven't defined that behavior, the mocked service will return `null`.
 
-What if we want to specify a return value for any parameter that was given to the method? For these cases, Moq provides the `It` class, which has a couple of useful methods. First we will look at the `IsAny<T>()` method. This method is a replacement for all possible values:
+What if we want to specify a return value for any parameter that was given to the method? For these cases, Moq provides the `It` class, which has a couple of useful methods. First, we will look at the `IsAny<T>()` method. This method is a replacement for all possible values:
 
 ``` c#
 calculatorServiceMock
     .Setup(m => m.Add(It.IsAny<int>(), It.IsAny<int>()))
     .Returns(5);
 ```
-This setup will return the result 5 for regardless of the input parameters. In some cases we might want to add some restrictions to the input parameters. To help us with that, we can use the `.Is<T>()` method, which takes an expression as a parameter which is used to validate the input. As an example, let's say that our test method returns a certain value only for positive integers:
+This setup will return the result "5" regardless of the input parameters. In some cases, we might want to add some restrictions to the input parameters. To help us with that, we can use the `Is<T>()` method, which takes an expression as a parameter that is used to validate the input. As an example, let's say that our test method returns a certain value only for positive integers:
 
 ``` c#
 calculatorServiceMock
@@ -202,9 +200,9 @@ calculatorServiceMock
     .Returns(5);
 ```
 
-When using these parameter definitions, it is a good practice to define the return value for as minimal set of input parameters as possible. This means that we should avoid using `It.IsAny<T>()` if we have any restrictions or expectations for our input parameters, or even avoid using `It.Is<T>` if we have the exact value we will be expecting.
+When using these parameter definitions, it is a good practice to define the return value for as a minimal set of input parameters as possible. This means that we should avoid using `It.IsAny<T>()` if we have any restrictions or expectations for our input parameters, or even avoid using `It.Is<T>` if we have the exact value we will be expecting.
 
-Sometimes that is easier said than done. If we are dealing with complex objects which are generated inside the method we're testing, we can't simply compare it to an expected value, and the expression for validating the whole object could be a large one. In those cases we can use the `Callback()` method which allows us to do something with the input parameters. In this example, we will extract the value the method received, and then use Fluent Assertions (more on this in the section below) to validate the input:
+Sometimes that is easier said than done. If we are dealing with complex objects which are generated inside the method we're testing, we can't simply compare it to an expected value, and the expression for validating the whole object could be a large one. In those cases, we can use the `Callback()` method which allows us to do something with the input parameters. In this example, we will extract the value the method received, and then use Fluent Assertions (more on this in the section below) to validate the input:
 
 ``` c#
 ComplexRequest expectedInput = ComplexRequestMock.BuildExpectedInput();
@@ -219,7 +217,7 @@ receivedInput.Should().BeEquivalentTo(expectedInput);
 
 This approach is especially useful when a method is called multiple times, and we need to do something with each individual input.
 
-Now that we've defined how exactly will the method be called, we must define what value will be returned (if the method or a property is expected to return the value). In the examples above, we've used a single returning value, but that is not the only way to define a return value. We can use the input parameters to determine it:
+Now that we've defined how exactly will the method be called, we must define what value will be returned (if the method or property is expected to return the value). In the examples above, we've used a single returning value, but that is not the only way to define a return value. We can use the input parameters to determine it:
 
 ``` c#
 calculatorServiceMock
@@ -229,7 +227,7 @@ calculatorServiceMock
 
 #### Verifications
 
-Another powerful and useful feature of the mocking framework is the ability to validate that a certaing method or property was called. This can be done using the `Verify()` method:
+Another powerful and useful feature of the mocking framework is the ability to validate that a certain method or property was called. This can be done using the `Verify()` method:
 
 ``` c#
 calculatorServiceMock
@@ -238,7 +236,7 @@ calculatorServiceMock
 
 This example verifies that the `Add()` method was called exactly once with the parameters 2 and 3. If the conditions are not met, an exception will be thrown which will cause the test to fail.
 
-When defining these verifications, the same rule for argument specificity should be applied: we should allow the test to pass with as minimal set of input arguments as possible. This, again, means that we should avoid using `It.IsAny<T>()` if we can be more specific. The only exception to this rule is when we are validating that a certain method was never called. In those cases we should cover all the possible values:
+When defining these verifications, the same rule for argument specificity should be applied: we should allow the test to pass with as small as possible set of input arguments. This, again, means that we should avoid using `It.IsAny<T>()` if we can be more specific. The only exception to this rule is when we are validating that a certain method was never called. In those cases we should cover all the possible values:
 
 ``` c#
 calculatorServiceMock
@@ -249,7 +247,7 @@ calculatorServiceMock
 
 The last step of a test is asserting that the code is behaving as expected. Besides validating the method calls we mentioned in the section above, we often must validate the return value of a method or property. Even though the xUnit framework provides the `Assert` class with static methods for comparing various values, we tend to use [FluentAssertions](https://fluentassertions.com/) for its advanced features and readability.
 
-Most common use case for assertions is to check that the returned object of a method contains the expected data. For that we need to construct an equivalent object with expected values and compare it to the returned value:
+The most common use case for assertions is to check that the returned object of a method contains the expected data. For that we need to construct an equivalent object with expected values and compare it to the returned value:
 
 ``` c#
 var expectedResult = ResultMock.BuildExpected();
@@ -267,4 +265,4 @@ result.Should().BeEquivalentTo(
 );
 ```
 
-Another important thing to note is that the `IsEquivalentTo()` method will compare all the properties only if the object it is comparing doesn't have the `Equals()` method overriden. If it does, it will use that method regardless of the comparison rules we've defined.
+Another important thing to note is that the `IsEquivalentTo()` method will compare all the properties only if the object it is comparing doesn't have the `Equals()` method overridden. If it does, it will use that method regardless of the comparison rules we've defined.
