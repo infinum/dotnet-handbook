@@ -1,4 +1,4 @@
-As it is with a lot of things in software development, when writing tests, we don't want to reinvent the wheel for each project. The .NET ecosystem has a lot of 1st and 3rd party tools available that can make our lifes easier when writing tests (and no, we're not thinking of just asking ChatGPT to write them for you). Here are just some of them that we use regularly.
+As it is with a lot of things in software development, when writing tests, we don't want to reinvent the wheel for each project. The .NET ecosystem has a lot of 1st and 3rd party tools available that can make our lives easier when writing tests (and no, we're not thinking of just asking ChatGPT to write them for you). Here are just some of them that we use regularly.
 
 ### Testing frameworks
 
@@ -81,7 +81,7 @@ public class EmptyStringTestData
 }
 ```
 
-Just as it was the case with `MemberData`, the list we're working with is returning an array of object, allowing us to define a set of parameters for each test case.
+Just as it was the case with `MemberData`, the list we're working with is returning an array of objects, allowing us to define a set of parameters for each test case.
 
 After we've defined the class with the parameters, we must tell the testing framework to use them by referencing the class:
 
@@ -236,7 +236,7 @@ calculatorServiceMock
 
 This example verifies that the `Add()` method was called exactly once with the parameters 2 and 3. If the conditions are not met, an exception will be thrown which will cause the test to fail.
 
-When defining these verifications, the same rule for argument specificity should be applied: we should allow the test to pass with as small as possible set of input arguments. This, again, means that we should avoid using `It.IsAny<T>()` if we can be more specific. The only exception to this rule is when we are validating that a certain method was never called. In those cases we should cover all the possible values:
+When defining these verifications, the same rule for argument specificity should be applied: we should allow the test to pass with as small as possible sets of input arguments. This, again, means that we should avoid using `It.IsAny<T>()` if we can be more specific. The only exception to this rule is when we are validating that a certain method was never called. In those cases we should cover all the possible values:
 
 ``` c#
 calculatorServiceMock
