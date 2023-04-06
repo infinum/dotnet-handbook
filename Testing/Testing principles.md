@@ -1,6 +1,6 @@
 Tests in projects help us create stable applications and we should do them as a part of any project. While there are different kinds of tests, we mostly write unit and integration tests in .NET development.
 
-Even though the tests are a part of the source code, their purpose and usage are different from the rest of the source code which implements the business logic. This means that the principles for writing tests are a bit different. Tests should be easy to understand Here are some of the most important principles we follow:
+Even though the tests are a part of the source code, their purpose and usage are different from the rest of the source code which implements the business logic. This means that the principles for writing tests are a bit different. Tests should be easy to understand. Here are some of the most important principles we follow:
 
 - **Follow the same project structure** - Tests are always written in a separate project from the one we're testing, as we already mentioned in the [Project Structure](../project-organization/project-structure) section of this handbook. Each source project should have its own test project, and each test project should follow the same structure as the project it is testing.
 - **Arrange, Act, Assert** - Follow the [AAA](https://learn.microsoft.com/en-us/visualstudio/test/unit-test-basics?view=vs-2022#write-your-tests) pattern
