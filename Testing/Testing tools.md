@@ -27,7 +27,7 @@ public void Validate_WhenNameIsNullOrEmpty_ThenReturnFalse(string name)
 
     var result = _userValidator.Validate(user);
 
-    result.Should().Be(false);
+    result.IsValid.Should().BeFalse();
 }
 ```
 
