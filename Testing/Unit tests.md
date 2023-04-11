@@ -1,29 +1,99 @@
-A unit is the smallest logical piece of the application and unit tests are used to test it out. The tests should be as simple as possible and only cover the functionality of the unit. 
+The first type of automated tests most software developers encounter are unit tests. That's because the unit tests are an excellent tool for determining whether a specific code change or a new implementation caused some unexpected behaviors.
 
-Each test name should contain the name of the method it is testing, a particular condition and the expected result.
+The idea behind unit testing is to split the code into the smallest logical chunks - called _units_ - and test their functionalities separately. This means that the unit tests should be as simple as possible and cover only the functionality of that unit.
 
-```c#
-[Fact]
-public async Task Process_WhenParameterIsNotValid_ThenThrowArgumentException()
-{ }
-```
+Their simplicity makes running all unit tests in a project quick and easy, which is why we should be checking them periodically during development time and especially before publishing our branch and creating a PR. We can go even further with that idea. By integrating test runs in the CI/CD pipelines and PR merge requirements we cannot forget to run them before sharing the code with others!
 
-The most used test method is the Fact method which represents one single test with no parameters. But if you want to write tests with parameters and need to test the same assertion for multiple different inputs you can always use xUnit's Theory tests. There are multiple ways to pass the data but the most common is the InlineData. 
+Detailed unit tests help us validate that our code snippets do what they were meant to do, but they won't validate that we've implemented the requested functionalities successfully. To do that, all our units must work together, which is why we have other types of tests like [integration](integration-tests) and [UI](ui-tests) tests.
 
-```c#
-[Theory]
-[InlineData(-1, 1)]
-[InlineData(1, -1)]
-public async Task Process_WhenParameterIsNotValid_ThenThrowArgumentException(int a, int b)
+### Tips and tricks
+
+#### Testing the current time
+
+Let's say that we have to write unit tests for the following method:
+
+``` c#
+public string GetTimeBasedGreeting() 
 {
-    // Arrange
-    ... 
-        
-    // Act    
-    var result = _sut.Process(a, b);
-    Func<Task<Result>> func = () => _sut.Process(a, b);
+    var now = DateTime.UtcNow;
+
+    if (now.Hour >= 6 && now.Hour < 12)
+        return "Good morning";
     
-    // Assert
-	await func.Should().ThrowAsync<ArgumentException>();
+    if (now.Hour >= 12 && now.Hour < 18)
+        return "Good afternoon";
+
+    return "Good evening";
 }
 ```
+
+It is easy to think of the test cases for this: we must check for each time of the day that the correct greeting is returned. But as soon as we start writing the tests, we come to an issue: only one greeting can be tested at a certain point in time. This means that we have no way of defining unit tests that will pass every time we run them, even though our code is working perfectly!
+
+The issue here is our static reference to `DateTime.UtcNow`, which returns the current date and time. Unfortunately, despite our incredible technological advancements, we still haven't figured out how to control time. This means that as long as our code is dependent on something as uncontrollable as the unforgiving passage of time, we cannot make it run deterministically.
+
+What we _can_ do is add a layer of abstraction between our code and the way we fetch the current time. This can be done by adding an interface that we can easily mock when setting up our tests:
+
+``` c#
+public interface ITimeProvider
+{
+    public DateTime UtcNow { get; }
+}
+```
+
+We must also add an implementation of the interface which will be used in the runtime, which is as simple as a service can be:
+
+``` c#
+public class TimeProvider : ITimeProvider
+{
+    public DateTime UtcNow => DateTime.UtcNow;
+}
+```
+
+Don't forget to register the service in the DI configuration! This service can be registered as a singleton since it only passes a static reference, so there is no need to create more than one instance of it:
+
+``` c#
+services.AddSingleton<ITimeProvider>(new TimeProvider());
+```
+
+Lastly, we must replace all our `DateTime.UtcNow` references  with our new interface:
+
+``` c#
+private readonly ITimeProvider _timeProvider;
+
+public GreetingGenerator(ITimeProvider timeProvider)
+{
+    _timeProvider = timeProvider;
+}
+
+public string GetTimeBasedGreeting() 
+{
+    var now = _timeProvider.UtcNow;
+
+    if (now.Hour >= 6 && now.Hour < 12)
+        return "Good morning";
+    
+    if (now.Hour >= 12 && now.Hour < 18)
+        return "Good afternoon";
+
+    return "Good evening";
+}
+```
+
+And that's it, with this simple change we can make this method think it is any time of the day we want:
+
+``` c#
+[Theory]
+[InlineData(6, 0)]
+[InlineData(10, 0)]
+[InlineData(12, 59)]
+public void GetTimeBasedGreeting_WhenItIsMorning_ThenReturnGoodMorning(
+    int hour, 
+    int minutes)
+{
+    _timeProviderMock.Setup(m => m.UtcNow)
+        .Returns(new DateTime(2042, 2, 4, hour, minutes, 0));
+
+    var result = _sut.GetTimeBasedGreeting();
+
+    result.Should().BeEquivalentTo("Good morning");
+}
