@@ -117,6 +117,7 @@ User user = new AutoFaker<User>()
 ```
 
 When we're setting rules like these, we don't want to repeat ourselves for each test case. To avoid repetition, we can set the generator as a private field, and then use it wherever we need it:
+
 ``` c#
 public class UserServiceTests
 {
