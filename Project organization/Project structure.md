@@ -24,7 +24,7 @@ All the projects that are not used as a "presentation" layer should be implement
 
 Regardless of the test framework, we try to keep a simple test project structure. For each app project, we create additional test projects. We use simple naming strategies for the projects, only adding the suffix ".Test" for the test project. For example, `Example.API` would be `Example.API.Test`.
 
-You can find more information about app testing in the [Testing section](../testing/testing principles) of the handbook.
+You can find more information about app testing in the [Testing section](../testing/testing-principles) of the handbook.
 
 ### Configurations
 
