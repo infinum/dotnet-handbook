@@ -49,7 +49,7 @@ public class TimeProvider : ITimeProvider
 }
 ```
 
-In this example, we're keeping it simple by only adding a single property, but we could expand it if we ever needed some other time-related types, like `DateTimeOffset`, or we want to get the time in some other timezone.
+In this example, we're keeping it simple by only adding a single property, but we could expand it if we ever needed some other time-related types, like `DateTimeOffset`, or wanted to get the time in some other timezone.
 
 Don't forget to register the service in the DI configuration! This service can be registered as a singleton since it only passes a static reference, so there is no need to create more than one instance of it:
 
