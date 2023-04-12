@@ -2,7 +2,7 @@ The first type of automated tests most software developers encounter are unit te
 
 The idea behind unit testing is to split the code into the smallest logical chunks - called _units_ - and test their functionalities separately. This means that the unit tests should be as simple as possible and cover only the functionality of that unit.
 
-Their simplicity makes running all unit tests in a project quick and easy, which is why we should be checking them periodically during development time and especially before publishing our branch and creating a PR. We can go even further with that idea. By integrating test runs in the CI/CD pipelines and PR merge requirements we cannot forget to run them before sharing the code with others!
+Their simplicity makes running all unit tests in a project quick and easy, which is why we should be checking them periodically during development time and especially before publishing our branch and creating a PR. We can go even further with that idea - by integrating test runs in the CI/CD pipelines and PR merge requirements we cannot forget to run them before sharing the code with others!
 
 Detailed unit tests help us validate that our code snippets do what they were meant to do, but they won't validate that we've implemented the requested functionalities successfully. To do that, all our units must work together, which is why we have other types of tests like [integration](integration-tests) and [UI](ui-tests) tests.
 
@@ -15,12 +15,12 @@ Let's say that we have to write unit tests for the following method:
 ``` c#
 public string GetTimeBasedGreeting() 
 {
-    var now = DateTime.UtcNow;
+    var hourOfTheDay = DateTime.UtcNow.Hour;
 
-    if (now.Hour >= 6 && now.Hour < 12)
+    if (hourOfTheDay >= 6 && hourOfTheDay < 12)
         return "Good morning";
     
-    if (now.Hour >= 12 && now.Hour < 18)
+    if (hourOfTheDay >= 12 && hourOfTheDay < 18)
         return "Good afternoon";
 
     return "Good evening";
@@ -55,7 +55,7 @@ Don't forget to register the service in the DI configuration! This service can b
 services.AddSingleton<ITimeProvider>(new TimeProvider());
 ```
 
-Lastly, we must replace all our `DateTime.UtcNow` references  with our new interface:
+Lastly, we must replace all `DateTime.UtcNow` references with our new interface:
 
 ``` c#
 private readonly ITimeProvider _timeProvider;
@@ -67,12 +67,12 @@ public GreetingGenerator(ITimeProvider timeProvider)
 
 public string GetTimeBasedGreeting() 
 {
-    var now = _timeProvider.UtcNow;
+    var hourOfTheDay = _timeProvider.UtcNow.Hour;
 
-    if (now.Hour >= 6 && now.Hour < 12)
+    if (hourOfTheDay >= 6 && hourOfTheDay < 12)
         return "Good morning";
     
-    if (now.Hour >= 12 && now.Hour < 18)
+    if (hourOfTheDay >= 12 && hourOfTheDay < 18)
         return "Good afternoon";
 
     return "Good evening";
@@ -85,7 +85,7 @@ And that's it, with this simple change we can make this method think it is any t
 [Theory]
 [InlineData(6, 0)]
 [InlineData(10, 0)]
-[InlineData(12, 59)]
+[InlineData(11, 59)]
 public void GetTimeBasedGreeting_WhenItIsMorning_ThenReturnGoodMorning(
     int hour, 
     int minutes)
@@ -97,3 +97,4 @@ public void GetTimeBasedGreeting_WhenItIsMorning_ThenReturnGoodMorning(
 
     result.Should().BeEquivalentTo("Good morning");
 }
+```
