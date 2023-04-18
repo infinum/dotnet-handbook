@@ -14,7 +14,7 @@ Even though the benefits might sound like a dream come true, before you start se
 
 - **Coupling with a provider or vendor lock-in** - Serverless applications are highly dependent on the provider which might change the prices, or even end their services altogether. While it is possible to switch between different providers, that process requires at least some kind of development. On the other hand, with the regular hosting models, an application can be switched between servers with only a couple of configuration tweaks.
 - **Development and debugging** - Related to the previous point, to run and test the code locally, you usually need to connect to either some kind of an emulator, like Azurite, or directly to the cloud provider, which complicates the setup process for the local development environment. The different execution model also means that some of the debug tools like profilers and debuggers can't be used.
-- **Startup performance** - The fact that the application doesn't use any resources while it is not running also implies that it has to go through the startup procedure (almost) every time it needs to run, which impacts the performance. This can be mitigated by using different plans which keep some app instances warm, but that comes at a cost.
+- **Startup performance** - The fact that the application doesn't use any resources while it is not running also implies that it has to go through the startup procedure after being idle for some time, which impacts the performance. This type of serverless hosting is called **cold start**. It can be mitigated by using different plans which keep some app instances warm, but that comes at a cost.
 
 ### Serverless vs other hosting models
 
