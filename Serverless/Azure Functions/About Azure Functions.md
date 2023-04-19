@@ -10,10 +10,6 @@ Our scaling options will depend on the hosting plan we have for our service. The
 * Premium plan - Automatically scale using pre-warmed workers which run applications with no delay after being idle. Functions run on more powerful instances and connect to virtual networks. No cold start.
 * Dedicated (App Service) plan. - Run functions within an App Service plan at regular App Service plan rates. This plan is suitable for long-running scenarios such as Durable Functions, or where predictable costs are needed.
 
-!!! TODO: mislim da ovo ispod mozda mozemo skroz maknuti, malo je nevezano za ovaj chapter?
-
-Note: If there is already an existing App service hosting some API that needs some background job to be executed, it might be a good candidate for an [Azure Web job](https://docs.microsoft.com/en-us/azure/app-service/webjobs-create).
-
 Regardless of our scaling options, sometimes our requirements might lead us in the other direction. For example, if we needed queue messages to be processed by a function one at a time then we need to configure the function app to scale out to a single instance. In that case, the function's concurrency should be limited too. That is done by setting `batchSize` to 1 in the `host.json`. Learn more [here](https://docs.microsoft.com/en-us/azure/azure-functions/functions-bindings-storage-queue-trigger?tabs=csharp#concurrency) and [here](https://docs.microsoft.com/en-us/azure/azure-functions/functions-concurrency).
 
 ### Best practices
@@ -128,6 +124,8 @@ public HttpResponseData Run([HttpTrigger(AuthorizationLevel.Function, "get", "po
 	return response;
 }
 ```
+
+Note: If there is already an existing App service hosting an API that needs a background job to be executed, it might be a good candidate for an [Azure Web job](https://docs.microsoft.com/en-us/azure/app-service/webjobs-create).
 
 ### Middleware
 
