@@ -1,4 +1,4 @@
-### What is the clean code ?
+### What is the clean code?
 
 
 ![celanCodeImg](/resources/wtf.png)
@@ -61,7 +61,7 @@ The logic contained in a single method should reflect the same level of abstract
 
 ### Code order
 
-C# doesn't have any specific requirements for the order of the code inside a class. This is great for us because it gives us the freedom to place code wherever we want, but that doesn't mean that we should just put it anywhere and call it a day.
+C# doesn't have any specific requirements for the code order inside a class. This is great for us because it gives us the freedom to place code wherever we want, but that doesn't mean that we should just put it anywhere and call it a day.
 
 As we mentioned before, the code we write must be understandable to developers as well as the machines. In this context, understandable code must tell a story about the class we are writing, just as if we were writing a newspaper article. First, you get the high-level information, and as you continue reading you dive into more details. Related code should be vertically close, and callers should be above the callees, if possible. Alongside these guidelines, we use the following order:
 
