@@ -7,7 +7,7 @@ The execution of our code can be triggered by various triggers like an HTTP requ
 The main benefits of using serverless solutions are:
 
 - **Writing less code** - The developer can focus on the business logic implementation and utilize the ready-to-use infrastructure features.
-- **Maintaining less infrastructure** - Cloud infrastructure providers manage servers, security, and scaling
+- **Maintaining less infrastructure** - Cloud infrastructure providers manage servers, security, and scaling.
 - **Saving on costs** - No need to buy expensive machines and infrastructure, pay only for the resources that were used by our application.
 - **Scalability** - Our services automatically scale up or down depending on usage.
 
