@@ -5,7 +5,7 @@ Functions support two process models for .NET class library functions:
 
 The two different process models allow for different configurations and features:
 
-* Dependency injection for out-of-process functions is done via the usual .NET core pattern while in-process functions need a custom StartUp class.
+* Dependency injection for out-of-process functions is done via the usual .NET core pattern while in-process functions need a custom `Startup` class.
 * Out-of-process functions support middleware configuration.
 * In-process functions support rich binding classes while out-of-process binding classes are simple DTOs, strings and bytes.
 

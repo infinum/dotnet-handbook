@@ -1,6 +1,6 @@
-[Azure Functions](https://learn.microsoft.com/en-us/azure/azure-functions/functions-overview) is Microsoft's serverless solution. They are, unsurprisingly, hosted on Azure, Microsoft's cloud service. Functions support several different programming languages such as C# and JavaScript, F#, Java, Python, and PowerShell.
+[Azure Functions](https://learn.microsoft.com/en-us/azure/azure-functions/functions-overview) is Microsoft's serverless solution. They are, unsurprisingly, hosted on Azure, Microsoft's cloud service. Functions support several different programming languages such as C#, JavaScript, F#, Java, Python, and PowerShell.
 
-Azure Functions are interlocked with Azure Storage services, meaning that every Azure function needs Azure storage configured to be able to run. The storage account connection is used by the Functions host for operations such as managing triggers and logging function executions. It's also used when dynamically scaling function apps.
+Azure Functions need an Azure Storage account (Blob Storage, Azure Files, Queue Storage or Table Storage) when creating a function app instance. The storage account connection is used by the Functions host for operations such as managing triggers and logging function executions. It's also used when dynamically scaling function apps.
 
 ### Scaling
 
@@ -8,7 +8,7 @@ Our scaling options will depend on the hosting plan we have for our service. The
 
 * Consumption plan - Functions scale automatically and billing is calculated only for the used resources. This means that the functions have a cold start (you can read more about its implications in our [Serverless computing chapter](../serverless-computing)). A single-function app in this plan scales out to a maximum of 200 instances, while a single instance can process more than one message/request at a time, except for time-triggered functions which are always singletons.
 * Premium plan - Automatically scale using pre-warmed workers which run applications with no delay after being idle. Functions run on more powerful instances and connect to virtual networks. No cold start.
-* Dedicated (App Service) plan. - Run functions within an App Service plan at regular App Service plan rates. This plan is suitable for long-running scenarios such as Durable Functions, or where predictable costs are needed.
+* Dedicated (App Service) plan - Run functions within an App Service plan at regular App Service plan rates. This plan is suitable for long-running scenarios such as Durable Functions, or where predictable costs are needed.
 
 Regardless of our scaling options, sometimes our requirements might lead us in the other direction. For example, if we needed queue messages to be processed by a function one at a time then we need to configure the function app to scale out to a single instance. In that case, the function's concurrency should be limited too. That is done by setting `batchSize` to 1 in the `host.json`. Learn more [here](https://docs.microsoft.com/en-us/azure/azure-functions/functions-bindings-storage-queue-trigger?tabs=csharp#concurrency) and [here](https://docs.microsoft.com/en-us/azure/azure-functions/functions-concurrency).
 
@@ -32,13 +32,13 @@ The default function app consists of:
 * `Function.cs` class - Contains a function method with defined triggers and input/output bindings. The `[FunctionName]` attribute marks the method as a function entry point. The name must be unique within a project.
 * `local.settings.json` - Contains all app settings, connection strings, and configurations. Settings in the `local.settings.json` file are used only when you're running the project locally so it is not deployed. Note that when you create a new Function project, this file is added to the `.gitignore` file, meaning that it will not end up in the repository if we don't set that up ourselves. By default, it contains the ``AzureWebJobsStorage`` key with a value set to ``UseDevelopmentStorage=true``, which is the connection string for the local Azure Storage Emulator.
 * `host.json` - Contains the global config options for all functions within a Function app. Here you can configure logging and retry logic. See options in detail [here](https://docs.microsoft.com/en-us/azure/azure-functions/functions-host-json#sample-hostjson-file).
-* `Program.cs`  (applicable for out-of-process) - Contains host builder logic, DI configuration and middleware configuration.
+* `Program.cs` (applicable for out-of-process) - Contains host builder logic, DI configuration and middleware configuration.
 
 ### Function Properties
 
 #### Lifetime
 
-Serverless functions should be short-lived and stateless. The maximum lifetime of a function can be configured using the `functionTimeout` property. The default lifetime is 5 and 30 minutes with a maximum of 10 or unlimited for Consumption and other plans respectively. If the function execution time exceeds the configured lifetime it will be un-gracefully killed.
+Serverless functions should be short-lived and stateless. The maximum lifetime of a function can be configured using the `functionTimeout` property. The default lifetime is 5 minutes for Consumption (with a maximum of 10 minutes) and 30 minutes for other plans (without the upper limit). If the function execution time exceeds the configured lifetime it will be un-gracefully killed.
 
 ``` json
 {
@@ -48,10 +48,10 @@ Serverless functions should be short-lived and stateless. The maximum lifetime o
 
 #### Retry logic
 
-[Retry policies](https://docs.microsoft.com/en-us/azure/azure-functions/functions-bindings-error-pages?tabs=csharp#retry-policies-preview) can be defined for all functions in an app by setting properties in host.json or for individual functions using attributes. Retry options are:
+[Retry policies](https://docs.microsoft.com/en-us/azure/azure-functions/functions-bindings-error-pages?tabs=csharp#retry-policies-preview) can be defined for all functions in an app by setting properties in `host.json` or for individual functions using attributes. Retry options are:
 
 - Fixed delay - a specified amount of time is allowed to elapse between each try.
-- Exponential backoff - the amount of time between each try increases exponentially
+- Exponential backoff - the amount of time between each try increases exponentially.
 
 ```json
 {
@@ -136,7 +136,7 @@ public class CustomMiddleware : IFunctionsWorkerMiddleware
 {
     public async Task Invoke(FunctionContext context, FunctionExecutionDelegate next)
     {
-        // code before exexecution
+        // code before execution
         await next(context);
         // code after execution
     }
