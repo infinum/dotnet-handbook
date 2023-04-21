@@ -1,4 +1,4 @@
-### What is the clean code ?
+### What is the clean code?
 
 
 ![celanCodeImg](/resources/wtf.png)
@@ -13,15 +13,15 @@ To develop code that will put us on the left side of the above image, developers
 ### Clean code reflects in :
 * Elegant, efficient and simple to read code.
 * It is self-explanatory, and logic is straightforward, without the need for explanatory comments.
-* It favors exception throwing instead of error codes, and has complete and centralized error handling.
+* It favors exception throwing instead of error codes and has complete and centralized error handling.
 * It should reflect SOLID principles, especially single responsibility.
 * It does not contain code duplications across modules and multiple projects.
 * It favors composition over inheritance (does not contain class explosion) and utilizes design patterns.
 * It is easy to test.
 * It is well formatted.
-* It follows well defined naming conventions and the coding style is consistent.
+* It follows well-defined naming conventions and the coding style is consistent.
 * Classes tend to be small and methods do not have a long list of input parameters.
-* It is well (and consistently) organized on the directory, project and solution level.
+* It is well (and consistently) organized on the directory, project and solution levels.
 
 
 ### Naming
@@ -38,7 +38,7 @@ So in general naming should be:
 
 ### Comments
 
-Comments are part of source code, and if not consisted of significant info, then comments act as noise, and even worse if not well maintained they can lead developers to false conclusions. In general, developers should avoid writing comments. If the code is unclear, it is a sign it should be rewritten.
+Comments are part of the source code, and if not consisted of significant info, then comments act as noise. Even worse, if not well maintained they can lead developers to false conclusions. In general, developers should avoid writing comments. If the code is unclear, it is a sign it should be rewritten.
 
 Exceptions:
 
@@ -59,12 +59,23 @@ The logic contained in a single method should reflect the same level of abstract
 * Methods should not have multiple return params (exception is TryDoSomething pattern which returns bool and resulting object via out param).
 * Avoid using flag arguments. Split the method into several independent methods that can be called from the client without the flag.
 
+### Code order
+
+C# doesn't have any specific requirements for the code order inside a class. This is great for us because it gives us the freedom to place code wherever we want, but that doesn't mean that we should just put it anywhere and call it a day.
+
+As we mentioned before, the code we write must be understandable to developers as well as the machines. In this context, understandable code must tell a story about the class we are writing, just as if we were writing a newspaper article. First, you get the high-level information, and as you continue reading you dive into more details. Related code should be vertically close, and callers should be above the callees, if possible. Alongside these guidelines, we use the following order:
+
+1. private fields
+2. public properties
+3. constructors
+4. static methods
+5. instance methods
 
 ### Abstraction & Encapsulation
 
 It is a good practice to expose abstract interfaces that allow its users to manipulate the essence of the data, without having to know its implementation.
 
-When modeling entity classes, encapsulating data state details, lead to increased control over entity access and manipulation, providing clean, well defined ways to interact with entities. Simply put, you should hide details, and expose behavior.
+When modeling entity classes, encapsulating data state details, lead to increased control over entity access and manipulation, providing clean, well-defined ways to interact with entities. Simply put, you should hide details, and expose behavior.
 
 
 ### Law of Demeter
@@ -85,8 +96,8 @@ In other words, the Law of Demeter principle states that a module (class) should
 
 The above code can be described as *sausage code* and express an obvious code smell:
 
-* lack of encapsulation - human class exposes too many details, making other users of this code dependent on low level detail code.
-* lack of abstractions - if the eat behavior is changed, the caller code should also change.
+* lack of encapsulation - human class exposes too many details, making other users of this code dependent on low-level detail code.
+* lack of abstractions - if the eating behavior is changed, the caller code should also change.
 * hard to test
 * hard to read
 
