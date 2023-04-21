@@ -10,11 +10,13 @@ These are some of the rules we would like to emphasize:
 * Format method parameters into separate lines
 * Names for variables and methods should be clear and understandable
 * Boolean variables should be in a form of a question (e.g. isRunning, areFinished, doesExist etc.)
-* Keep your methods as simple as possible and break them into multiple methods if they start to gain complexity (or if you can reuse specific parts of it). If you need comments to describe your method, it may be too complex.
+* Keep your methods as simple as possible and break them into multiple methods if they start to gain complexity, or if you can reuse specific parts. If you need comments to describe your method, it may be too complex.
 
-To keep things a bit easier we use [StyleCop](https://github.com/DotNetAnalyzers/StyleCopAnalyzers), a tool for enforcing C# style and consistency rules. The ruleset can be configured and used across all projects in the solution. It is easily installed as a NuGet package and as soon as you build the project, the StyleCop will start checking. The ruleset we use can be downloaded [here](provide link). 
+To keep things a bit easier we use [StyleCop](https://github.com/DotNetAnalyzers/StyleCopAnalyzers), a tool for enforcing C# style and consistency rules. The ruleset can be configured and used across all projects in the solution. It is easily installed as a NuGet package and as soon as you build the project, the StyleCop will start checking.
 
 We also use [Roslynator](https://marketplace.visualstudio.com/items?itemName=josefpihrt.Roslynator2019), a lightweight collection of analyzers, refactorings and fixes for C#. Roslynator will be even more useful when the StyleCop can't be added to legacy projects.
+
+You can check out the rulesets we use in our public [GitHub repo](https://github.com/infinum/dotnet-public-content/tree/main/Analyzers). We suggest that instead of copying the files to your repository you use the [`git submodule`](https://git-scm.com/book/en/v2/Git-Tools-Submodules) feature with a symlink to the required directory. That way your repository will stay up to date with a simple `pull` command.
 
 There is also extensive documentation for C# available [here](https://docs.microsoft.com/en-us/dotnet/csharp/).
 
