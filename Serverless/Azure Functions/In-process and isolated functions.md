@@ -1,6 +1,6 @@
 Functions support two process models for .NET class library functions:
 
-* In-Process - Azure Functions host is the runtime for .NET functions. Before .NET 5 C# function apps run in the same process as the host. Sharing a process has enabled unique benefits to .NET functions, most notably a set of rich bindings and SDK injections. However, as a side effect, dependencies could conflict (like `Newtonsoft.Json`) and running in the same process also means that the .NET version of the user code must match the .NET version of the host.
+* In-Process - Azure Functions host is the runtime for .NET functions. Before .NET 5, C# function apps ran in the same process as the host. Sharing a process has enabled unique benefits to .NET functions, most notably a set of rich bindings and SDK injections. However, as a side effect, dependencies could conflict (like `Newtonsoft.Json`) and running in the same process also means that the .NET version of the user code must match the .NET version of the host.
 * Out Of Process (Isolated) - Out of process is running functions as an isolated process from the main Azure Functions host. This allows Azure Functions to rapidly support new versions of these languages without updating the host, and it allows the host to evolve independently to enable new features and update its dependencies over time.
 
 The two different process models allow for different configurations and features:
@@ -15,7 +15,7 @@ The two different process models allow for different configurations and features
 
 When you want to move from the in-process Azure function to the isolated Azure function, the first thing you need to do is set the `OutputType` property in your `.csproj` file to `Exe`. Then, change your `FUNCTIONS_WORKER_RUNTIME` app setting in `local.settings.json` to `dotnet-isolated`. At this point, your project won't build. Have no fear, you just need to add the startup code.
 
-#### Creating Host
+#### Creating a Host
 
 Now you need to write your startup code to make the functions available to the host. In order to do that you will require three packages to be installed:
 
