@@ -1,22 +1,21 @@
-* In-Process - Azure Functions host is the runtime for .NET functions. Before .NET 5 C# function apps run in the same process as the host. Sharing a process has enabled unique benefits to .NET functions, most notably a set of rich bindings and SDK injections. However, as a side effect, dependencies could conflict (like `Newtonsoft.Json`) and running in the same process also means that the .NET version of the user code must match the .NET version of the host.
-* Out Of Process (Isolated) - Out of process is running functions as an isolated process from the main Azure Functions host. This allows Azure Functions to rapidly support new versions of these languages without updating the host, and it allows the host to evolve independently to enable new features and update its own dependencies over time.
+Functions support two process models for .NET class library functions:
 
-Differences:
+* In-Process - Azure Functions host is the runtime for .NET functions. Before .NET 5, C# function apps ran in the same process as the host. Sharing a process has enabled unique benefits to .NET functions, most notably a set of rich bindings and SDK injections. However, as a side effect, dependencies could conflict (like `Newtonsoft.Json`) and running in the same process also means that the .NET version of the user code must match the .NET version of the host.
+* Out Of Process (Isolated) - Out of process is running functions as an isolated process from the main Azure Functions host. This allows Azure Functions to rapidly support new versions of these languages without updating the host, and it allows the host to evolve independently to enable new features and update its dependencies over time.
 
-* Dependency injection for out-of-process functions is done via the usual .NET core pattern while in-process functions need a custom StartUp class.
-* Out-of-process function supports middleware configuration.
-* In-process functions support rich binding classes while out-of-process binding classes are simple DTOs, strings, bytes.
+The two different process models allow for different configurations and features:
 
-For more info read [here](https://docs.microsoft.com/en-us/azure/azure-functions/dotnet-isolated-process-guide?tabs=browser&pivots=development-environment-vs#differences-with-net-class-library-functions).
+* Dependency injection for out-of-process functions is done via the usual .NET core pattern while in-process functions need a custom `Startup` class.
+* Out-of-process functions support middleware configuration.
+* In-process functions support rich binding classes while out-of-process binding classes are simple DTOs, strings and bytes.
 
-.NET 6 functions support both in-process and out-of-process options, but out-of-process does not support all bindings and features supported in in-process.
-In .NET 7 out-of-process will support a full set of features so out-of-process will be the only supported option. To find out more read [here](https://techcommunity.microsoft.com/t5/apps-on-azure-blog/net-on-azure-functions-roadmap/ba-p/2197916).
+.NET 6 functions support both in-process and out-of-process options, but out-of-process does not support all bindings and features supported in in-process. With .NET 7, out-of-process Functions now support a full set of features so out-of-process is the only supported option. This is why we choose the "Isolated" worker when creating a new Functions project. If you want to know more, take a look at the [Guide for running Azure Functions in an isolated worker process](https://docs.microsoft.com/en-us/azure/azure-functions/dotnet-isolated-process-guide?tabs=browser&pivots=development-environment-vs#differences-with-net-class-library-functions).
 
 ### Move from in-process to isolated function
 
-When you want to move from the in-process azure function to the isolated azure function, the first thing you need to do is set the ``OutputType`` property in your ``.csproj`` file to ``Exe``. Then, change your ``FUNCTIONS_WORKER_RUNTIME`` app setting in ``local.settings.json`` to ``dotnet-isolated``. At this point, your project won't build. Have no fear, you just need to add the startup code.
+When you want to move from the in-process Azure function to the isolated Azure function, the first thing you need to do is set the `OutputType` property in your `.csproj` file to `Exe`. Then, change your `FUNCTIONS_WORKER_RUNTIME` app setting in `local.settings.json` to `dotnet-isolated`. At this point, your project won't build. Have no fear, you just need to add the startup code.
 
-#### Creating Host
+#### Creating a Host
 
 Now you need to write your startup code to make the functions available to the host. In order to do that you will require three packages to be installed:
 
@@ -27,7 +26,7 @@ Now you need to write your startup code to make the functions available to the h
 Now add the ``Program.cs`` file, delete everything and write (copy and paste) the following code:
 
 ```c#
-using Microsoft.Extensions.Hosting;§
+using Microsoft.Extensions.Hosting;
 
 var host = new HostBuilder()
     .ConfigureFunctionsWorkerDefaults()
