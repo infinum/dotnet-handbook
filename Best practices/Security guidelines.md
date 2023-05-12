@@ -1,4 +1,4 @@
-During the development of an application, besides worrying about writing clean code with good performance, we must always keep an eye on security. After all, the fastest and prettiest code is not that useful it allows malicious actors to access our users' data. This section of the handbook will provide insights into some of the most commonly used strategies.
+During the development of an application, besides worrying about writing clean code with good performance, we must always keep an eye on security. After all, the fastest and prettiest code is not that useful if allows malicious actors to access our users' data. This section of the handbook will provide insights into some of the most commonly used strategies.
 
 ## HTTPS
 
@@ -32,8 +32,7 @@ public static void SetupCorsRules(
 {
     var allowedOrigins = configuration
         .GetSection("AllowedOrigins")
-        .AsEnumerable();
-    string[] origins = allowedOrigins
+        .AsEnumerable()
         .Select(o => o.Value)
         .Where(v => !string.IsNullOrEmpty(v))
         .ToArray();
@@ -42,7 +41,7 @@ public static void SetupCorsRules(
     {
         options.AddPolicy(
             "OurImportantCorsPolicy", 
-            builder => builder.WithOrigins(origins)
+            builder => builder.WithOrigins(allowedOrigins)
                 .AllowAnyMethod()
                 .AllowAnyHeader()
                 .AllowCredentials());
@@ -87,7 +86,7 @@ app.Use(async (context, next) =>
     });
 ```
 
-When using these headers, we must have in mind the fact that they are only instructions for the browsers. This means that we're depending on the "goodwill" of browser developers to implement the mechanisms we advise using. Since most of our users will use one of the more popular browsers which do support these headers, this will not be an issue for them (and us), but these headers are not do not guarantee protection like other security guidelines which are implemented on the server side.
+When using these headers, we must have in mind the fact that they are only instructions for the browsers. This means that we're depending on the "goodwill" of browser developers to implement the mechanisms we advise using. Since most of our users will use one of the more popular browsers which do support these headers, this will not be an issue for them (and us), but these headers do not guarantee protection like other security guidelines which are implemented on the server side.
 
 ## Cookie security
 
