@@ -1,4 +1,4 @@
-The beauty of developing software on a platform that has a big community is that we don't have to implement everything ourselves. Using packages developed by other people can speed up the development process, but that also means that we're using some code we don't have control of. Because of that, we must always check if the packages we're using contain any known vulnerabilities.
+The beauty of developing software using a platform that has a big community is that we don't have to implement everything ourselves. Using packages developed by other people speeds up the development process by orders of magnitude, but that also means that we're using some code we don't have control of. Because of that, we must always check if the packages we're using contain any known vulnerabilities.
 
 ## How to hunt them?
 
@@ -12,11 +12,9 @@ This command is used to list all the packages used by our solution. The `--vulne
 
 One important note about this command is that the packages are not scanned and analyzed, but rather checked against the centralized GitHub Advisory Database. This means that any non-public packages that might not be safe will not be marked as vulnerable. You can learn more about this in Microsoft's [blog post about the command](https://devblogs.microsoft.com/nuget/how-to-scan-nuget-packages-for-security-vulnerabilities/).
 
-
-
 ## What to do about them?
 
-There are two steps in the handling process: determining whether a certain vulnerability is afflicting to our system, and what packages must be updated to avoid the vulnerability.
+Now that we've ran the command, we have a list of packages with known vulnerabilities. The next step is determining whether that vulenrability is actually afflicting our system, and, if it is, how to fix it.
 
 ### Analyzing the vulnerability
 
@@ -30,7 +28,7 @@ These reports are not always easily understandable and might take a lot of time 
 
 ### Fixing the vulnerabilities
 
-The process of fixing these issues is, in theory, simple: just replace all the vulnerable dependencies with newer versions that have fixed the issue, or find some replacement package that doesn't have the vulnerability. In practice, unfortunately, this is not always easy to do. The issue is finding out which exact package we should update because we don't just check the packages referenced directly by our projects, but also the transitive dependencies. Currently, there is no native way (integrated into Visual Studio or the `dotnet` CLI tool) to find out which one of our direct dependencies uses the problematic transitive dependency. Fortunately, we weren't the first ones annoyed by this lack of support.
+The process of fixing these issues is, in theory, simple: just replace all the vulnerable dependencies with newer versions that have fixed the issue, or find a replacement package that doesn't have the vulnerability. In practice, unfortunately, this is not always easy to do. Fnding out which exact package we should update is not as simple as updating the packages used by our projects because we don't just check the packages referenced directly by our projects, but also the transitive dependencies. Currently, there is no native way (integrated into Visual Studio or the `dotnet` CLI tool) to find out which one of our direct dependencies uses the problematic transitive dependency. Fortunately, we weren't the first ones annoyed by this lack of support.
 
 #### Nail Down NuGet
 
