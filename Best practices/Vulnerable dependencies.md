@@ -53,6 +53,7 @@ To run the script, use the following command:
 ```
 
 This will print all dependency paths which include the specified package and version. Using that information we can determine which dependencies use the vulnerable one:
+
 1. Try to update the direct dependency to the newest possible version.
 2. Run the vulnerability check command again to see if the update fixed the issue
     1. If not, add the transitive dependency as a direct dependency of the project (just check beforehand that the version you're adding has fixed the vulnerability) and then repeat the previous step.
