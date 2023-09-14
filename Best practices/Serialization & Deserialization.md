@@ -34,11 +34,14 @@ To convert a JSON string back into an object:
 
 ```var options = new JsonSerializerOptions { AllowTrailingCommas = true };```
 
-**MaxDepth**: Sets the maximum depth allowed when reading or writing JSON, protecting against deeply nested structures.
+**MaxDepth**: Sets the maximum depth allowed when reading or writing JSON, protecting against deeply nested structures. This is primarily a safeguard against potential stack overflow exceptions, especially in recursive parsing scenarios. For example setting **MaxDepth = 1** would give us an extremely shallow structure, meaning we are only handling top-level properties. This could be useful if we are sure that our JSON data should only have simple key-value pairs without any nested objects or arrays.
 
 ```var options = new JsonSerializerOptions { MaxDepth = 10 };```
 
-**ReferenceHandler**: Determines how to handle references, which can be useful for dealing with circular references or preserving object references.
+**ReferenceHandler**: Controls how object references are managed during serialization/deserialization.
+There are primarily two built-in settings for the `ReferenceHandler` property:
+1. **ReferenceHandler.Default**: This is the default behavior, where object references are not preserved during serialization. If you have circular references in your object graph, serializing it with this setting will result in a stack overflow exception.
+2. **ReferenceHandler.Preserve**: This setting will preserve object references in the JSON output, and it can handle circular references without issues. This is done by adding metadata to the serialized JSON to track references.
 
 ```var options = new JsonSerializerOptions { ReferenceHandler = ReferenceHandler.Preserve };```
 
