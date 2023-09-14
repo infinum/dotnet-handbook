@@ -67,7 +67,7 @@ services.AddControllers()
 
 The main drive behind Source Generators in System.Text.Json is performance. Traditional reflection-based serialization incurs runtime overhead, while Source Generators reduce this by generating code at compile-time. This leads to faster performance and reduced memory usage.
 
-**Why we don't use htem as Default**
+**Why we don't use them as Default**
 
 1.  **Flexibility and Customization**: Reflection offers dynamic behaviors hard to replicate with Source Generators.
 2.  **Development Overhead**: Setting up Source Generators can add complexity.
