@@ -16,38 +16,39 @@ To convert a JSON string back into an object:
 ```YourObjectType obj = JsonSerializer.Deserialize<YourObjectType>(jsonString);```
 
 ### JsonSerializerOptions
+
 `JsonSerializerOptions` is a class that provides a way to specify various serialization and deserialization behaviors. Here are some of the commonly used options:
 
 **PropertyNameCaseInsensitive**: When set to `true`, property name matching during deserialization is case-insensitive. This can be useful when dealing with JSON from sources that don't maintain consistent casing.
 
-```var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };```
-
 **WriteIndented**: Determines whether the output JSON should be pretty-printed with indentation, which can be useful for debugging or human readability.
-
-```var options = new JsonSerializerOptions { WriteIndented = true };```
 
 **DefaultIgnoreCondition**: Determines the condition under which a property will be ignored during serialization. For instance, you can set it to `JsonIgnoreCondition.WhenWritingNull` to ignore properties with `null` values.
 
-```var options = new JsonSerializerOptions { DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull };```
-
 **AllowTrailingCommas**: When set to `true`, the deserializer will tolerate trailing commas in the JSON.
 
-```var options = new JsonSerializerOptions { AllowTrailingCommas = true };```
-
-**MaxDepth**: Sets the maximum depth allowed when reading or writing JSON, protecting against deeply nested structures. This is primarily a safeguard against potential stack overflow exceptions, especially in recursive parsing scenarios. For example setting **MaxDepth = 1** would give us an extremely shallow structure, meaning we are only handling top-level properties. This could be useful if we are sure that our JSON data should only have simple key-value pairs without any nested objects or arrays.
-
-```var options = new JsonSerializerOptions { MaxDepth = 10 };```
+**MaxDepth**: Sets the maximum depth allowed when reading or writing JSON, protecting against deeply nested structures. This is primarily a safeguard against potential stack overflow exceptions, especially in recursive parsing scenarios. For example, setting **MaxDepth = 1** would give us an extremely shallow structure, meaning we are only handling top-level properties. This could be useful if we are sure that our JSON data should only have simple key-value pairs without any nested objects or arrays.
 
 **ReferenceHandler**: Controls how object references are managed during serialization/deserialization.
 There are primarily two built-in settings for the `ReferenceHandler` property:
 1. **ReferenceHandler.Default**: This is the default behavior, where object references are not preserved during serialization. If you have circular references in your object graph, serializing it with this setting will result in a stack overflow exception.
 2. **ReferenceHandler.Preserve**: This setting will preserve object references in the JSON output, and it can handle circular references without issues. This is done by adding metadata to the serialized JSON to track references.
 
-```var options = new JsonSerializerOptions { ReferenceHandler = ReferenceHandler.Preserve };```
-
 **Converters**: You can add custom converters to handle specific serialization or deserialization scenarios that aren't covered by the default behavior. For instance, the `JsonStringEnumConverter` is commonly used if we want to represent enums as strings in the serialized output.
 
-```options.Converters.Add(new MyCustomConverter());```
+**Example**:
+
+```
+var options = new JsonSerializerOptions {
+	 PropertyNameCaseInsensitive = true,
+	 WriteIndented = true,
+	 DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+	 AllowTrailingCommas = true,
+	 MaxDepth = 10,
+	 ReferenceHandler = ReferenceHandler.Preserve,
+     Converters = { new JsonStringEnumConverter() }
+     };
+```  
 
 These are just some of the many options available in `JsonSerializerOptions`. By understanding and utilizing these options, developers can fine-tune the behavior of `System.Text.Json` to match the specific needs of their applications.
 
@@ -84,9 +85,9 @@ To use source generation with default settings:
 - Create a `partial` class that inherits from `JsonSerializerContext`.
 - Mark the types you wish to serialize or deserialize with `JsonSerializableAttribute`.
 - Invoke a `JsonSerializer` method that:
-    - Accepts a `JsonTypeInfo<T>` instance, or
-    - Accepts a `JsonSerializerContext` instance, or
-    - Uses a a `JsonSerializerOptions` instance and you've set its `JsonSerializerOptions.TypeInfoResolver` property to the `Default` property of the context type
+  - Accepts a `JsonTypeInfo<T>` instance, or
+  - Accepts a `JsonSerializerContext` instance, or
+  - Uses a a `JsonSerializerOptions` instance and you've set its `JsonSerializerOptions.TypeInfoResolver` property to the `Default` property of the context type
 
 
 ### Examples:
@@ -113,7 +114,7 @@ jsonString = JsonSerializer.Serialize(weatherForecast, typeof(WeatherForecast), 
 For ASP.NET Core Web API apps, you can use the `AddContext` method of `JsonSerializerOptions` to set up usage on controllers globally:
 ```  
 services.AddControllers().AddJsonOptions(options =>  
-	 options.JsonSerializerOptions.AddContext<MyJsonContext>());
+	 options.JsonSerializerOptions.AddContext<WeatherForecastContext>());
  ```  
 
 
