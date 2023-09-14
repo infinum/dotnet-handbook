@@ -31,6 +31,7 @@ To convert a JSON string back into an object:
 
 **ReferenceHandler**: Controls how object references are managed during serialization/deserialization.
 There are primarily two built-in settings for the `ReferenceHandler` property:
+
 1. **ReferenceHandler.Default**: This is the default behavior, where object references are not preserved during serialization. If you have circular references in your object graph, serializing it with this setting will result in a stack overflow exception.
 2. **ReferenceHandler.Preserve**: This setting will preserve object references in the JSON output, and it can handle circular references without issues. This is done by adding metadata to the serialized JSON to track references.
 
@@ -39,15 +40,16 @@ There are primarily two built-in settings for the `ReferenceHandler` property:
 **Example**:
 
 ```
-var options = new JsonSerializerOptions {
-	 PropertyNameCaseInsensitive = true,
-	 WriteIndented = true,
-	 DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
-	 AllowTrailingCommas = true,
-	 MaxDepth = 10,
-	 ReferenceHandler = ReferenceHandler.Preserve,
-     Converters = { new JsonStringEnumConverter() }
-     };
+var options = new JsonSerializerOptions 
+{
+    PropertyNameCaseInsensitive = true,
+    WriteIndented = true,
+    DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+    AllowTrailingCommas = true,
+    MaxDepth = 10,
+    ReferenceHandler = ReferenceHandler.Preserve,
+    Converters = { new JsonStringEnumConverter() }
+};
 ```  
 
 These are just some of the many options available in `JsonSerializerOptions`. By understanding and utilizing these options, developers can fine-tune the behavior of `System.Text.Json` to match the specific needs of their applications.
@@ -96,7 +98,7 @@ Consider a `WeatherForecast` class:
 ```  
 public class WeatherForecast {  
     public DateTime Date { get; set; }
-	public int TemperatureCelsius { get; set; }
+    public int TemperatureCelsius { get; set; }
     public string? Summary { get; set; }
 }  
 ```  
