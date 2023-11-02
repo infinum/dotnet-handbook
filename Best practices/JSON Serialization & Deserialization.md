@@ -61,7 +61,7 @@ The `AddJsonOptions` extension method allows you to configure serialization sett
 ```  
 services.AddControllers()  
  .AddJsonOptions(options => { ... });
- ```  
+```  
 
 ## Source Generators
 
@@ -95,6 +95,7 @@ To use source generation with default settings:
 ### Examples:
 
 Consider a `WeatherForecast` class:
+
 ```  
 public class WeatherForecast {  
     public DateTime Date { get; set; }
@@ -104,21 +105,24 @@ public class WeatherForecast {
 ```  
 
 To enable source generation for this class:
+
 ```  
 [JsonSerializable(typeof(WeatherForecast))]  
 public partial class WeatherForecastContext : JsonSerializerContext { }
- ```
+```
 
 Now you can utilise it like this:
+
 ```  
 jsonString = JsonSerializer.Serialize(weatherForecast, typeof(WeatherForecast), WeatherForecastContext.Default);  
-``` 
+```
+
 For ASP.NET Core Web API apps, you can use the `AddContext` method of `JsonSerializerOptions` to set up usage on controllers globally:
+
 ```  
 services.AddControllers().AddJsonOptions(options =>  
 	 options.JsonSerializerOptions.AddContext<WeatherForecastContext>());
- ```  
-
+```  
 
 Sources:
 
