@@ -181,7 +181,7 @@ If a good branching strategy with clearly named release branches is used, tags c
 
 ## Pull requests
 
-Definition and basic rules of a good PR can be found [here](https://infinum.com/handbook/dotnet/team-practices/new-team-members).
+Definition and basic rules of a good PR can be found [here](https://infinum.com/handbook/dotnet/team-practices/new-team-members#prs).
 	
 There could also be additional pre-defined rules that every PR needs to satisfy before getting an approval to be merged (all required reviewers have approved the PR, all comments have been resolved...). Also, all potential merge conflicts (concurrent changes of the same resources) should be resolved prior to the merge. 
 
