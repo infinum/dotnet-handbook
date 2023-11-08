@@ -110,6 +110,8 @@ If we recognize a bug or important change request that needs to be resolved on p
 
 #### Github flow
 
+![githubflowimage](/resources/github-flow.png)
+
 **Pros**: 
 - reduced number of long-living branches
 - ideal for CI/CD (allows all the features to be deployed as soon as they are merged)
@@ -123,7 +125,7 @@ If we recognize a bug or important change request that needs to be resolved on p
 
 GitLab flow introduces environment branches to GitLab flow (e.g. staging and production).
 
-
+![gitlabflowimage](/resources/gitlab-flow.png)
 
 The GitLab flow is based on 11 rules:
 1. Use feature branches, no direct commits on master
