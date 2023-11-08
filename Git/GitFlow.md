@@ -169,3 +169,13 @@ Previously showed branching strategies are just examples of best practices that 
 
 You can learn more about git branching [here](https://learngitbranching.js.org/) and [here](https://medium.com/@patrickporto/4-branching-workflows-for-git-30d0aaee7bf) (used as a source for this article).
 
+## Git Tags
+
+**Git tag** is a point of reference to a specific commit. Usually, it's used to add a mark with a current release version. Tags can also help automate, orchestrate, and monitor development processes in a CI/CD pipeline.
+
+There are two types of git tags:
+1. **Lightweight tag** - a pointer to a specific commit,
+2. **Annotation tag** - tag with a message, creation date, tag author's name and e-mail and a checksum; stored as an object in the Git database and made available for searching
+
+If a good branching strategy with clearly named release branches is used, tags can be made obsolete, unless they are not required by the team's CI/CD policy.
+
