@@ -9,11 +9,15 @@ For performance-critical scenarios  using `System.Text.Json` source generators  
 
 To convert an object into its JSON representation:
 
-```string jsonString = JsonSerializer.Serialize(yourObject);```
+```csharp
+string jsonString = JsonSerializer.Serialize(ourObject);
+```
 
 To convert a JSON string back into an object:
 
-```YourObjectType obj = JsonSerializer.Deserialize<YourObjectType>(jsonString);```
+```csharp
+OurObjectType obj = JsonSerializer.Deserialize<OurObjectType>(jsonString);
+```
 
 ### JsonSerializerOptions
 
@@ -23,7 +27,7 @@ To convert a JSON string back into an object:
 
 **WriteIndented**: Determines whether the output JSON should be pretty-printed with indentation, which can be useful for debugging or human readability.
 
-**DefaultIgnoreCondition**: Determines the condition under which a property will be ignored during serialization. For instance, you can set it to `JsonIgnoreCondition.WhenWritingNull` to ignore properties with `null` values.
+**DefaultIgnoreCondition**: Determines the condition under which a property will be ignored during serialization. For instance, we can set it to `JsonIgnoreCondition.WhenWritingNull` to ignore properties with `null` values.
 
 **AllowTrailingCommas**: When set to `true`, the deserializer will tolerate trailing commas in the JSON.
 
@@ -32,14 +36,14 @@ To convert a JSON string back into an object:
 **ReferenceHandler**: Controls how object references are managed during serialization/deserialization.
 There are primarily two built-in settings for the `ReferenceHandler` property:
 
-1. **ReferenceHandler.Default**: This is the default behavior, where object references are not preserved during serialization. If you have circular references in your object graph, serializing it with this setting will result in a stack overflow exception.
+1. **ReferenceHandler.Default**: This is the default behavior, where object references are not preserved during serialization. If we have circular references in our object graph, serializing it with this setting will result in a stack overflow exception.
 2. **ReferenceHandler.Preserve**: This setting will preserve object references in the JSON output, and it can handle circular references without issues. This is done by adding metadata to the serialized JSON to track references.
 
-**Converters**: You can add custom converters to handle specific serialization or deserialization scenarios that aren't covered by the default behavior. For instance, the `JsonStringEnumConverter` is commonly used if we want to represent enums as strings in the serialized output.
+**Converters**: We can add custom converters to handle specific serialization or deserialization scenarios that aren't covered by the default behavior. For instance, the `JsonStringEnumConverter` is commonly used if we want to represent enums as strings in the serialized output.
 
 **Example**:
 
-```
+```csharp
 var options = new JsonSerializerOptions 
 {
     PropertyNameCaseInsensitive = true,
@@ -56,9 +60,9 @@ These are just some of the many options available in `JsonSerializerOptions`. By
 
 ### Setting up JsonSerializerOptions globally
 
-The `AddJsonOptions` extension method allows you to configure serialization settings globally for all controllers in an ASP.NET Core application.  You typically do this in the `Program.cs` while configuring MVC services. Example:
+The `AddJsonOptions` extension method allows us to configure serialization settings globally for all controllers in an ASP.NET Core application.  We typically do this in the `Program.cs` while configuring MVC services. Example:
 
-```  
+```csharp
 services.AddControllers()  
  .AddJsonOptions(options => { ... });
 ```  
@@ -84,19 +88,20 @@ This feature can operate in two primary modes: gathering metadata and optimizing
 ### Basic Setup:
 
 To use source generation with default settings:
+
 - Create a `partial` class that inherits from `JsonSerializerContext`.
-- Mark the types you wish to serialize or deserialize with `JsonSerializableAttribute`.
+- Mark the types we wish to serialize or deserialize with `JsonSerializableAttribute`.
 - Invoke a `JsonSerializer` method that:
   - Accepts a `JsonTypeInfo<T>` instance, or
   - Accepts a `JsonSerializerContext` instance, or
-  - Uses a a `JsonSerializerOptions` instance and you've set its `JsonSerializerOptions.TypeInfoResolver` property to the `Default` property of the context type
+  - Uses a `JsonSerializerOptions` instance and we've set its `JsonSerializerOptions.TypeInfoResolver` property to the `Default` property of the context type
 
 
 ### Examples:
 
 Consider a `WeatherForecast` class:
 
-```  
+```csharp
 public class WeatherForecast {  
     public DateTime Date { get; set; }
     public int TemperatureCelsius { get; set; }
@@ -106,20 +111,20 @@ public class WeatherForecast {
 
 To enable source generation for this class:
 
-```  
+```csharp
 [JsonSerializable(typeof(WeatherForecast))]  
 public partial class WeatherForecastContext : JsonSerializerContext { }
 ```
 
-Now you can utilise it like this:
+Now we can utilise it like this:
 
-```  
+```csharp
 jsonString = JsonSerializer.Serialize(weatherForecast, typeof(WeatherForecast), WeatherForecastContext.Default);  
 ```
 
-For ASP.NET Core Web API apps, you can use the `AddContext` method of `JsonSerializerOptions` to set up usage on controllers globally:
+For ASP.NET Core Web API apps, we can use the `AddContext` method of `JsonSerializerOptions` to set up usage on controllers globally:
 
-```  
+```csharp
 services.AddControllers().AddJsonOptions(options =>  
 	 options.JsonSerializerOptions.AddContext<WeatherForecastContext>());
 ```  
