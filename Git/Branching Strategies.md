@@ -18,19 +18,19 @@ When creating a new branch, author should pay attention to name it consistently 
 
 #### GitFlow
 
-GitFlow is a branching model for Git which we use here at Infinum. Its main advantage is that it supports projects where deployments are made often. Since we use agile workflow, this goes hand in hand with it. We will cover some of the things about GitFlow in this handbook, but you can find a broader explanation [here](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow).
+GitFlow is one of the most popular branching models that we commonly use within the .NET team. Its main advantage is that it supports projects where deployments are made often. Since we use agile workflow, this goes hand in hand with it. We will cover some of the things about GitFlow in this handbook, but you can find a broader explanation [here](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow).
 
-This image shows the git flow branches diagram:
+This image shows the diagram of GitFlow branches:
 
 ![gitflowimage](/resources/git-flow.png)
 
-##### master
+##### master/main
 
-The master branch should only contain a release-ready code and is one of the two branches we are releasing the code from.
+Master branch (sometimes called main) should only contain a release-ready code and is one of the two branches code is released from.
 
 ##### develop
 
-Develop branch is the second branch which we release code from (for the development environment). It should only contain the code which is ready to be part of the next release. When it is decided that a new release build should be done a release branch is created from the develop branch. After a successful deployment, we merge the release branch into the master and back into the develop.
+Develop branch is the second branch from which the code is released from (for the development environment). It should only contain the code which is ready to be part of the next release. When it is decided that a new release build should be done, a release branch is created from the develop branch. After a successful deployment, we merge the release branch into the master and back into the develop.
 
 ##### feature
 
@@ -50,7 +50,9 @@ If we recognize a bug or important change request that needs to be resolved on p
 - releases can be tricky (if branches are not merged correctly, changes need to be chosen one-by-one (cherry picked))
 - a lot of long-living branches (develop, master, release branches)
 
-#### Github flow
+#### GitHub flow
+
+GitHub flow is a simple flow which has only one long-living branch (master/main) from which feature branches are created. After work on a feature branch is done, changes are merged to master branch using a pull request.
 
 ![githubflowimage](/resources/github-flow.png)
 
@@ -65,13 +67,13 @@ If we recognize a bug or important change request that needs to be resolved on p
 
 #### GitLab flow
 
-GitLab flow introduces environment branches to GitLab flow (e.g. staging and production).
+GitLab flow introduces environment branches to GitHub flow (e.g. staging and production).
 
 ![gitlabflowimage](/resources/gitlab-flow.png)
 
 The GitLab flow is based on 11 rules:
-1. Use feature branches, no direct commits on master
-2. Test all commits, not only ones on master
+1. Use feature branches, no direct commits on master.
+2. Test all commits, not only ones on master.
 3. Run all the tests on all commits (if your tests run longer than 5 minutes have them run in parallel).
 4. Perform code reviews before merges into master, not afterwards.
 5. Deployments are automatic, based on branches or tags.
@@ -107,6 +109,6 @@ This branching strategy is explained in details [here](https://trunkbaseddevelop
 
 ### Summary
 
-Previously showed branching strategies are just examples of best practices that may or may not fully fit the needs of a specific project. Therefore, choosing the one the fits the best should be done by following the already mentioned good branching strategy rules, as well as taking into account the professional experience of team members and team processes.
+Previously showed branching strategies are just examples of best practices that may or may not fully fit the needs of a specific project. Therefore, choosing the one that fits the best should be done by following the already mentioned good branching strategy rules, as well as taking into account the professional experience of team members and team processes.
 
 You can learn more about git branching [here](https://learngitbranching.js.org/) and [here](https://medium.com/@patrickporto/4-branching-workflows-for-git-30d0aaee7bf) (used as a source for this article).
