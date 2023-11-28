@@ -9,6 +9,7 @@ Be aware that adding a certain path to .gitignore will have no effect if the fil
 **Git tag** is a point of reference to a specific commit. Usually, it's used to add a mark with a current release version. Tags can also help automate, orchestrate, and monitor development processes in a CI/CD pipeline.
 
 There are two types of git tags:
+
 1. **Lightweight tag** - a pointer to a specific commit
 2. **Annotation tag** - tag with a message, creation date, tag author's name and e-mail and a checksum; stored as an object in the Git database and made available for searching
 
