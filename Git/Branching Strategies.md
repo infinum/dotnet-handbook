@@ -12,10 +12,10 @@ There are many possible branching strategies. Good branching strategies follow t
 
 When creating a new branch, name it consistently to the team's branching strategy. First, determine the type of the branch (release, feature, hotfix). Second, describe the purpose of creating a branch using not more than a couple of words. Following are some examples of branch names according to these rules:
 
-- ``feature/add-user-basic-authentication``
-- ``feature/task-344096-add-download-report-endpoint``
-- ``release/v3.1.1``
-- ``hotfix/resolve-user-account-creation-bug``
+- `feature/add-user-basic-authentication`
+- `feature/task-344096-add-download-report-endpoint`
+- `release/v3.1.1`
+- `hotfix/resolve-user-account-creation-bug`
 
 
 ### Examples of branching strategies
@@ -30,32 +30,32 @@ This image shows the diagram of GitFlow branches:
 
 ##### master/main
 
-``master`` branch (sometimes called ``main``) should only contain a release-ready code and is one of the two branches from which code is released.
+The `master` branch (sometimes called `main`) should only contain a release-ready code and is one of the two branches from which code is released.
 
 ##### develop
 
-``develop`` branch is the second branch from which the code is released (for the development environment). It should only contain the code which is ready to be part of the next release. When it is decided that a new release build should be done, a release branch is created from the develop branch. After a successful deployment, we merge the release branch into ``master`` and back to ``develop`` branch.
+The `develop` branch is the second branch from which the code is released (for the development environment). It should only contain the code which is ready to be part of the next release. When it is decided that a new release build should be done, a release branch is created from the develop branch. After a successful deployment, we merge the release branch into the `master` and back to the `develop` branch.
 
 
 ##### feature
 
-Each new feature needs to be implemented in a separate branch. It is always branched off from ``develop`` branch and merged back into it. Feature branches also have a naming convention we should follow: 
+Each new feature needs to be implemented in a separate branch. It is always branched off from the `develop` branch and merged back into it. Feature branches also have a naming convention we should follow: 
 
-``feature/feature-name``. 
+```feature/feature-name```
 
 
 If the project uses a feature tracking system, it is necessary to put the ticket identifier into the name as well:
 
- ``feature/T-1234-feature-name``.
+```feature/T-1234-feature-name```
 
 
 ##### hotfix
 
-If there is a bug or a priority request for a change that needs resolution in production as soon as possible, we can create a hotfix branch. A hotfix is branched off ``master`` branch and merged back to it and ``develop``. We use a standard hotfix naming convention similar to the feature one:
+If there is a bug or a priority request for a change that needs resolution in production as soon as possible, we can create a hotfix branch. A hotfix is branched off the `master` branch and merged back into it and `develop`. We use a standard hotfix naming convention similar to the feature one:
 
-``hotfix/bug-name``
+```hotfix/bug-name```
 
-``hotfix/T-3456-name``
+```hotfix/T-3456-name```
 
 
 ##### Pros and cons
@@ -69,12 +69,12 @@ If there is a bug or a priority request for a change that needs resolution in pr
 
 - complicated merging sequence
 - releases can be tricky (if branches don't merge correctly, changes need to be chosen one by one (cherry-picked))
-- a lot of long-living branches (``develop``, ``master``, release branches)
+- a lot of long-living branches (`develop`, `master`, release branches)
 
 
 #### GitHub flow
 
-GitHub flow is a simple flow having only one long-living branch (``master``/``main``) from which feature branches originate. After work on a feature branch completes, changes are merged to ``master`` branch using a pull request.
+GitHub flow is a simple flow having only one long-living branch (`master`/`main`) from which feature branches originate. After work on a feature branch completes, changes are merged to the `master` branch using a pull request.
 
 ![githubflowimage](/resources/github-flow.png)
 
@@ -111,8 +111,8 @@ The GitLab flow is based on 11 rules:
 6. Tags are set by the user, not by CI.
 7. Releases are based on tags.
 8. Pushed commits are never rebased.
-9. Everyone starts with ``master`` and targets ``master``.
-10. Fix bugs in ``master`` first and release branches second.
+9. Everyone starts with `master` and targets `master`.
+10. Fix bugs in `master` first and release branches second.
 11. Commit messages reflect intent.
 
 
