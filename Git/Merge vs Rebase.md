@@ -20,7 +20,8 @@ or written in one line:
 Merge command would create a new, single commit in branch ```feature1``` which would append the history of newly added commits from branch ```develop``` to the history of ```feature1```.
 
 
-![gitmergeimage](/resources/git-merge.png) [(image source)](https://www.atlassian.com/git/tutorials/using-branches/git-merge)
+![gitmergeimage](/resources/git-merge.png)
+[(image source)](https://www.atlassian.com/git/tutorials/using-branches/git-merge)
 
  
 This way, both branches are preserved with the cost of the additional merge commit, which can be an issue if there are many branches created and merging is done frequently.
@@ -39,7 +40,8 @@ For the purpose described above, the author of branch ```feature1``` can also us
 Rebase command would change a base of the ```feature1``` - it would split from ```develop``` in the latest commit instead of the original one. This way, branching would be replaced by a linear structure, effectively making ```feature1``` a continuation of ```develop``` branch. 
 
 
-![gitrebaseimage](/resources/git-rebase.png) [(image source)](https://www.atlassian.com/git/tutorials/rewriting-history/git-rebase)
+![gitrebaseimage](/resources/git-rebase.png) 
+[(image source)](https://www.atlassian.com/git/tutorials/rewriting-history/git-rebase)
 
 
 Even though this approach simplifies the project git tree structure and navigation, using it can lead to code synchronization issues if the public branches (```main```, ```develop)``` are rebased to private branches (```feature```, ```hotfix```). Those synchronization issues can be resolved by additional merges which adds unnecessary commits duplication and can complicate branch management a lot.
