@@ -2,7 +2,7 @@
 
 ### Merge
 
-Suppose there is a branch ```feature1``` which originates from branch ```develop```. After creation of the branch ```feature1```, new commits have been added to the both branches. If an author of branch ```feature1``` wants to bring new changes from ```develop``` to its branch, he/she can use git **merge** command to achieve that:
+Let there be a branch ```feature1``` which originates from branch ```develop```. After creating the branch ```feature1```, new commits have been added to the both branches. If an author of branch ```feature1``` wants to bring new changes from ```develop``` to its branch, he/she can use git **merge** command to achieve that:
 
 ```
 **git checkout feature**
@@ -25,7 +25,7 @@ Merge command would create a new, single commit in branch ```feature1``` which w
 [(image source)](https://www.atlassian.com/git/tutorials/using-branches/git-merge)
 
  
-This way, both branches are preserved with the cost of the additional merge commit, which can be an issue if there are many branches created and merging is done frequently.
+This way, both branches are preserved with the cost of the additional merge commit, which can be an issue if there are many branches and merging is frequent.
 
 ### Rebase
 
@@ -46,8 +46,8 @@ Rebase command would change a base of the ```feature1``` - it would split from `
 [(image source)](https://www.atlassian.com/git/tutorials/rewriting-history/git-rebase)
 
 
-Even though this approach simplifies the project git tree structure and navigation, using it can lead to code synchronization issues if the public branches (```main```, ```develop)``` are rebased to private branches (```feature```, ```hotfix```). Those synchronization issues can be resolved by additional merges which adds unnecessary commits duplication and can complicate branch management a lot.
+Even though this approach simplifies the project git tree structure and navigation, using it can lead to code synchronization issues if the public branches (```main```, ```develop)``` are rebased to private branches (```feature```, ```hotfix```). Those synchronization issues can be resolved by additional merges, resulting in unnecessary commits duplication and can complicate branch management a lot.
 
 ### Summary
 
-For more details about merge and rebase commands, you can also check [here](https://www.atlassian.com/git/tutorials/merging-vs-rebasing).
+For more details about merge and rebase commands, please check [here](https://www.atlassian.com/git/tutorials/merging-vs-rebasing).
