@@ -21,6 +21,7 @@ Merge command would create a new, single commit in branch ```feature1``` which w
 
 
 ![gitmergeimage](/resources/git-merge.png)
+
 [(image source)](https://www.atlassian.com/git/tutorials/using-branches/git-merge)
 
  
@@ -41,6 +42,7 @@ Rebase command would change a base of the ```feature1``` - it would split from `
 
 
 ![gitrebaseimage](/resources/git-rebase.png) 
+
 [(image source)](https://www.atlassian.com/git/tutorials/rewriting-history/git-rebase)
 
 
