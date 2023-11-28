@@ -56,6 +56,9 @@ GitHub flow is a simple flow which has only one long-living branch (master/main)
 
 ![githubflowimage](/resources/github-flow.png)
 
+[(image source)](https://media.geeksforgeeks.org/wp-content/uploads/20220214111138/GitHubFlow.jpg)
+
+
 **Pros**: 
 - reduced number of long-living branches
 - ideal for CI/CD (allows all the features to be deployed as soon as they are merged)
