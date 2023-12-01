@@ -41,21 +41,29 @@ The `develop` branch is the second branch from which the code is released (for t
 
 Each new feature needs to be implemented in a separate branch. It is always branched off from the `develop` branch and merged back into it. Feature branches also have a naming convention we should follow: 
 
-```feature/feature-name```
+```
+feature/feature-name
+```
 
 
 If the project uses a feature tracking system, it is necessary to put the ticket identifier into the name as well:
 
-```feature/T-1234-feature-name```
+```
+feature/T-1234-feature-name
+```
 
 
 ##### hotfix
 
 If there is a bug or a priority request for a change that needs resolution in production as soon as possible, we can create a hotfix branch. A hotfix is branched off the `master` branch and merged back into it and `develop`. We use a standard hotfix naming convention similar to the feature one:
 
-```hotfix/bug-name```
+```
+hotfix/bug-name
+```
 
-```hotfix/T-3456-name```
+```
+hotfix/T-3456-name
+```
 
 
 ##### Pros and cons
@@ -103,6 +111,7 @@ GitLab flow introduces environment branches to GitHub flow (e.g., staging and pr
 
 
 The GitLab flow is based on 11 rules:
+
 1. Use feature branches, not direct commits on master.
 2. Test all commits, not only ones on master.
 3. Run all the tests on all commits (if your tests run longer than 5 minutes, have them run in parallel).
