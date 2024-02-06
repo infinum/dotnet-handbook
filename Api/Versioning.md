@@ -2,7 +2,7 @@ Using explicit route-based API versioning client is always aware of what version
 
 Our policy is to always embed the version string in the path of the request URL, at the end of the service root: eg. `https://service.infinum.com/api/v1.0/`
 
-### Using `Microsoft.AspNetCore.Mvc.Versioning` package for API versioning
+### Using `Asp.Versioning.Mvc` package for API versioning
 
 The following snippet needs to be added as a part of the `ConfigureServices` step, to configure the versioning library :
 
@@ -19,8 +19,8 @@ Note: there's no need to configure the default API version or fallback resolutio
 For each endpoint route you need to add `api/v{version:apiVersion}` and need to tag which versions the controller supports with `[ApiVersion("version")]` attribute(s) :
 
 ```C#
-[Route("api/v{version:apiVersion}/example")]
 [ApiVersion("1")]
+[Route("api/v{version:apiVersion}/example")]
 [Produces("application/json")]
 [ApiController]
 public class ExamplesController : ControllerBase
@@ -32,9 +32,9 @@ public class ExamplesController : ControllerBase
 #### Implementing multiple API versions in the same controller
 
 ```C#
-[Route("api/v{version:apiVersion}/example")]
 [ApiVersion("1")]
 [ApiVersion("2")]
+[Route("api/v{version:apiVersion}/example")]
 [Produces("application/json")]
 [ApiController]
 public class ExamplesController : ControllerBase
@@ -66,8 +66,8 @@ Implementing API versioning in code is highly dependent on the existing codebase
 #### Deprecating a Service Version
 
 ```C#
-[Route("api/v{version:apiVersion}/example")]
 [ApiVersion("1", Deprecated = true)]
+[Route("api/v{version:apiVersion}/example")]
 [Produces("application/json")]
 [ApiController]
 public class ExamplesController : ControllerBase
@@ -90,7 +90,7 @@ To include versioning headers with each response set `ReportApiVersions` to true
 
 #### Additional documentation
 
-Additional information on API versioning with `Microsoft.AspNetCore.Mvc.Versioning` can be found here: https://github.com/dotnet/aspnet-api-versioning/wiki/How-to-Version-Your-Service
+Additional information on API versioning with `Asp.Versioning.Mvc` can be found here: https://github.com/dotnet/aspnet-api-versioning/wiki/How-to-Version-Your-Service
 
 ### Configuring Swashbuckle for route based API versioning
 
