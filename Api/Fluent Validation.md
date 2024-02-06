@@ -74,14 +74,7 @@ public class LoginDetailsDtoValidator : AbstractValidator<LoginDetailsDto>
 
     public bool ValidateUsername(string username)
     {
-         if(doesNameAlreadyExistInDatabase)
-         {
-             return false;
-         }
-         else
-         {
-             return true;
-         }
+        return doesUsernameAlreadyExistInDatabase ? false : true
     }
 }
 ```
@@ -104,15 +97,15 @@ public void ConfigureServices(IServiceCollection services)
         });
 }
 ```
-
-  - for this to work, FluentValidation.AspNetCore package reference must be added
-    `Install-Package FluentValidation.AspNetCore`
-  - validation results are then added to ModelState, so we can use MVC's model binding infrastructure to validate the objects
+  
+  - we will use manual validation, and for this to work, we will inject the validator in the method and invoke it against the model
 
 ```c#
-public async Task CreateExternalLoginDetails(LoginDetailsDto googleUserInfo)
+public async Task CreateExternalLoginDetails(LoginDetailsDto googleUserInfo, [From Services] IValidator<LoginDetailsDto> validator)
 {
-    if (ModelState.IsValid)
+    ValidationResult result = await validator.ValidateAsync(googleUserInfo)
+
+    if (result.IsValid)
     {
         var loginDetails = new LoginDetails
         {
@@ -126,10 +119,10 @@ public async Task CreateExternalLoginDetails(LoginDetailsDto googleUserInfo)
     }
     else
     {
-        foreach(var failure in results.Errors)
+        foreach(var error in results.Errors)
         {
-            Console.WriteLine("Property" + failure.PropertyName + "failed validation.");
-            Console.WriteLine("Error was: " + failure.ErrorMessage);
+            Console.WriteLine("Property" + error.PropertyName + "failed validation.");
+            Console.WriteLine("Error was: " + error.ErrorMessage);
         }       
     }
 }
