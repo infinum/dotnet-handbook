@@ -224,7 +224,7 @@ Other codes that are commonly used are:
 
 *`CREATED (201)`* - resource is created successfully.
 
-*`NO CONTENT (204)`* - resource is updated or deleted successfully.
+*`NO CONTENT (204)`* - resource is updated or deleted successfully, and unlike `OK (200)`, there is no option of adding response payload.
 
 *`NOT FOUND (404)`* - resource not found.
 
