@@ -135,43 +135,43 @@ With the Chain of Responsibility pattern, we avoid coupling the sender of a requ
 To implement this pattern we create a chain of objects to examine requests. Each object in turn examines a request and either handles it or passes it on to the next object in the chain. A client that sends a request doesn’t have to know the chain’s structure nor keep direct references to its members.
 
 ```c#
-abstract class CarService
+abstract class CarPartMaintenanceService
 {
-    protected CarService _successor;
+    protected CarPartMaintenanceService _successor;
 
-    public abstract void Service(Car car);
+    public abstract void Maintain(Car car);
 
-    public void SetSuccessor(CarService successor)
+    public void SetSuccessor(CarPartMaintenanceService successor)
     {
         _successor = successor;
     }
 }
 
-class EngineService : CarService
+class EngineMaintenanceService : CarPartMaintenanceService
 {
-    public override void Service(Car car)
+    public override void Maintain(Car car)
     {
-        if (EngineDiagnostics(car))
+        if (ShouldRepairEngine(car))
         	EngineRepair(car);
         else if (_successor != null)
-            _successor.Service(Car car);
+            _successor.Maintain(Car car);
     }
 
-    private bool EngineDiagnostics(Car car){...}
+    private bool ShouldRepairEngine(Car car){...}
     private void EngineRepair(Car car){...}
 }
 
-class TransmissionService: CarService
+class TransmissionMaintenanceService: CarPartMaintenanceService
 {
-    public override void Service(Car car)
+    public override void Maintain(Car car)
     {
-        if (TransmissionDiagnostics(car))
+        if (ShouldRepairTransmission(car))
         	TransmissionRepair(car);
         else if (_successor != null)
-            _successor.Service(request);
+            _successor.Maintain(request);
     }
 
-    private bool TransmissionDiagnostics(Car car){...}
+    private bool ShouldRepairTransmission(Car car){...}
     private void TransmissionRepair(Car car){...}
 }
 ```

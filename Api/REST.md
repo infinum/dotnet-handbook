@@ -73,13 +73,16 @@ Post is a method reserved for creating a new resource.
     public async Task<IActionResult> Post(Customer customer)
     {
        var customer = await _customerServices.Create(customer);
-       return Ok(customer);
+       return CreatedAtAction(
+            nameof(Get), 
+            new { id = customer.Id }, 
+            customer);
     }
 ```
 
 #### Put
 
-Put is a method reserved for creating or updating a resource. Put requires complete information about the resource. If a resource already exists, it is updated, if not then the resource is created.
+Put is a method reserved for updating a resource. Put requires complete information about the resource. After a successful resource update, there is an option to return the updated resource,
 
 ```c#
 	[HttpPut("{customerId}")]
@@ -87,6 +90,17 @@ Put is a method reserved for creating or updating a resource. Put requires compl
     {
        var customer = await _customerServices.CreateOrUpdate(customerId, customer);
        return Ok(customer);
+    }
+```
+
+or return a successful status code with no content in the payload.
+
+```c#
+	[HttpPut("{customerId}")]
+    public async Task<IActionResult> Put(Guid customerId, Customer customer)
+    {
+       await _customerServices.CreateOrUpdate(customerId, customer);
+       return NoContent();
     }
 ```
 
@@ -98,8 +112,8 @@ Delete is a method reserved for deleting a resource.
 	[HttpDelete("{customerId}")]
     public async Task<IActionResult> Delete(Guid customerId)
     {
-       var customers = await _customerServices.Delete(customerId);
-       return Ok();
+       await _customerServices.Delete(customerId);
+       return NoContent();
     }
 ```
 
@@ -209,6 +223,8 @@ Most commonly controllers should return an *`OK (200)`* response code and other 
 Other codes that are commonly used are:
 
 *`CREATED (201)`* - resource is created successfully.
+
+*`NO CONTENT (204)`* - resource is updated or deleted successfully, and unlike `OK (200)`, there is no option of adding response payload.
 
 *`NOT FOUND (404)`* - resource not found.
 

@@ -23,7 +23,7 @@ class Bike : Vehicle
 
 abstract class VehicleCatalog
 {
-    public List<IVehicle> Items;
+    public List<Vehicle> Items;
 
     public void AddToCatalog(int price);
     {
@@ -32,12 +32,12 @@ abstract class VehicleCatalog
     }
 
     // factory method
-    public abstract IVehicle CreateVehicle(int price);
+    public abstract Vehicle CreateVehicle(int price);
 }
 
 class BikeCatalog : VehicleCatalog
 {
-    public override IVehicle CreateVehicle(int price)
+    public override Vehicle CreateVehicle(int price)
     {
         return new Bike()
 	  {
@@ -48,7 +48,7 @@ class BikeCatalog : VehicleCatalog
 
 class CarCatalog : VehicleCatalog
 {
-    public override IVehicle CreateVehicle(int price)
+    public override Vehicle CreateVehicle(int price)
     {
         return new Car()
 	  {
