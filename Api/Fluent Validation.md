@@ -74,7 +74,7 @@ public class LoginDetailsDtoValidator : AbstractValidator<LoginDetailsDto>
 
     public bool ValidateUsername(string username)
     {
-        return doesUsernameAlreadyExistInDatabase ? false : true
+        return !database.Users.Any(user => user.UserName == username);
     }
 }
 ```
@@ -103,7 +103,8 @@ public void ConfigureServices(IServiceCollection services)
 ```c#
 public async Task CreateExternalLoginDetails(LoginDetailsDto googleUserInfo, [From Services] IValidator<LoginDetailsDto> validator)
 {
-    ValidationResult result = await validator.ValidateAsync(googleUserInfo)
+    ModelState.Clear();
+    ValidationResult result = await validator.ValidateAsync(googleUserInfo);
 
     if (result.IsValid)
     {
@@ -116,21 +117,21 @@ public async Task CreateExternalLoginDetails(LoginDetailsDto googleUserInfo, [Fr
         };
         await _uow.LoginDetailsRepo.CreateAsync(loginDetails);
         await _uow.SaveChangesAsync();
+        return RedirectToAction(nameof(Index));
     }
     else
     {
-        foreach(var error in results.Errors)
+        foreach(var error in result.Errors)
         {
-            Console.WriteLine("Property" + error.PropertyName + "failed validation.");
-            Console.WriteLine("Error was: " + error.ErrorMessage);
+            ModelState.AddModelError(error.PropertyName, error.ErrorMessage);
         }       
     }
 }
 ```
 
-- We check if the info is valid:
+- We check if the info is valid, but before that it is a good idea to clear the ```ModelState``` of any previous errors:
  - If it's valid, we wrap it into the correct type and save it to the database.
- - If it's not valid, Fluent Validation has its own property, **Errors**, which contains the collection of all validation failures, which we can then print out or log.
+ - If it's not valid, Fluent Validation has its own property, **Errors**, which contains the collection of all validation failures, which we can then log or add those errors to the ```ModelState``` and use native support to indicate the validation error on the input form.
 
 - If we for some reason don't want to register the validator in services, we can also instantiate it manually
 
