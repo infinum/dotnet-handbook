@@ -73,7 +73,7 @@ public async Task Invoke(HttpContext context)
 	catch (Exception ex)
 	{
 		var response = ExceptionHandler.Handle(ex);
-		await context.Response.WriteJsonAsync(response);
+		await context.Response.WriteAsJsonAsync(response);
 		// Or even better yet, determine the status code based on the exception thrown:
 		context.Response.StatusCode = (int)HttpErrorCodes.InternalServerError;
 }
