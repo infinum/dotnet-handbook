@@ -108,10 +108,10 @@ This script specifies 3 containers that need to get started, `example-api` and `
 
 ```dockerfile
 # syntax=docker/dockerfile:1
-FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build-env
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build-env
 WORKDIR /app
 
-RUN dotnet tool install -g dotnet-ef --version 5.0.10
+RUN dotnet tool install -g dotnet-ef --version 8.0.2
 ENV PATH $PATH:/root/.dotnet/tools
 
 COPY *.sln ./

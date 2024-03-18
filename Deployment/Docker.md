@@ -32,16 +32,20 @@ A script that specifies how a [docker image](#docker-image) will be built (eg. c
 An important feature of dockerfile is that it can reference existing docker images, eg. :
 
 ```Dockerfile
-FROM mcr.microsoft.com/dotnet/sdk:5.0
+FROM mcr.microsoft.com/dotnet/sdk:8.0
 ```
 
-This means that the docker image will have all the stuff from the referenced image preinstalled (in this case a Linux machine with a .NET 5.0 SDK installed).
+This means that the docker image will have all the stuff from the referenced image preinstalled (in this case a Linux machine with a .NET 8.0 SDK installed).
+
+Microsoft has been producing chiseled container images since .NET 6. Chiseled containers are stripped down versions of Linux containing only essential packages for running applications. Microsoft is publiching these images to the main [.NET Docker repositories](https://hub.docker.com/_/microsoft-dotnet-runtime/).
+
+Note that chiseled containers include only runtime repositories like dotnet/runtime image, not dotnet/sdk image because benefits of chiseled containers do not apply to the SDK images. Also, keep in mind that you cannot use tools like `apt`, `curl` and `bash` in chiseled containers.
 
 Example of commands you can do in Dockerfile :
 
 ```Dockerfile
-# We need dotnet SDK so we reference a dotnet/sdk:5.0
-FROM mcr.microsoft.com/dotnet/sdk:5.0
+# We need dotnet SDK so we reference a dotnet/sdk:8.0
+FROM mcr.microsoft.com/dotnet/sdk:8.0
 
 # changes the working directory inside of docker image to `/app`.
 WORKDIR /app
@@ -60,10 +64,16 @@ A container is an instance of a docker image, it can be running or stopped.
 To start a new container from an image :
 
 ```bash
-> docker run -d --name <container-name> -p 8000:80 -p 8001:443 <image-name>
+> docker run -d --name <container-name> -p 8000:8080 -p 8001:443 <image-name>
 ```
 
-This will run start a new docker container `<container-name>` and expose ports `80` and `433` from the container to ports `8000` and `8001` on the host. You can then open `localhost:8000` on the host to access the application running inside the container.
+This will run start a new docker container `<container-name>` and expose ports `8080` and `433` from the container to ports `8000` and `8001` on the host. You can then open `localhost:8000` on the host to access the application running inside the container.
+
+From .NET 8 there is a change in default port from `80` to `8080`, but if you still want to use the port `80` you need to use the root user:
+
+```bash
+> docker run -d --name <container-name> -p 8000:80 -u root -e ASPNETCORE_HTTP_PORTS=80 -p 8001:443 <image-name>
+```
 
 The `-d` switch means that the docker container should run in the background and not capture your current terminal.
 
@@ -156,7 +166,7 @@ You can add additional environment variables for the docker container with more 
 
 `COPY . ./` command from the example docker script above will copy everything from the source folder, including things we don't want like downloaded packages, build artifacts, etc.
 
-In this example copy `.gitignore` to a `.dockerignore` to the same folder.
+To prevent copying unwanted files to the Docker image, we need to list them inside the `.dockerignore` file in the projects root directory.
 
 ## Running ASP.NET core with HTTPS inside of docker
 
