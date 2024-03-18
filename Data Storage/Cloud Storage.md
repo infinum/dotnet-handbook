@@ -13,7 +13,7 @@ AccountName=devstoreaccount1;
 AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;
 BlobEndpoint=http://127.0.0.1:10000/devstoreaccount1;
 QueueEndpoint=http://127.0.0.1:10001/devstoreaccount1;
-TableEndpoint=http://127.0.0.1:10001/devstoreaccount1;
+TableEndpoint=http://127.0.0.1:10002/devstoreaccount1;
 ```
 
 This connection string can be used to connect to Blob, Queue and Table storages. If you want to see what data you added to your local storage, we recommend using [Azure Storage Explorer](https://azure.microsoft.com/en-us/features/storage-explorer/#features). This tool can also be used to connect to other storage accounts.
