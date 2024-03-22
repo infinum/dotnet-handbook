@@ -29,47 +29,39 @@ public string GetTimeBasedGreeting()
 
 It is easy to think of the test cases for this: we must check for each time of the day that the correct greeting is returned. But as soon as we start writing the tests, we come to an issue: only one greeting can be tested at a certain point in time. This means that we have no way of defining unit tests that will pass every time we run them, even though our code is working perfectly!
 
-The issue here is our static reference to `DateTime.UtcNow`, which returns the current date and time. Unfortunately, despite our incredible technological advancements, we still haven't figured out how to control time. This means that as long as our code is dependent on something as uncontrollable as the unforgiving passage of time, we cannot make it run deterministically.
+The issue here is our static reference to `DateTime.UtcNow`, which returns the current date and time. 
 
-What we _can_ do is add a layer of abstraction between our code and the way we fetch the current time. This can be done by adding an interface that we can easily mock when setting up our tests:
+From .NET 8 Microsoft introduced `TimeProvider` abstract class that should replace our custom layer of abstraction for making our code more testable. Previously, we would have something like `IClockProvider` that we would register in the DI container and inject in our service classes.
 
 ``` c#
 public interface ITimeProvider
 {
     public DateTime UtcNow { get; }
 }
-```
 
-We must also add an implementation of the interface which will be used in the runtime, which is as simple as a service can be:
-
-``` c#
 public class TimeProvider : ITimeProvider
 {
     public DateTime UtcNow => DateTime.UtcNow;
 }
 ```
 
-In this example, we're keeping it simple by only adding a single property, but we could expand it if we ever needed some other time-related types, like `DateTimeOffset`, or wanted to get the time in some other timezone.
+Since the introduction of `TimeProvider` in .NET 8 we get all that out of the box. All we need to do is register the default implementation of the `TimeProvider` as a singleton and inject it in our service and replace direct use of `DateTime.UtcNow`. Default implementation uses current system clock.
 
-Don't forget to register the service in the DI configuration! This service can be registered as a singleton since it only passes a static reference, so there is no need to create more than one instance of it:
-
-``` c#
-services.AddSingleton<ITimeProvider>(new TimeProvider());
+```c#
+builder.Services.AddSingleton(TimeProvider.System);
 ```
 
-Lastly, we must replace all `DateTime.UtcNow` references with our new interface:
-
 ``` c#
-private readonly ITimeProvider _timeProvider;
+private readonly TimeProvider _timeProvider;
 
-public GreetingGenerator(ITimeProvider timeProvider)
+public GreetingGenerator(TimeProvider timeProvider)
 {
     _timeProvider = timeProvider;
 }
 
 public string GetTimeBasedGreeting() 
 {
-    var hourOfTheDay = _timeProvider.UtcNow.Hour;
+    var hourOfTheDay = _timeProvider.GetUtcNow().Hour;
 
     if (hourOfTheDay >= 6 && hourOfTheDay < 12)
         return "Good morning";
@@ -85,18 +77,22 @@ And that's it, with this simple change we can make this method think it is any t
 
 ``` c#
 [Theory]
-[InlineData(6, 0)]
-[InlineData(10, 0)]
-[InlineData(11, 59)]
-public void GetTimeBasedGreeting_WhenItIsMorning_ThenReturnGoodMorning(
+[InlineData(11, 59, "Good morning")]
+[InlineData(12, 0, "Good afternoon")]
+[InlineData(18, 01, "Good evening")]
+public void GetTimeBasedGreeting_WhenTimeAvailable_ThenReturnAppropriateGreeting(
     int hour, 
-    int minutes)
+    int minutes,
+    string expectedGreeting)
 {
-    _timeProviderMock.Setup(m => m.UtcNow)
+    _timeProvider
+        .GetUtcNow()
         .Returns(new DateTime(2042, 2, 4, hour, minutes, 0));
 
     var result = _sut.GetTimeBasedGreeting();
 
-    result.Should().BeEquivalentTo("Good morning");
+    result.Should().BeEquivalentTo(expectedGreeting);
 }
 ```
+
+TimerProvider class enables us to do much more than just work with current time, so for more examples check out this [article](https://andrewlock.net/exploring-the-dotnet-8-preview-avoiding-flaky-tests-with-timeprovider-and-itimer/).
