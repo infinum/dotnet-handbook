@@ -33,18 +33,6 @@ The issue here is our static reference to `DateTime.UtcNow`, which returns the c
 
 From .NET 8 Microsoft introduced `TimeProvider` abstract class that should replace our custom layer of abstraction for making our code more testable. Previously, we would have something like `IClockProvider` that we would register in the DI container and inject in our service classes.
 
-``` c#
-public interface ITimeProvider
-{
-    public DateTime UtcNow { get; }
-}
-
-public class TimeProvider : ITimeProvider
-{
-    public DateTime UtcNow => DateTime.UtcNow;
-}
-```
-
 Since the introduction of `TimeProvider` in .NET 8 we get all that out of the box. All we need to do is register the default implementation of the `TimeProvider` as a singleton and inject it in our service and replace direct use of `DateTime.UtcNow`. Default implementation uses current system clock.
 
 ```c#
