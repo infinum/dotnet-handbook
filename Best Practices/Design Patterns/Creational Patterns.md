@@ -175,3 +175,38 @@ static void Main(string[] args)
 }
 
 ```
+
+#### Singleton
+This pattern allows existence of only one instance of the class throughout the system. 
+
+Works well with other creational design patterns. May improve performance. Better alternative to global variables. Enables lazy initialization.
+
+Violates Single Responsibility Principle. May cause problems with multithreading. May cause problems with Unit testing.
+
+```c#
+//singleton class
+public class GameManager
+{
+    private static GameManager gameManager;
+
+    public static GameManager GetGameManager()
+    {   // lazy initialization
+        if (gameManager == null)
+        {
+            gameManager = new GameManager();
+        }
+        return gameManager;
+    }
+
+    public void GetConfigs()
+    {
+        Console.WriteLine("Configs");
+    }
+}
+
+//Usage
+static void Main(string[] args)
+{
+    GameManager gameManager = new GameManager()
+    gameManager.GetConfigs();
+}
