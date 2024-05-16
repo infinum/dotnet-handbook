@@ -185,7 +185,7 @@ public class CustomerValidator : AbstractValidator<Customer>
 In the provided example, the `AddCustomer` method encapsulates the responsibility of adding a customer. It validates data in `CustomerValidator` and delegates the actual data storage task to the `_customerRepository`, which is an appropriate separation of concerns. This method handles the business logic specific to adding a customer, while validator handles the validation and the data access logic is handled by the repository.
 If the way customers are added needs to be modified, e.g. validation rules change, you would only need to update `CustomerValidator`, thus adhering to the SRP.
 
-Bad example:
+**Bad example:** Mixing multiple responsibilities within the same class.
 
 ```c#
 public class CustomerService
@@ -202,6 +202,54 @@ public class CustomerService
 #### Open Closed Principle (OCP)
 
 Objects or entities should be open for extension but closed for modification. Class inheritance is not always the best way, coding to an interface is an integral part of SOLID.
+
+**Good example:**
+
+```c#
+public interface ISavingAccount
+{
+   decimal CalculateInterest();
+}
+
+public class RegularSavingAccount : ISavingAccount
+{
+  public decimal CalculateInterest()
+  {
+    // Calculate interest for regular account type 
+  }
+}
+
+public class SalarySavingAccount : ISavingAccount
+{
+  public decimal CalculateInterest()
+  {
+    //Calculate interest for Salary account type 
+  }
+}
+```
+
+The `ISavingAccount` interface defines a contract for calculating interest on saving accounts. The `RegularSavingAccount` and `SalarySavingAccount` classes implement this interface and provide specific implementations for calculating interest based on account type. If a new type of saving account is introduced in the future, you can create a new class that implements `ISavingAccount` without modifying the existing classes. This follows the Open/Closed Principle as the classes are open for extension (you can add new implementations) but closed for modification (existing implementations remain unchanged).
+
+**Bad example:**
+
+```c#
+public class SavingAccount
+{
+    public decimal CalculateInterest(AccountType accountType)
+    {
+        if(AccountType=="Regular")
+        {
+            //Calculate interest for Regular account type 
+        }
+        else if(AccountType=="Salary")
+        {
+            //Calculate interest for Salary account type 
+        }
+    }
+}
+```
+
+The `SavingAccount` class violates the OCP by containing a single method that calculates interest based on the account type passed as a parameter. If a new type of saving account is introduced, you need to modify the `SavingAccount` class to add conditional logic for the new account type. This violates the OCP as the class is open for modification, which can lead to potential issues and bugs.
 
 ### Liskov Substitution Principle
 
