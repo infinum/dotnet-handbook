@@ -251,11 +251,104 @@ public class SavingAccount
 
 The `SavingAccount` class violates the OCP by containing a single method that calculates interest based on the account type passed as a parameter. If a new type of saving account is introduced, you need to modify the `SavingAccount` class to add conditional logic for the new account type. This violates the OCP as the class is open for modification, which can lead to potential issues and bugs.
 
-### Liskov Substitution Principle
+### Liskov Substitution Principle (LSP)
 
 >  *Let q(x) be a property provable about objects of x of type T. Then q(y) should be provable for objects y of type S where S is a subtype of T.*
 
-This means that every subclass or derived class should be substitutable for their base or parent class.
+This means that every subclass or derived class should be substitutable for their base or parent class.  In simpler terms, if S is a subtype of T, then objects of type T may be replaced with objects of type S without altering any of the desirable properties of the program.
+
+**Good example:**
+
+```c#
+public interface IFruit
+{
+    string GetColor();
+}
+
+public class Apple : IFruit
+{
+    public string GetColor()
+    {
+        return "Red";
+    }
+}
+
+public class Orange : IFruit
+{
+    public string GetColor()
+    {
+        return "Orange";
+    }
+}
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        IFruit fruit = new Orange();
+        Console.WriteLine($"Color of Orange: {fruit.GetColor()}");
+
+        fruit = new Apple();
+        Console.WriteLine($"Color of Apple: {fruit.GetColor()}");
+    }
+}
+```
+
+The output is:
+
+```
+Color of Orange: Orange
+Color of Apple: Red
+```
+
+This is expected behaviour, in `Main` method we create instances of `Apple` and `Orange` and assign them to a variable of type `IFruit`. This demonstrates substitutability, where objects of the subclasses (`Apple` and `Orange`) can be used interchangeably with objects of the superclass (`IFruit`) without affecting the behavior of the program.
+
+**Bad example** might involve one subclass behaving differently than another in a way that violates the contract defined by the superclass.
+
+```c#
+public interface IFruit
+{
+    string GetColor();
+}
+
+public class Apple : IFruit
+{
+    public string GetColor()
+    {
+        return "Red";
+    }
+
+    public bool IsTasty()
+    {
+        return true;
+    }
+}
+
+public class Orange : IFruit
+{
+    public string GetColor()
+    {
+        return "Orange";
+    }
+
+    public bool IsTasty()
+    {
+        return false;
+    }
+}
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        IFruit fruit = new Orange();
+        Console.WriteLine($"Color of Orange: {fruit.GetColor()}");
+        Console.WriteLine($"Is Orange tasty? {((Orange)fruit).IsTasty()}"); // runtime error
+    }
+}
+```
+
+The `Apple` and `Orange` classes both implement `IFruit`, but they introduce an additional method `IsTasty()` that's not defined in the `IFruit` interface. While `Apple` and `Orange` are still technically substitutable for `IFruit`, the introduction of `IsTasty()` in one subclass but not the other violates the LSP. Code expecting an `IFruit` may rely on `GetColor()` but not `IsTasty()`, leading to unexpected behavior if an `Orange` instance is substituted for an `Apple` instance or vice versa.
 
 ### Interface Segregation Principle
 
