@@ -1,88 +1,77 @@
-### What is the clean code?
+### What is the clean code ?
 
 
 ![celanCodeImg](/resources/wtf.png)
 
 
-The image above is a pretty good explanation of how to distinguish between good and bad code. It is WTF/s, and almost every code will have it, but good code will make your colleagues less mead, software easy to manage and grow, and enable the company to evolve.  
+Image above is a pretty good explanation on how to distinguish between good and bad code. It is WTF/s, and almost every code will have it, but good code will make your colleagues less mead, software easy to manage and grow, and enable the company to evolve.  
 
 
-To develop code that will put us on the left side of the above image, developers should always strive to apply a set of principles, patterns and well-known best practices.
+To develop code that will put us on the left side of the above image, developers should always strive to apply a set of principles, patterns and well known best practices.
 
 
 ### Clean code reflects in :
 * Elegant, efficient and simple to read code.
-* It is self-explanatory, and logic is straightforward, without the need for explanatory comments.
-* It favors exception throwing instead of error codes and has complete and centralized error handling.
+* It is self-explanatory, logic is straightforward, without the need of explanatory comments.
+* If favors exception throwing instead of error codes, and has complete and centralized error handling.
 * It should reflect SOLID principles, especially single responsibility.
 * It does not contain code duplications across modules and multiple projects.
 * It favors composition over inheritance (does not contain class explosion) and utilizes design patterns.
 * It is easy to test.
 * It is well formatted.
-* It follows well-defined naming conventions and the coding style is consistent.
-* Classes tend to be small and methods do not have a long list of input parameters.
-* It is well (and consistently) organized on the directory, project and solution levels.
+* It follows well defined naming conventions and coding style is consistent.
+* Classes tend to be small and methods does not have long list of input parameters.
+* It is well (and consistiently) organized on the directory, project and solution level.
 
 
 ### Naming
 
-Developers write code for machines to execute it, but for other developers to maintain and extend it. So code should be easy to read and understand.
-The code should reflect the shared vocabulary used by all team members involved in the project.
+Developers write code for machines to execute it, but for other developers to maintain it and extend it. So code should be easy to read and understand.
+Code should reflect shared vocabulary used by all team members involved in the project.
 
 So in general naming should be:
 
 * Well thought through, and should reflect business concepts and rules.
 * Consistent through the software.
-* Truthful - this applies especially on the method level, where the method name should not be too general or misleading due to the method's side effects.
+* Truthful - this applies especially on the method level, where method name should not be too general or misleading due to method's side effects.
 
 
 ### Comments
 
-Comments are part of the source code, and if not consisted of significant info, then comments act as noise. Even worse, if not well maintained they can lead developers to false conclusions. In general, developers should avoid writing comments. If the code is unclear, it is a sign it should be rewritten.
+Comments are part of source code, and if not consisted of significant info, then comments act as noise, and even worse if not well maintained they can lead developers to false conclusions. In general, developers should avoid writing the comments. If the code is unclear, it is a sign it should be rewritten.
 
 Exceptions:
 
 * Describing an example
-* Pointing to resources in the documentation
+* Pointing to resources in documentation
 * Todos
 * Swagger documentation
 
 
 ### Methods
 
-Methods should be short and have a single responsibility.
-The logic contained in a single method should reflect the same level of abstraction. Mixing different levels of abstraction in the same function is a code smell.
+Methods should be short and have single responsibility.
+Logic contained in a single method should reflect the same level of abstraction. Mixing different levels of abstraction in the same function is a code smell.
 
 * Methods should not have side effects, and method names should reflect exactly what they are doing.
 * Prefer methods no longer than 10 lines.
-* The number of input parameters should be up to 4. If there is a need for more parameters, consider creating a DTO.
+* Number of input parameters should be up to 4. If there is a need for more params, consider creating a DTO.
 * Methods should not have multiple return params (exception is TryDoSomething pattern which returns bool and resulting object via out param).
-* Avoid using flag arguments. Split the method into several independent methods that can be called from the client without the flag.
+* Avoid using flag arguments. Split method into several independent methods that can be called from the client without the flag.
 
-### Code order
-
-C# doesn't have any specific requirements for the code order inside a class. This is great for us because it gives us the freedom to place code wherever we want, but that doesn't mean that we should just put it anywhere and call it a day.
-
-As we mentioned before, the code we write must be understandable to developers as well as the machines. In this context, understandable code must tell a story about the class we are writing, just as if we were writing a newspaper article. First, you get the high-level information, and as you continue reading you dive into more details. Related code should be vertically close, and callers should be above the callees, if possible. Alongside these guidelines, we use the following order:
-
-1. private fields
-2. public properties
-3. constructors
-4. static methods
-5. instance methods
 
 ### Abstraction & Encapsulation
 
 It is a good practice to expose abstract interfaces that allow its users to manipulate the essence of the data, without having to know its implementation.
 
-When modeling entity classes, encapsulating data state details, lead to increased control over entity access and manipulation, providing clean, well-defined ways to interact with entities. Simply put, you should hide details, and expose behavior.
+When modeling entity classes, encapsulating data state details, lead to increased control over entity access and manipulation, providing a clean, well defined ways to interact with entities. Simply put, you should hide details, and expose behavior.
 
 
 ### Law of Demeter
 
 > *Each unit must have limited knowledge of other units: it must see only units closely related to the current unit.*
 
-In other words, the Law of Demeter principle states that a module (class) should not know about the inner details of the objects it manipulates.
+In other words, the Law of Demeter principle states that a module (class) should not have the knowledge on the inner details of the objects it manipulates.
 
 ![LoD](/resources/law-of-demeter.png)
 
@@ -91,40 +80,40 @@ In other words, the Law of Demeter principle states that a module (class) should
     human
         .getDigestiveSystem() // 1. level of details
         .getStomach()         // 2. level of details
-        .add(new Cake())    
+        .add(new Cake()))    
 ```
 
-The above code can be described as *sausage code* and express an obvious code smell:
+Above code can be described as *sausage code* and express obvious code smell:
 
-* lack of encapsulation - human class exposes too many details, making other users of this code dependent on low-level detail code.
-* lack of abstractions - if the eating behavior is changed, the caller code should also change.
+* lack of encapsulation - human class exposes too much details, making other users of this code dependent on low level detail code.
+* lack of abstractions - if the eat behavior is changed, caller code should also change.
 * hard to test
 * hard to read
 
 Instead above code should be rewritten to :
 
 ```c#
-    human.Eat(new Cake())
+    human.Eat(new Cake()))
 ```
 
 
-### Anemic model as an anti-pattern
+### Anemic model as anti-pattern
 
-In the development of software that solves non-trivial problems and contains rich business logic, code is much more complex than in simple CRUD-based software. To model the business entities with integrity, their data states should be hidden while exposing the methods to interact with the entity.
+In development of software that solves non-trivial problems and contains rich business logic, code is much more complex than in simple CRUD-based software. To model the busines entities with integrity, their data states should be hidden while exposing the methods to interact with entity.
 
-Anemic models are known in the industry as business entities modeled as simple DTOs, leaving the purpose interpretation and interaction responsibilities to the calling code (usually services). Usually, the business logic ends up being implemented in service classes, which can lead to code duplications, leaking of the business logic into other layers, missing or corrupted entity validations, and many more issues.
+Anemic models are known in industry as business entities modeled as simple DTOs, leaving the purpose interpretation and interaction responsibilities to the calling code (usually services). Usually the business logic ends up being implemented in service classes, which can lead to code duplications, leaking of the business logic into other layers, missing or corrupted entity validations, and many more issues.
 
 Ways to avoid an anemic domain model:
 
 * Use private setters and expose methods to update data state.
-* Always validate the state of entities - your entities must self-validate and not rely on API (contract) validation.
+* Always validate the state of entities - your entities must self-validate and not relay on API (contract) validation.
 * Constructors without parameters are allowed to be only private as they are used by the ORM.
 * Avoid primitive obsession.
 
 
 ### Primitive obsession
 
-Primitive fields are basic built-in building blocks of a language such as integers, dates, strings, etc. Primitive Obsession is a programming style that heavily relies on primitives.
+Primitive fields are basic built-in building blocks of a language such as int, dates, strings, etc. Primitive Obsession is a programming style that heavily relies on primitives.
 Designing business entities relying on primitive types can result in poor or decentralized entity state validation, and is often breaking the single responsibility principle.
 
 ```c#
@@ -141,11 +130,76 @@ Designing business entities relying on primitive types can result in poor or dec
 
 ### SOLID
 
-#### Single responsibility:
+#### Single Responsibility Principle (SRP):
 
-A class/method should have one and only one reason to change, meaning that a class/method should have only one job.
+A class/method should have one and only one reason to change, meaning that a class/method should have only one job. 
+When we say a class should have "single responsibility," it doesn't necessarily mean that the class can only do one thing. Instead, it implies that the class should have a single, well-defined purpose or responsibility within the system.
 
-#### Open closed principle
+**Good example:** Separate classes handle different responsibilities
+
+```c#
+public class CustomerService
+{
+    private readonly ICustomerRepository _customerRepository;
+
+    public CustomerService(ICustomerRepository customerRepository)
+    {
+        _customerRepository = customerRepository;
+    }
+
+    public void AddCustomer(Customer customer)
+    {
+        var validationResult = new CustomerValidator().Validate(customer);
+
+        if (!validationResult.IsValid)
+        {
+            // handle errors
+        }
+
+        _customerRepository.Add(customer);
+    }
+}
+
+public interface ICustomerRepository
+{
+    void Add(Customer customer);
+}
+
+public class CustomerRepository : ICustomerRepository
+{
+    public void Add(Customer customer)
+    {
+        // Data access logic for adding a customer
+    }
+}
+
+public class CustomerValidator : AbstractValidator<Customer>
+{
+    public CustomerValidator()
+    {
+        // validation logic
+    }
+}
+```
+
+In the provided example, the `AddCustomer` method encapsulates the responsibility of adding a customer. It validates data in `CustomerValidator` and delegates the actual data storage task to the `_customerRepository`, which is an appropriate separation of concerns. This method handles the business logic specific to adding a customer, while validator handles the validation and the data access logic is handled by the repository.
+If the way customers are added needs to be modified, e.g. validation rules change, you would only need to update `CustomerValidator`, thus adhering to the SRP.
+
+Bad example:
+
+```c#
+public class CustomerService
+{
+    public void AddCustomer(Customer customer)
+    {
+        // validation logic (or some other business logic)
+
+        // Data access logic for adding a customer (violating SRP)
+    }
+}
+```
+
+#### Open Closed Principle (OCP)
 
 Objects or entities should be open for extension but closed for modification. Class inheritance is not always the best way, coding to an interface is an integral part of SOLID.
 
@@ -153,7 +207,7 @@ Objects or entities should be open for extension but closed for modification. Cl
 
 >  *Let q(x) be a property provable about objects of x of type T. Then q(y) should be provable for objects y of type S where S is a subtype of T.*
 
-This means that every subclass or derived class should be substitutable for its base or parent class.
+This means that every subclass or derived class should be substitutable for their base or parent class.
 
 ### Interface Segregation Principle
 
