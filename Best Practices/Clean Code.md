@@ -483,3 +483,63 @@ public class SqlCustomerRepository
 }
 ```
 The `CustomerService` class directly depends on the `SqlCustomerRepository` class, creating a tight coupling between the high-level `CustomerService` and the low-level `SqlCustomerRepository`. If you need to change the data storage mechanism (e.g., to use a different database or storage system), you must modify the `CustomerService` class. This also violates the OCP because the class is not closed for modification. Testing `CustomerService` in isolation is more difficult because you can't easily mock the `SqlCustomerRepository` without using advanced techniques like dependency injection frameworks or reflection. Any changes in the `SqlCustomerRepository` can potentially impact the `CustomerService` class, leading to increased maintenance overhead and potential bugs.
+
+### Don't Repeat Yourself (DRY)
+
+DRY principle aims to avoid repetition by replacing duplicate logic or code snippets with shared methods or classes. It promotes creating reusable components so that future changes need to be implemented in only one place.
+
+**Good example:** 
+
+```c#
+public interface IShape
+{
+    public double CalculateArea();
+}
+
+public class Rectangle : IShape
+{
+    public double CalculateArea()
+    {
+        // Calculation logic for rectangle's area
+    }
+}
+
+public class Circle : IShape
+{
+    public double CalculateArea()
+    {
+        // Calculation logic for circle's area
+    }
+}
+```
+
+We’ve created a single method `Area` in an interface `IShape`. This way you avoid duplicating code for calculating areas in each subclass (`Rectangle` and `Circle`). Instead, each subclass only needs to implement the logic specific to its shape.
+
+**Bad example:** Repeating code for area calculation
+
+```c#
+public class Shape
+{
+    public double CalculateRectangleArea(double length, double width)
+    {
+        return length * width;
+    }
+
+    public double CalculateCircleArea(double radius)
+    {
+        return Math.PI * radius * radius;
+    }
+}
+```
+
+In the above code, there’s a clear redundancy in the method signatures, as the equivalent logical operation of calculating the area is divided amongst different methods.
+
+It's important to understand the core of DRY principle. Picture this, you just finished a marathon coding session and the boss asks for one more feature before you call it a day. Your mind is exhausted but hey, you’re a fighter. Suddenly, your eyes fall on these mystery lines of code. You rack your brains, trying to decipher what in the world it’s doing. And then it strikes you, you’ve seen this before, somewhere else in the application. Familiar scenario? Welcome to the non-DRY world!
+
+But worry not, the superhero of our story, the DRY principle, is here to the rescue! While the DRY principle promotes elimination of redundancy, its superpower lies in enhancing the readability, maintainability, testability and scalability of code.
+
+Take it as cleaning your room. If everything’s in its place, finding that elusive comic book or gaming console becomes a breeze. Same goes with the code. Less clutter makes it easier to navigate and understand, and the fact that you’ve written less code means there’s less chance for bugs to creep in. I mean, who wouldn’t want that?
+
+DRY principle is great, but there *are* situations where applying the DRY principle might lead to greater complexity. The key point to remember is, the DRY principle is not an excuse to overcomplicate your code. If making something reusable introduces more complexity, it could be better to leave the code as it is.
+
+Keeping your code DRY isn’t just about removing the redundant code, there are additional strategies that can help you achieve it and SOLID principles and design patterns (e.g. Factory and Decorator patterns) are an integral part of this pursuit.
