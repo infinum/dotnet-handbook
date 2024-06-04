@@ -132,7 +132,7 @@ Designing business entities relying on primitive types can result in poor or dec
 
 #### Single Responsibility Principle (SRP):
 
-A class/method should have one and only one reason to change, meaning that a class/method should have only one job. 
+A class/method should have one and only one reason to change, meaning that a class/method should have only one job (responsibility). 
 When we say a class should have "single responsibility," it doesn't necessarily mean that the class can only do one thing. Instead, it implies that the class should have a single, well-defined purpose or responsibility within the system.
 
 **Good example:** Separate classes handle different responsibilities
@@ -194,7 +194,7 @@ public class CustomerService
     {
         // validation logic (or some other business logic)
 
-        // Data access logic for adding a customer (violating SRP)
+        // Data access logic for adding a customer
     }
 }
 ```
@@ -303,7 +303,7 @@ Color of Apple: Red
 
 This is expected behaviour, in `Main` method we create instances of `Apple` and `Orange` and assign them to a variable of type `IFruit`. This demonstrates substitutability, where objects of the subclasses (`Apple` and `Orange`) can be used interchangeably with objects of the superclass (`IFruit`) without affecting the behavior of the program.
 
-**Bad example** might involve one subclass behaving differently than another in a way that violates the contract defined by the superclass.
+**Bad example:** might involve one subclass behaving differently than another in a way that violates the contract defined by the superclass.
 
 ```c#
 public interface IFruit
