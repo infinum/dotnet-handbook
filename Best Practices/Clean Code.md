@@ -417,8 +417,69 @@ public class CustomerService : IService
 }
 ```
 
-### Dependency inversion principle
+### Dependency Inversion Principle (DIP)
 
-Entities must depend on abstractions, not on concretions. The high-level modules must not depend on the low-level modules, but they both should depend on abstractions (details should depend on abstractions).
+Entities must depend on abstractions, not on concretions. The high-level modules must not depend on the low-level modules, but they both should depend on abstractions. Abstractions should not depend on details. Details should depend on abstractions
 
 
+**Good example:** Depending on abstractions to decouple high-level and low-level modules.
+
+```c#
+public class CustomerService
+{
+    private readonly ICustomerRepository _customerRepository;
+
+    public CustomerService(ICustomerRepository customerRepository)
+    {
+        _customerRepository = customerRepository;
+    }
+
+    public void AddCustomer(Customer customer)
+    {
+        _customerRepository.Add(customer);
+    }
+}
+
+public interface ICustomerRepository
+{
+    void Add(Customer customer);
+}
+
+public class SqlCustomerRepository : ICustomerRepository
+{
+    public void Add(Customer customer)
+    {
+        // SQL-specific logic for adding a customer
+    }
+}
+```
+
+The `CustomerService` class depends on an abstraction (`ICustomerRepository`) rather than a concrete class. This decouples the high-level `CustomerService` from the low-level `SqlCustomerRepository`. By depending on an interface, `CustomerService` can work with any implementation of `ICustomerRepository`. This makes it easy to switch data storage mechanisms (e.g., switching from SQL to a NoSQL database) without modifying the `CustomerService` class. It's easier to write unit tests for `CustomerService` because you can mock the `ICustomerRepository` interface. This allows for testing `CustomerService` in isolation from the data layer. The dependency (`ICustomerRepository`) is injected into the `CustomerService` constructor, promoting loose coupling and adherence to the DIP.
+
+**Bad example:** Depending on concrete implementations, tightly coupling high-level and low-level modules.
+
+```c#
+public class CustomerService
+{
+    private readonly SqlCustomerRepository _customerRepository;
+
+    public CustomerService()
+    {
+        _customerRepository = new SqlCustomerRepository();
+    }
+
+    public void AddCustomer(Customer customer)
+    {
+        _customerRepository.Add(customer);
+    }
+}
+
+public class SqlCustomerRepository
+{
+    public void Add(Customer customer)
+    {
+        // SQL-specific logic for adding a customer
+    }
+}
+```
+The `CustomerService` class directly depends on the `SqlCustomerRepository` class, creating a tight coupling between the high-level `CustomerService` and the low-level `SqlCustomerRepository`. If you need to change the data storage mechanism (e.g., to use a different database or storage system), you must modify the `CustomerService` class. This also violates the OCP because the class is not closed for modification. Testing `CustomerService` in isolation is more difficult because you can't easily mock the `SqlCustomerRepository` without using advanced techniques like dependency injection frameworks or reflection. Any changes in the `SqlCustomerRepository` can potentially impact the `CustomerService` class, leading to increased maintenance overhead and potential bugs.
