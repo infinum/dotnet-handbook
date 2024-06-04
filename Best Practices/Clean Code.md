@@ -350,11 +350,75 @@ class Program
 
 The `Apple` and `Orange` classes both implement `IFruit`, but they introduce an additional method `IsTasty()` that's not defined in the `IFruit` interface. While `Apple` and `Orange` are still technically substitutable for `IFruit`, the introduction of `IsTasty()` in one subclass but not the other violates the LSP. Code expecting an `IFruit` may rely on `GetColor()` but not `IsTasty()`, leading to unexpected behavior if an `Orange` instance is substituted for an `Apple` instance or vice versa.
 
-### Interface Segregation Principle
+### Interface Segregation Principle (ISP)
 
 A client should never be forced to implement an interface that it doesn't use, or clients shouldn't be forced to depend on methods they do not use.
 This means interfaces should be small, and should not contain methods not critically linked. If that is the case, consider splitting one interface into multiple smaller interfaces.
 
+**Good example:** Using smaller, more specific interfaces to avoid unnecessary dependencies.
+
+```c#
+public interface IAddable
+{
+    void Add();
+}
+
+public interface IFindable
+{
+    void FindById(int id);
+}
+
+public class CustomerService : IAddable, IFindable
+{
+    public void Add()
+    {
+        // Add logic
+    }
+
+    public void FindById(int id)
+    {
+        // Find logic
+    }
+}
+```
+
+**Bad example:** Forcing clients to depend on unnecessary methods when we only need `Add` and `FindById`.
+
+```c#
+public interface IService
+{
+    void Add();
+    void Update();
+    void Delete();
+    void FindById(int id);
+}
+
+public class CustomerService : IService
+{
+    public void Add()
+    {
+        // Add logic
+    }
+
+    public void Update()
+    {
+        // Update logic
+    }
+
+    public void Delete()
+    {
+        // Delete logic
+    }
+
+    public void FindById(int id)
+    {
+        // Find logic
+    }
+}
+```
+
 ### Dependency inversion principle
 
-Entities must depend on abstractions, not on concretions. The high-level modules must not depend on the low-level modules, but they both should depend on abstractions.
+Entities must depend on abstractions, not on concretions. The high-level modules must not depend on the low-level modules, but they both should depend on abstractions (details should depend on abstractions).
+
+
