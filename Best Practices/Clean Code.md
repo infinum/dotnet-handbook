@@ -534,7 +534,7 @@ public class Shape
 
 In the above code, there’s a clear redundancy in the method signatures, as the equivalent logical operation of calculating the area is divided amongst different methods.
 
-It's important to understand the core of DRY principle. Picture this, you just finished a marathon coding session and the boss asks for one more feature before you call it a day. Your mind is exhausted but hey, you’re a fighter. Suddenly, your eyes fall on these mystery lines of code. You rack your brains, trying to decipher what in the world it’s doing. And then it strikes you, you’ve seen this before, somewhere else in the application. Familiar scenario? Welcome to the non-DRY world!
+It's important to understand the core of DRY principle. Picture this, you just finished a marathon coding session and the client asks for one more feature before you call it a day. Your mind is exhausted but hey, you’re a fighter. Suddenly, your eyes fall on these mystery lines of code. You rack your brains, trying to decipher what in the world it’s doing. And then it strikes you, you’ve seen this before, somewhere else in the application. Familiar scenario? Welcome to the non-DRY world!
 
 But worry not, the superhero of our story, the DRY principle, is here to the rescue! While the DRY principle promotes elimination of redundancy, its superpower lies in enhancing the readability, maintainability, testability and scalability of code.
 
@@ -543,3 +543,247 @@ Take it as cleaning your room. If everything’s in its place, finding that elusiv
 DRY principle is great, but there *are* situations where applying the DRY principle might lead to greater complexity. The key point to remember is, the DRY principle is not an excuse to overcomplicate your code. If making something reusable introduces more complexity, it could be better to leave the code as it is.
 
 Keeping your code DRY isn’t just about removing the redundant code, there are additional strategies that can help you achieve it and SOLID principles and design patterns (e.g. Factory and Decorator patterns) are an integral part of this pursuit.
+
+### Keep It Simple, Stupid (KISS)
+
+The KISS principle is a design philosophy emphasizing simplicity and avoiding unnecessary complexity. The idea is that most systems work best if they are kept simple rather than made complex. Simplicity should be a key goal in design, and unnecessary complexity should be avoided.
+
+Here are some detailed aspects and examples to illustrate the KISS principle in:
+
+#### 1. Simple Code Structure
+
+Avoid complex and nested structures when simpler ones can do the job.
+
+**Good Example:** Using simple structure.
+
+```c#
+if (!condition1)
+{
+    Console.WriteLine("You must meet condition1 to access the content.");
+}
+else if (!hasPermission)
+{
+    Console.WriteLine("You need permission to access the content.");
+}
+else
+{
+    Console.WriteLine("You can access the content.");
+}
+```
+
+**Bad Example:** Using complex structure
+
+```c#
+if (condition1)
+{
+    if (hasPermission)
+    {
+        Console.WriteLine("You can access the content.");
+    }
+    else
+    {
+        Console.WriteLine("You need permission to access the content.");
+    }
+}
+else
+{
+    Console.WriteLine("You must meet condition1 to access the content.");
+}
+```
+
+#### 2. Use Clear and Descriptive Names
+
+Use meaningful variable and method names to make the code self-explanatory.
+
+**Good Example:** Using clear and descriptive variable names.
+
+```c#
+int numberOfApples = 10;
+int numberOfOranges = 20;
+int totalFruits = numberOfApples + numberOfOranges;
+```
+
+**Bad Example:** Using vague variable names (e.g. `a`, `b` and `result`).
+
+```c#
+int a = 10;
+int b = 20;
+int result = a + b;
+```
+
+#### 3. Simplify Logic with Methods
+
+Break down complex logic into smaller, reusable methods. Instead of writing a long method with many responsibilities, break it into smaller methods.
+
+**Good Example:** Short methods with single responsibilities.
+
+```c#
+public void ProcessOrder(Order order)
+{
+    if (order == null || !order.IsValid) return;
+
+    ProcessPayment(order);
+}
+
+private void ProcessPayment(Order order)
+{
+    switch (order.PaymentMethod)
+    {
+        case "CreditCard":
+            // Process credit card payment
+            break;
+        case "PayPal":
+            // Process PayPal payment
+            break;
+    }
+}
+```
+
+**Bad Example:** Long method with complex logic.
+
+```c#
+public void ProcessOrder(Order order)
+{
+    if (order != null)
+    {
+        // Validate order
+        if (order.IsValid)
+        {
+            // Process payment
+            if (order.PaymentMethod == "CreditCard")
+            {
+                // Process credit card payment
+            }
+            else if (order.PaymentMethod == "PayPal")
+            {
+                // Process PayPal payment
+            }
+        }
+    }
+}
+```
+
+#### 4. Avoid Over-Engineering
+
+Design solutions for the current requirements, not hypothetical future needs.
+
+**Good Example:** Using a single class that reads from a configuration file or environment variables directly.
+
+```c#
+public class ConfigurationManager
+{
+    private readonly string _filePath;
+
+    public ConfigurationManager(string filePath)
+    {
+        _filePath = filePath;
+    }
+
+    public string GetSetting(string key)
+    {
+        // Try to get setting from environment variables first
+        string value = Environment.GetEnvironmentVariable(key);
+        if (!string.IsNullOrEmpty(value))
+        {
+            return value;
+        }
+
+        // If not found, read from file
+        var settings = File.ReadAllLines(_filePath)
+                           .Select(line => line.Split('='))
+                           .ToDictionary(parts => parts[0], parts => parts[1]);
+
+        return settings.ContainsKey(key) ? settings[key] : null;
+    }
+}
+
+// Usage
+var configManager = new ConfigurationManager("config.txt");
+string setting = configManager.GetSetting("SomeKey");
+```
+
+**Bad Example:** Multiple interfaces and classes manage configurations, which can be unnecessarily complex for a simple application.
+
+```c#
+public interface IConfigurationProvider
+{
+    string GetSetting(string key);
+}
+
+public class FileConfigurationProvider : IConfigurationProvider
+{
+    private readonly string _filePath;
+
+    public FileConfigurationProvider(string filePath)
+    {
+        _filePath = filePath;
+    }
+
+    public string GetSetting(string key)
+    {
+        // Logic to read setting from file
+        return File.ReadAllText(_filePath);
+    }
+}
+
+public class EnvironmentConfigurationProvider : IConfigurationProvider
+{
+    public string GetSetting(string key)
+    {
+        // Logic to read setting from environment variables
+        return Environment.GetEnvironmentVariable(key);
+    }
+}
+
+public class ConfigurationManager
+{
+    private readonly IConfigurationProvider _provider;
+
+    public ConfigurationManager(IConfigurationProvider provider)
+    {
+        _provider = provider;
+    }
+
+    public string GetConfiguration(string key)
+    {
+        return _provider.GetSetting(key);
+    }
+}
+
+// Usage
+var configManager = new ConfigurationManager(new FileConfigurationProvider("config.txt"));
+string setting = configManager.GetConfiguration("SomeKey");
+```
+
+#### 5. Use Built-In Libraries
+
+Leverage existing libraries and frameworks to avoid reinventing the wheel. For example, instead of implementing your own sorting algorithm, use the built-in methods provided by the .NET framework.
+
+#### 6. Reduce Redundancy
+
+Avoid duplicate code by reusing methods and classes, and applying DRY.
+
+**Good Example:** Implementing generic method for printing message.
+
+```c#
+public void PrintWelcomeMessage(string userType)
+{
+    Console.WriteLine($"Welcome, {userType}!");
+}
+```
+
+**Bad Example:** Printing the message for every type of user separately.
+
+```c#
+public void PrintWelcomeMessage(string userType)
+{
+    if (userType == "Admin")
+    {
+        Console.WriteLine("Welcome, Admin!");
+    }
+    else if (userType == "User")
+    {
+        Console.WriteLine("Welcome, User!");
+    }
+}
+```
