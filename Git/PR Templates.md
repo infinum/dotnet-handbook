@@ -90,7 +90,6 @@ After the changes are added to the main branch, the PR template will be availabl
 
 - Branch-specific PR template will be applied automatically when a new PR is created targeting the branch whose name has a prefix that is equal to the name of the template
 	- If multiple PR templates can be applied to the same PR, the template with the longest name will be applied
-	
 - General PR templates will be applied automatically if no branch-specific PR templates have not been set already
 - Additional PR templates can be appended to the PR description manually when creating the PR in the DevOps UI
 	- NOTE: If there are multiple PR templates available, it's possible to append an arbitrary number of them to the PR description. This also includes the default/general and branch-specific PR templates that have not been applied by default.
