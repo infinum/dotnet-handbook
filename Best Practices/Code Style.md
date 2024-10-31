@@ -2,15 +2,17 @@ It is important to keep the code readable and consistent so anybody reading it c
 
 These are some of the rules we would like to emphasize:
 
-* Write only one statement per line
-* Write only one declaration per line
-* Add at least one blank line between method definitions and property definitions
-* Line length should not be more than 120 characters
-* Always use braces
-* Format method parameters into separate lines
-* Names for variables and methods should be clear and understandable
-* Boolean variables should be in a form of a question (e.g. isRunning, areFinished, doesExist etc.)
-* Keep your methods as simple as possible and break them into multiple methods if they start to gain complexity, or if you can reuse specific parts. If you need comments to describe your method, it may be too complex.
+* Write only one statement per line.
+* Write only one declaration per line.
+* Add at least one blank line between method definitions and property definitions.
+* Line length should not be more than 120 characters.
+* Always use braces.
+* Format method parameters into separate lines.
+* Names for variables and methods should be clear and understandable.
+* Boolean variables should be in a form of a question (e.g. isRunning, areFinished, doesExist etc.).
+* Keep your methods as simple as possible and break them into multiple methods if they start to gain complexity, or if you can reuse specific parts. If you need comments to describe your method, it may be too complex
+* Use file-scoped namespaces (and reduce the indentation level in a whole file). Since there should always be a single namespace in a file, and it's recommended to keep only one class/record per file, there's no need to use the block-scoped namespaces.
+* Add sealed modifier wherever possible. When resolving the types of sealed classes, the performance is slightly better because the runtime doesn't have to check whether a class is inherited. Usually, most of the classes/records are not inherited, so this performance improvement could add up throughout the application.
 
 To keep things a bit easier we use [StyleCop](https://github.com/DotNetAnalyzers/StyleCopAnalyzers), a tool for enforcing C# style and consistency rules. The ruleset can be configured and used across all projects in the solution. It is easily installed as a NuGet package and as soon as you build the project, the StyleCop will start checking.
 
