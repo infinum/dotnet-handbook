@@ -63,3 +63,44 @@ var result = data
          .FirstOrDefault())
     .ToList();
 ```
+
+### Using "Async" suffix in asynchronous method names
+
+In asynchronous programming, one common dilemma is should the "Async" suffix in asynchronous method names be used or not.
+
+On one side, Microsoft recommends using the suffix ([as recommended in this article](https://learn.microsoft.com/en-us/dotnet/csharp/asynchronous-programming/task-asynchronous-programming-model)). On the other hand, the programmers generally tend to write expressive, but as short as possible method names. From that perspective, adding the "Async" suffix may be considered an unnecessary name extension.
+
+We think both views are OK, and thus do not encourage nor discourage any of them. Here, it is important to make naming consistent, at least on the project level. It simplifies the maintenance, and new team members won't be confused when they start working on the project.
+
+However, there is one case in which the "Async" suffix is mandatory. If a method has both a synchronous and an asynchronous version, the asynchronous method needs to be written with the suffix to avoid naming conflict, regardless of the project standard. Following is an example of such a case:
+
+```
+	// Synchronous report generation method
+    public string GenerateUserReport(int userId)
+    {
+        // Fetch user data and create report
+        var userData = FetchUserData(userId);
+        return $"Report for {userData.Name} generated on {DateTime.Now}";
+    }
+
+    // Asynchronous report generation method
+    public async Task<string> GenerateUserReportAsync(int userId)
+    {
+        // Simulate an async I/O operation
+        var userData = await FetchUserDataAsync(userId);
+        return $"Report for {userData.Name} generated on {DateTime.Now}";
+    }
+
+    private User FetchUserData(int userId)
+    {
+        // Example synchronous call; this might be a database or a cache call
+        return new User { Id = userId, Name = "John Doe" };
+    }
+
+    private async Task<User> FetchUserDataAsync(int userId)
+    {
+        // Example asynchronous call to simulate delay; could involve an external API or slow data retrieval
+        await Task.Delay(100);
+        return new User { Id = userId, Name = "John Doe" };
+    }
+```
