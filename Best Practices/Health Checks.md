@@ -77,7 +77,7 @@ and registering it in `Program.cs`:
 
 ```c#
 builder.Services.AddHealthChecks()
-    .AddCheck<SampleHealthCheck>("Sample");
+    .AddCheck<RemoteHealthCheck>("Remote");
 ```
 
 # Formatting Health Checks Response
