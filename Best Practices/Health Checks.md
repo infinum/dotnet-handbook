@@ -25,7 +25,7 @@ After adding these, we can access our application on `"/api/health"` and the app
 
 ## Custom Health Checks
 
-However, we often need to do more than just confirm the app can respond at the health endpoint URL to make sure it is really healthy, such as checking the database connection or a third-party service connection.
+However, we often need to do more than just confirm the app can respond at the health endpoint URL to make sure it is healthy, such as checking the database connection or a third-party service connection.
 
 In the [AspNetCore.Diagnostics.HealthChecks](https://github.com/Xabaril/AspNetCore.Diagnostics.HealthChecks) repository we can find a wide collection of health check packages for frequently used services and libraries, some of which are:
 * SQL Server - AspNetCore.HealthChecks.SqlServer
