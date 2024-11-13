@@ -80,9 +80,46 @@ builder.Services.AddHealthChecks()
     .AddCheck<SampleHealthCheck>("Sample");
 ```
 
+# Formatting Health Checks Response
 
+By default the health check endpoint will return a sigle string value, which isn't very practical if we have multiple health checks configured. We would prefer a more detailed response, containing information about each health check, so that we can easily see which services are healthy and which are not. To get this, we would need to provide a ResponseWriter, and luckily a good one exists in the AspNetCore.HealthChecks.UI.Client library. 
 
+```c#
+app.MapHealthChecks(
+    "/health",
+    new HealthCheckOptions
+    {
+        ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+    });
+```
 
+This will elevate our health check response from a simple "Unhealthy" to a much more informative response like this one:
+
+```json
+{
+  "status": "Unhealthy",
+  "totalDuration": "00:00:00.0087741",
+  "entries": {
+    "sqlserver": {
+      "data": {
+
+      },
+      "duration": "00:00:00.0086714",
+      "status": "Healthy",
+      "tags": []
+    },
+    "RemoteHealthCheck": {
+      "data": {
+
+      },
+      "description": "Remote endpoint is unhealthy",
+      "duration": "00:00:00.0002506",
+      "status": "Unhealthy",
+      "tags": []
+    }
+  }
+}
+```
 
 
 
