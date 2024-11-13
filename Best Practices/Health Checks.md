@@ -27,41 +27,7 @@ After adding these, we can access our application on `"/api/health"` and the app
 
 However, we often need to do more than just confirm the app can respond at the health endpoint URL to make sure it is really healthy, such as checking the database connection or a third party service connection.
 
-For these cases we can create a custom health check by implementing the [IHealthCheck](https://learn.microsoft.com/en-us/dotnet/api/microsoft.extensions.diagnostics.healthchecks.ihealthcheck?view=net-8.0-pp) interface:
-
-```c#
-public class SampleHealthCheck : IHealthCheck
-{
-    public Task<HealthCheckResult> CheckHealthAsync(
-        HealthCheckContext context, CancellationToken cancellationToken = default)
-    {
-        var isHealthy = true;
-
-        // ...
-
-        if (isHealthy)
-        {
-            return Task.FromResult(
-                HealthCheckResult.Healthy("A healthy result."));
-        }
-
-        return Task.FromResult(
-            new HealthCheckResult(
-                context.Registration.FailureStatus, "An unhealthy result."));
-    }
-}
-```
-
-We can register the health check service by calling `AddCheck` in `Program.cs`: 
-
-```c#
-builder.Services.AddHealthChecks()
-    .AddCheck<SampleHealthCheck>("Sample");
-```
-
-Doing this will configure the health check of the application to return unhealthy in case any of the registered custom checks return unhealthy.
-
-Before you start implementing a custom health check for everything, you should first see if there's already an existing library. In the [AspNetCore.Diagnostics.HealthChecks](https://github.com/Xabaril/AspNetCore.Diagnostics.HealthChecks) repository you can find a wide collection health check packages for frequently used services and libraries.
+In the [AspNetCore.Diagnostics.HealthChecks](https://github.com/Xabaril/AspNetCore.Diagnostics.HealthChecks) repository we can find a wide collection of health check packages for frequently used services and libraries.
 * SQL Server - AspNetCore.HealthChecks.SqlServer
 * Postgres - AspNetCore.HealthChecks.Npgsql
 * Redis - AspNetCore.HealthChecks.Redis
@@ -69,12 +35,54 @@ Before you start implementing a custom health check for everything, you should f
 * AWS S3 - AspNetCore.HealthChecks.Aws.S3
 * SignalR - AspNetCore.HealthChecks.SignalR
 
+We can very simply register any of them in our `Program.cs`: 
+
 ```c#
 builder.Services.AddHealthChecks()
-    .AddCheck<SqlHealthCheck>("custom-sql", HealthStatus.Unhealthy);
-    .AddNpgSql(pgConnectionString)
-    .AddRabbitMQ(rabbitConnectionString)
+    .AddSqlServer(sqlServerConnectionString)
+    .AddRabbitMQ(rabbitConnectionString);
 ```
+
+Doing this will configure the health check of the application to return unhealthy in case any of the registered custom checks return unhealthy.
+
+However, for some cases, such as third party service connections, we will need to write custom health checks. We can do that by  implementing the [IHealthCheck](https://learn.microsoft.com/en-us/dotnet/api/microsoft.extensions.diagnostics.healthchecks.ihealthcheck?view=net-8.0-pp) interface:
+
+```c#
+public class RemoteHealthCheck : IHealthCheck
+{
+    private readonly IHttpClientFactory _httpClientFactory;
+
+    public RemoteHealthCheck(IHttpClientFactory httpClientFactory)
+    {
+        _httpClientFactory = httpClientFactory;
+    }
+
+    public async Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context, CancellationToken cancellationToken = new CancellationToken())
+    {
+        using (var httpClient = _httpClientFactory.CreateClient())
+        {
+            var response = await httpClient.GetAsync("https://api.ipify.org");
+            if (response.IsSuccessStatusCode)
+            {
+                return HealthCheckResult.Healthy("Remote endpoint is healthy");
+            }
+
+            return HealthCheckResult.Unhealthy("Remote endpoint is unhealthy");
+        }
+    }
+}
+```
+
+and registering it in `Program.cs`: 
+
+```c#
+builder.Services.AddHealthChecks()
+    .AddCheck<SampleHealthCheck>("Sample");
+```
+
+
+
+
 
 
 
