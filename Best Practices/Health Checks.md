@@ -1,4 +1,4 @@
-ASP.NET Core offers us the built-in health checks Health Checks feature for monitoring and reporting the health and availability of our application infrastructure components. They provide a quick and automated way to verify that our application’s dependencies and components are running smoothly. Health checks help us proactively identify issues within our application, allowing us to address them before they impact users. Regularly verifying our application components' health can ensure a more reliable and resilient system.
+ASP.NET Core offers us the built-in Health Checks feature for monitoring and reporting the health and availability of our application infrastructure components. They provide a quick and automated way to verify that our application’s dependencies and components are running smoothly. Health checks help us proactively identify issues within our application, allowing us to address them before they impact users. Regularly verifying our application components' health can ensure a more reliable and resilient system.
 
 ## Basic Health Check
 
