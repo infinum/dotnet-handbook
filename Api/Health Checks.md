@@ -18,10 +18,7 @@ app.MapHealthChecks("/api/health");
 app.Run();
 ```
 
-After adding these, we can access our application on `"/api/health"` and the application will respond with one of the three distinct `HealthStatus` values:
-* `HealthStatus.Healthy`
-* `HealthStatus.Degraded`
-* `HealthStatus.Unhealthy`
+When the basic infrastructure for health checks is set up, the application will expose a health check endpoint (`"/api/health"`) that can be queried to determine the overall health status. If the application is up and running, the health check will respond with HTTP status code 200 OK and a response `"Healthy"`. If the application encounters a failure to respond (e.g., due to crashes or hosting issues), the health endpoint won't be reachable, and external monitoring systems will interpret this as "unhealthy."
 
 ## Custom Health Checks
 
@@ -80,9 +77,18 @@ builder.Services.AddHealthChecks()
     .AddCheck<RemoteHealthCheck>("Remote");
 ```
 
-# Formatting Health Checks Response
+## Health Check Response
 
-By default, the health check endpoint will return a single string value, which isn't very practical if we have multiple health checks configured. We would prefer a more detailed response, containing information about each health check so that we can easily see which services are healthy and which are not. To get this, we would need to provide a `ResponseWriter`, and luckily a good one exists in the AspNetCore.HealthChecks.UI.Client library. 
+Based on the state of the app, the health check endpoint will respond with one of the three distinct `HealthStatus` values:
+* `HealthStatus.Healthy`
+* `HealthStatus.Degraded`
+* `HealthStatus.Unhealthy`
+
+The `HealthStatus.Healthy` status indicates that the application or resource is functioning as expected and by default returns the HTTP status code 200 OK.
+The `HealthStatus.Degraded` status suggests that the health checks did succeed, but there might be some performance issues or non-critical problems. For example, the degraded status could be used for a simple database query that did succeed but took more than a second. This status by default also returns the HTTP status code 200 OK.
+The `HealthStatus.Unhealthy` status indicates a critical failure in the application or its dependencies, as well as an unhandled exception being thrown while executing the health check. This health status by default returns the HTTP status code 503 Service Unavailable.
+
+With the basic setup, the health check endpoint will return a single string value, which isn't very practical if we have multiple health checks configured. We would prefer a more detailed response, containing information about each health check so that we can easily see which services are healthy and which are not. To get this, we would need to provide a `ResponseWriter`, and luckily a good one exists in the AspNetCore.HealthChecks.UI.Client library. 
 
 ```c#
 app.MapHealthChecks(
