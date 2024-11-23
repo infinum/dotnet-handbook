@@ -41,7 +41,7 @@ builder.Services.AddHealthChecks()
     .AddRabbitMQ(rabbitConnectionString);
 ```
 
-Doing this will configure the health check of the application to return unhealthy in case any of the registered custom checks return unhealthy.
+Doing this will configure the health check of the application to return `"Unhealthy"` in case any of the registered custom checks return `"Unhealthy"`.
 
 However, for some cases, such as third-party service connections, we will need to write custom health checks. We can do that by  implementing the [IHealthCheck](https://learn.microsoft.com/en-us/dotnet/api/microsoft.extensions.diagnostics.healthchecks.ihealthcheck?view=net-8.0-pp) interface:
 
