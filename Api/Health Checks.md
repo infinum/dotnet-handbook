@@ -25,6 +25,7 @@ When the basic infrastructure for health checks is set up, the application will 
 However, we often need to do more than just confirm the app can respond at the health endpoint URL to make sure it is healthy, such as checking the database connection or a third-party service connection.
 
 In the [AspNetCore.Diagnostics.HealthChecks](https://github.com/Xabaril/AspNetCore.Diagnostics.HealthChecks) repository we can find a wide collection of health check packages for frequently used services and libraries, some of which are:
+
 * SQL Server - AspNetCore.HealthChecks.SqlServer
 * Postgres - AspNetCore.HealthChecks.Npgsql
 * Redis - AspNetCore.HealthChecks.Redis
