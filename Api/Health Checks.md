@@ -2,7 +2,7 @@ ASP.NET Core offers the built-in Health Checks feature for monitoring and report
 
 ## Basic Health Check
 
-For many apps, a basic health probe configuration that reports the app's availability to process requests (liveness) is sufficient to discover the app's status.
+For many apps, a basic health probe configuration that reports the app's *availability to process requests* (liveness) is sufficient to discover the app's status.
 
 The basic health probe is very simple to implement. All we have to do is register health check services and configure the Health Checks Middleware to respond at a URL endpoint with a health response in `Program.cs`: 
 
