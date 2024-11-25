@@ -14,6 +14,7 @@ The pull request template may include the following sections:
 1. Create a .github folder in the root folder of your project's solution (if it doesn't already exist)
 2. In the folder, create a new file with the extension ".md" and name it as you wish (e.g. "pull_request_template.md")
 3. Add a pull request template to the file; the following is an example of a pull request template used in our team:
+
 	```
 	## Ticket [^1]
 
@@ -33,6 +34,7 @@ The pull request template may include the following sections:
 	[^2]: Provide a short description and/or list of changes. The idea is to tell the reviewer what they should focus on and if there are some details they should be aware of.
 	[^3]: Select the ones that apply to this PR.
 	```
+
 4. Save the file, commit it, and push it to the main branch of your repository (create a pull request if the policy of your team does not allow direct pushes to the main branch)
 
 After the changes are added to the main branch, the PR template will automatically apply to every new pull request created in the repository.
@@ -57,6 +59,7 @@ For adding the pull request template via Github UI, please check [the instructio
 		- In the folder from step 1, create a new folder structure: `pull_request_template/`
 		- Add a new file and name it as you wish; e.g: "additional_pr_template.md" or "additional_pr_template.txt"
 3. Add a pull request template to the file; the following is an example of a pull request template used in our team:
+
 	```
 	## Ticket [^1]
 
@@ -76,6 +79,7 @@ For adding the pull request template via Github UI, please check [the instructio
 	[^2]: Provide a short description and/or list of changes. The idea is to tell the reviewer what they should focus on and if there are some details they should be aware of.
 	[^3]: Select the ones that apply to this PR.
 	```
+
 4. Save the file, commit it, and push it to the main branch of your repository (create a pull request if the policy of your team does not allow direct pushes to the main branch)
 
 After the changes are added to the main branch, the PR template will be available for new pull requests depending on its type:
