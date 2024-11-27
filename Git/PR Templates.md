@@ -51,15 +51,18 @@ For adding the pull request template via Github UI, please check [the instructio
 	- "docs"
 2. Create a new pull request template file according to the following rules:
 	- To add a PR template that will be default for all new pull requests in the solution, add a new file to the folder from step 1 with the extension ".md" or ".txt" and name it as you wish; e.g: "pull_request_template.md"
+	
 	- To add a PR template that will be default for new pull requests targeting a specific branch or set of branches:
 		- In the folder from step 1, create a new folder structure: `pull_request_template/branches/`
 		- Add a new file and name it according to the name of the target branch or set of branches:
 			- If a branch is named "feature/branch1", the file should be called "feature-branch1.md" or "feature-branch1.txt"
 			- If the target set of branches is the set of all feature branches, the file should be named "feature.md" or "feature.txt"
 			- If the target branches are "feature/branch1" and "feature/branch2", the file should be named "feature-branch.md" or "feature-branch.txt" (the file name without an extension should be a common prefix of the names of the target branches)"
+	
 	- To add a PR template that can be appended to the PR description on demand (when creating the PR):
 		- In the folder from step 1, create a new folder structure: `pull_request_template/`
 		- Add a new file and name it as you wish; e.g: "additional_pr_template.md" or "additional_pr_template.txt"
+		
 3. Add a pull request template to the file; the following is an example of a pull request template used in our team:
 
 	```
