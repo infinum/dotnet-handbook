@@ -12,7 +12,9 @@ The pull request template may include the following sections:
 ### Adding a pull request template in GitHub
 
 1. Create a .github folder in the root folder of your project's solution (if it doesn't already exist)
+
 2. In the folder, create a new file with the extension ".md" and name it as you wish (e.g. "pull_request_template.md")
+
 3. Add a pull request template to the file; the following is an example of a pull request template used in our team:
 
 	```
