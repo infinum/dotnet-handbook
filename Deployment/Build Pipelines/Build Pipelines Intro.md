@@ -20,3 +20,20 @@ Manual triggers in build pipelines allow developers to run a pipeline on demand 
 
 ## Automatic triggers
 
+Automatic triggers are an essential part of modern build pipelines, enabling workflows to execute automatically in response to specific events or conditions in a repository. These triggers eliminate the need for manual intervention and ensure that critical processes like builds, tests, and deployments happen consistently and reliably.
+
+### Common Types of Automatic Triggers
+
+1. **Code Changes**  
+   Pipelines can be triggered automatically when code changes are pushed to the repository. This includes:
+   - **Push Events**: Trigger when commits are pushed to specific branches or tags.
+   - **Pull Request Events**: Trigger when pull requests are opened, updated, merged, or closed.
+
+2. **Scheduled Workflows**  
+   Workflows can be configured to run at specific intervals or times using cron expressions. This is particularly useful for running periodic tasks, such as nightly builds or generating reports.
+
+3. **Release Events**  
+   Workflows can automatically run when a release is created, updated, or published in the repository, ensuring a consistent deployment process.
+
+4. **Custom Repository Events**  
+   Workflows can respond to various events such as issue creation, branch deletions, or changes to repository settings.
