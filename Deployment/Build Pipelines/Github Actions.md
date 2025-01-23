@@ -5,13 +5,13 @@ GitHub provides preconfigured workflow templates that you can use as-is or custo
 
 ### Manual triggers
 
-Manual trigger is accomplished using the `workflow_dispatch` event in YAML file, which creates a **"Run workflow"** button in the **Actions** tab of your repository when you select your workflow.
+Manual trigger is accomplished using the `workflow_dispatch` event in the `on` section of the YAML file, which creates a **"Run workflow"** button in the **Actions** tab of your repository when you select your workflow.
 
 Here is an example how to add a YAML file in your repository.
 
 #### 1. Open the **Actions** tab in your GitHub repository
 
-You can browse the templates and select the desired one by clicking on *"Configure"* button. In this example, we used *"Deploy a .NET Core app to an Azure Web App"*
+You can browse the templates and select the desired one by clicking on *"Configure"* button. In this example, we used *"Deploy a .NET Core app to an Azure Web App"* with manual trigger.
 
 ![githubaction](/resources/github-actions.png)
 
@@ -19,7 +19,8 @@ You can browse the templates and select the desired one by clicking on *"Configu
 
 In this example, we used an auto-generated file by GitHub:
 
-```yamlname: Build and deploy ASP.Net Core app to an Azure Web App
+```yaml
+name: Build and deploy ASP.Net Core app to an Azure Web App
 
 env:
   AZURE_WEBAPP_NAME: example-app-name    # set this to the name of your Azure Web App
@@ -92,13 +93,68 @@ After you have commited the changes to your repository, you will see this in the
 
 Now, you can easily test your workflow by running it with the click on *"Run workflow"* button.
 
-#### Logs 
+## Automatic triggers
+
+Automatic triggers in GitHub Actions allow workflows to run automatically based on specific events in your repository. These triggers are defined in the `on` section of your workflow YAML file. Common use cases include triggering builds when code is pushed, pull requests are created, or schedules are met.
+
+Here’s how to set up automatic triggers in a workflow:
+
+#### Define the trigger event
+
+To enable automatic triggers, replace or extend the `on` section of the YAML file with one or more supported GitHub events. Here are examples of common automatic triggers:
+
+- Push events: Trigger the workflow when code is pushed to a specific branch or tag. E.g. `develop` branch:
+
+    ```yaml
+    # name and env sections
+
+    on:
+      pull_request:
+        branches:
+          - develop
+
+    # job sections for build, test and deploy
+    ```
+
+- Pull requests: Trigger the workflow when a pull request is opened, synchronized, or closed. E.g. `develop` branch:
+
+    ```yaml
+    # name and env sections
+
+    on:
+      push:
+        branches:
+          - develop
+
+    # job sections for build, test and deploy
+    ```
+
+- Scheduled workflows: Use `schedule` to trigger workflows at specific times using cron syntax.
+
+    ```yaml
+    # name and env sections
+
+    on:
+      schedule:
+        cron: '0 0 * * *' # Runs at midnight UTC every day
+
+    # job sections for build, test and deploy
+    ```
+
+- Other events: There are many other events, such as `release`, `issues`, or `workflow_run`. See the full list of events in [GitHub documentation](https://docs.github.com/en/actions/writing-workflows/choosing-when-your-workflow-runs/events-that-trigger-workflows).
+
+You can combine multiple events in the `on` section of a GitHub Actions workflow, both automatic and manual. This allows the workflow to trigger on different types of events, making it highly flexible. 
+
+Benefits of automatic triggers:
+- **Continuous Integration (CI):** Ensure code changes are always tested and validated before being merged.
+- **Time-based automation:** Use scheduled workflows for tasks like backups, reporting, or maintenance scripts.
+- **Scalability:** Automate repetitive tasks, reducing manual effort and human error.
+
+
+## Logs 
 
 If the workflow fails, you can inspect the logs by clicking on the workflow run. The workflow graph will be displayed, and you can see which step failed and the error messages in the logs.
 
 ![githublogs](/resources/github-actions-error-workflow.png)
 
 ![githublogs](/resources/github-actions-error-logs.png)
-
-## Automatic triggers
-
