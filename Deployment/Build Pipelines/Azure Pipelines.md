@@ -1,20 +1,145 @@
 ## Azure DevOps
 
-To understand **Azure Pipelines** and use them more efficiently, here is the [link](https://learn.microsoft.com/en-us/azure/devops/pipelines/get-started/key-pipelines-concepts?view=azure-devops) to the documentation for the key concepts. There is a short video and documentation that explain the basic terms and parts of a pipeline in detail.
+Azure DevOps is a suite of development tools provided by Microsoft, and Azure Pipelines is a powerful CI/CD service within it. It enables you to automate your builds, tests, and deployments across various platforms.
 
-### Manual triggers
+To understand **Azure Pipelines** and use them more efficiently, visit the [Key Pipelines Concepts](https://learn.microsoft.com/en-us/azure/devops/pipelines/get-started/key-pipelines-concepts?view=azure-devops). There is a short video and documentation that explain the basic terms and parts of a pipeline in detail.
 
-Here are 5 easy steps that explain how to run a pipeline manually:
+## Triggers
 
-1. Go to Azure DevOps and select your project
-2. Click on **Pipelines** in the sidebar
-	![azurepipelinessection](/resources/azure-pipelines-section.png)
-3. Click on pipeline that you want to run (e.g. `pipelines-dotnet-core`)
-4. Click on the blue **Run Pipeline** button and a sidebar will pop up
-	![azurepipelinesrunpipeline](/resources/azure-pipelines-run-pipeline.png)
-5. In the **Run Pipeline** dialog, select the branch and click Run. Azure Devops will queue the job and start the process.
+Azure Pipelines supports automatic triggers to run pipelines based on specific events, such as code pushes, pull requests, or scheduled times. This ensures that your CI/CD processes are seamlessly integrated into your development workflow. You can define triggers for branches, tags, or schedules to suit your CI/CD requirements. For more information about triggers visit the [Azure Pipelines documentation](https://learn.microsoft.com/en-us/azure/devops/pipelines/build/triggers?view=azure-devops).
 
-For more info on manual triggers you can visit the [documentation](https://learn.microsoft.com/en-us/azure/devops/pipelines/process/stages?view=azure-devops&tabs=yaml#add-a-manual-trigger) on manual triggers
+### How do you build the build pipeline? 
 
-## Automatic triggers
+You can add the YAML file 'manually', by commiting it in your repository or through Azure DevOps. Here is an example how to add a YAML file in your repository through Azure DevOps:
 
+#### 1. Navigate to **Pipelines** tab in your Azure DevOps repository
+
+Click on the **New pipeline** button in the top right corner. Then you will be prompted to select your repository and type of the YAML template you want to use, or just select any template and write your own.
+
+#### 2. Write the YAML file and save changes
+
+In this example, we used a custom YAML file for building, testing and deploying ***Example.Api*** project:
+
+```yaml
+variables:
+- name: vmImageName
+  value: 'ubuntu-latest'
+- name: workingDirectoryApi
+  value: '$(System.DefaultWorkingDirectory)/src/Example.Api' # your app directory
+- name: testDirectoryApi
+  value: '$(System.DefaultWorkingDirectory)/src/Example.Api.Tests' # your test directory
+- name: dotNetRuntime
+  value: '8.0.x'
+- name: RuntimeStack
+  value: 'DOTNETCORE|8.0'
+- name: publishApiArtifactName
+  value: 'aptifact'
+- name: azureSubscription
+  value: '_Your_Subscription_' # your Azure subscription
+- name: environment
+  value: 'development' # your env
+- name: appServiceName
+  value: 'example-api' # your app service name on Azure Portal
+  
+# Define pipeline-level pool
+pool:
+  vmImage: $(vmImageName)
+
+# Triggers
+trigger:
+  branches:
+    include:
+      - master # your branch(es)
+
+
+# Stages
+stages:
+- stage: Build
+  displayName: Build the app
+
+  jobs:
+  - job: Build
+    displayName: Building
+
+    steps:
+    - task: UseDotNet@2
+      inputs:
+        version: $(dotNetRuntime)
+        packageType: runtime
+
+    - task: DotNetCoreCLI@2
+      displayName: Build api
+      inputs:
+        command: 'build'
+        projects: |
+          $(workingDirectoryApi)/*.csproj
+  
+    - task: DotNetCoreCLI@2
+      displayName: 'Test api'
+      inputs:
+        command: 'test'
+        projects: '$(testDirectoryApi)/*.csproj'
+
+    - task: DotNetCoreCLI@2
+      displayName: 'Publish Api'
+      inputs:
+        command: publish
+        publishWebProjects: false
+        projects: '$(workingDirectoryApi)/*.csproj'
+        arguments: '--output $(Build.ArtifactStagingDirectory)/api'
+        zipAfterPublish: True
+
+    - task: PublishBuildArtifacts@1
+      inputs:
+        pathtoPublish: '$(Build.ArtifactStagingDirectory)/api'
+        artifactName: '$(publishApiArtifactName)'
+
+- stage: Deploy
+  displayName: Deploy stage
+  dependsOn: Build
+  condition: succeeded() # build must be successful for the Deploy stage to start
+
+  jobs:
+  - deployment: Deploy
+    displayName: Deploy
+    environment: $(environment)
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+
+          - task: AzureRmWebAppDeployment@4
+            inputs:
+              ConnectionType: 'AzureRM'
+              azureSubscription: '$(azureSubscription)'
+              appType: 'webAppLinux'
+              WebAppName: $(appServiceName)
+              packageForLinux: '$(Pipeline.Workspace)/$(publishApiArtifactName)/*.zip'
+              RuntimeStack: '$(RuntimeStack)'
+```
+
+After you added your YAML file, save it and now you are ready to run your pipeline.
+
+## Manually run the pipeline
+
+Manual execution is useful for scenarios like testing pipeline changes, running on a non-triggered branch, or deploying a hotfix. Here are the steps that explain how to run a pipeline manually:
+
+#### 1. Navigate on **Pipelines** tab
+
+![azurepipelinessection](/resources/azure-pipelines-section.png)
+
+Select the your pipeline, e.g., `pipelines-dotnet-core`. 
+
+#### 2. Click on the blue **Run Pipeline** button and a sidebar will pop up.
+
+![azurepipelinesrunpipeline](/resources/azure-pipelines-run-pipeline.png)
+
+In the sidebar, select the branch and click **Run**. Azure DevOps will queue the job and start the process.
+
+## Logs
+
+If the pipeline run fails, you can inspect the logs by clicking on the run. The run details will be displayed, errors and warnings, you can even see which stage and job failed. To access the logs just click on the error.
+
+**Pro Tip:** Use the search bar (`Ctrl + F`) in the logs view to quickly locate specific errors or warnings.
+
+For more details visit the [Azure DevOps documentation](https://learn.microsoft.com/en-us/azure/devops/pipelines/troubleshooting/review-logs?view=azure-devops&tabs=windows-agent).

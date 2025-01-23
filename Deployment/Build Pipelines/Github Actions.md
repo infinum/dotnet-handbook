@@ -7,17 +7,17 @@ GitHub provides preconfigured workflow templates that you can use as-is or custo
 
 Manual trigger is accomplished using the `workflow_dispatch` event in the `on` section of the YAML file, which creates a **"Run workflow"** button in the **Actions** tab of your repository when you select your workflow.
 
-Here is an example how to add a YAML file in your repository.
+You can add the YAML file 'manually', by commiting it in your repository or through GitHub. Here is an example how to add a YAML file in your repository through GitHub:
 
 #### 1. Open the **Actions** tab in your GitHub repository
 
-You can browse the templates and select the desired one by clicking on *"Configure"* button. In this example, we used *"Deploy a .NET Core app to an Azure Web App"* with manual trigger.
+You can browse the templates and select the desired one by clicking on *"Configure"* button.
 
 ![githubaction](/resources/github-actions.png)
 
-#### 2. Write a file name and content, then commit the changes
+#### 2. Write the YAML file and commit changes
 
-In this example, we used an auto-generated file by GitHub:
+In this example, we used *"Deploy a .NET Core app to an Azure Web App"* with manual trigger:
 
 ```yaml
 name: Build and deploy ASP.Net Core app to an Azure Web App
