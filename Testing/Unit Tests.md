@@ -27,13 +27,15 @@ public string GetTimeBasedGreeting()
 }
 ```
 
-It is easy to think of the test cases for this: we must check for each time of the day that the correct greeting is returned. But as soon as we start writing the tests, we come to an issue: only one greeting can be tested at a certain point in time. This means that we have no way of defining unit tests that will pass every time we run them, even though our code is working perfectly!
+It is easy to think of the test cases for this: we must check for each time of the day that the correct greeting is returned. But as soon as we start writing the tests, we come to an issue: only one greeting can be tested at a certain point in time. This means that we have no way of defining unit tests that will pass every time we run them, even though our code is working perfectly! The issue here is our static reference to `DateTime.UtcNow`, which returns the current date and time. 
 
-The issue here is our static reference to `DateTime.UtcNow`, which returns the current date and time. 
+The old approach included the usage of `IClockProvider` that we would register in the DI container and inject in our service classes. From .NET 8, Microsoft introduced `TimeProvider` abstract class that should replace the custom layer of abstraction and make the code more testable. All that needs to be done is:
 
-From .NET 8 Microsoft introduced `TimeProvider` abstract class that should replace our custom layer of abstraction for making our code more testable. Previously, we would have something like `IClockProvider` that we would register in the DI container and inject in our service classes.
+* registration of the default implementation of the `TimeProvider` as a singleton
+* injecting it in our service
+* replacing the direct usage of DateTime.UtcNow.
 
-Since the introduction of `TimeProvider` in .NET 8 we get all that out of the box. All we need to do is register the default implementation of the `TimeProvider` as a singleton and inject it in our service and replace direct use of `DateTime.UtcNow`. Default implementation uses current system clock.
+The default implementation uses current system clock.
 
 ```c#
 builder.Services.AddSingleton(TimeProvider.System);
@@ -83,4 +85,4 @@ public void GetTimeBasedGreeting_WhenTimeAvailable_ThenReturnAppropriateGreeting
 }
 ```
 
-TimerProvider class enables us to do much more than just work with current time, so for more examples check out this [article](https://andrewlock.net/exploring-the-dotnet-8-preview-avoiding-flaky-tests-with-timeprovider-and-itimer/).
+TimerProvider class makes it possible to do much more than just work with current time, so for more examples check out this [article](https://andrewlock.net/exploring-the-dotnet-8-preview-avoiding-flaky-tests-with-timeprovider-and-itimer/).
