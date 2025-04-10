@@ -1,7 +1,7 @@
 ### What is the clean code ?
 
 
-![celanCodeImg](/resources/wtf.png)
+![cleanCodeImg](/resources/wtf.png)
 
 The image above is a pretty good explanation of a way to distinguish between good (clean) and bad code. While almost every code produces some WTFs per second, clean code will make your colleagues less mad, software easy to manage and grow, and will enable the company to evolve.
 
@@ -894,3 +894,66 @@ public void PrintWelcomeMessage(string userType)
     Console.WriteLine($"Welcome, {userType}!");
 }
 ```
+
+### YAGNI (You Aren’t Gonna Need It)
+
+> *Don't write code for features you think you might need in the future — only write what you need right now.*
+
+YAGNI protects developers from the trap of over-engineering, which adds complexity, increases maintenance overhead, and often results in features that are never used. It encourages lean, focused development with simpler code, faster delivery, and easier debugging.
+
+**Bad Example** (only sending e-mails is required) **:**
+
+```c#
+public interface INotificationService
+{
+    void SendEmail(string to, string subject, string body);
+    void SendSms(string number, string message);
+    void SendPushNotification(string deviceToken, string message);
+}
+
+public class NotificationService : INotificationService
+{
+    public void SendEmail(string to, string subject, string body)
+    {
+        Console.WriteLine("Sending Email...");
+    }
+
+    public void SendSms(string number, string message)
+    {
+        // Not needed now
+        throw new NotImplementedException();
+    }
+
+    public void SendPushNotification(string deviceToken, string message)
+    {
+        // Not needed now
+        throw new NotImplementedException();
+    }
+}
+```
+
+In this case, the system only needs email notifications, but the developer anticipates future needs for SMS and push notifications. This adds dead code, untested methods, and unnecessary complexity.
+
+**Good example:**
+
+```c#
+public class EmailNotificationService
+{
+    public void SendEmail(string to, string subject, string body)
+    {
+        Console.WriteLine("Sending Email...");
+    }
+}
+```
+
+This version delivers exactly what's required right now — email notifications only. If requirements change in the future, the code can be extended when it's needed, based on real use cases.
+
+#### When to Break YAGNI?
+
+There are rare cases where you might consider building ahead — for example:
+
+* When the cost of refactoring later is prohibitively high
+* When future requirements are certain (e.g., clearly scoped roadmap)
+* When extending architecture is nearly free and adds no real complexity
+
+Even then, such decisions should be intentional and justified — not based on “just in case” thinking.
