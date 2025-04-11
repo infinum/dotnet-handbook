@@ -93,7 +93,7 @@ In other words, the Law of Demeter principle states that a module (class) should
     human
         .getDigestiveSystem() // 1. level of details
         .getStomach()         // 2. level of details
-        .add(new Cake()))    
+        .add(new Cake());    
 ```
 
 The above code can be viewed as a *sausage code* and expresses a code smell:
