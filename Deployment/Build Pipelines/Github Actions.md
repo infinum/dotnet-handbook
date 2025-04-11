@@ -151,7 +151,6 @@ Benefits of automatic triggers:
 - **Time-based automation:** Use scheduled workflows for tasks like backups, reporting, or maintenance scripts.
 - **Scalability:** Automate repetitive tasks, reducing manual effort and human error.
 
-
 ## Logs 
 
 If the workflow fails, the logs can be inspected by clicking on the workflow run. The workflow graph shows up, and you can see which step failed and the error messages in the logs.
