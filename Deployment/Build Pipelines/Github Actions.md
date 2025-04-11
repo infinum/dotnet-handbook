@@ -155,6 +155,6 @@ Benefits of automatic triggers:
 
 If the workflow fails, the logs can be inspected by clicking on the workflow run. The workflow graph shows up, and you can see which step failed and the error messages in the logs.
 
-![githublogs](/resources/github-actions-error-workflow.png)
+![githuberrorworkflow](/resources/github-actions-error-workflow.png)
 
 ![githublogs](/resources/github-actions-error-logs.png)
