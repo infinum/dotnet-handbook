@@ -61,6 +61,17 @@ Logic contained in a single method should reflect the same level of abstraction.
 * Methods should not have multiple return parameters (exception is TryDoSomething pattern which returns bool and resulting object via out param).
 * Avoid using flag arguments. Split the method into several independent methods that can be called from the client without the flag.
 
+### Code order
+
+C# has no specific requirements for the code order inside a class. This is great for us because it gives us the freedom to place code wherever we want, but that doesn't mean we should just put it anywhere and call it a day.
+
+As we mentioned before, the code we write must be understandable to developers as well as the machines. In this context, understandable code must tell a story about the class we are writing, just as if we were writing a newspaper article. First, you get the high-level information, and as you continue reading you dive into more details. Related code should be vertically close, and callers should be above the callees, if possible. Alongside these guidelines, we use the following order:
+
+1. private fields
+2. public properties
+3. constructors
+4. static methods
+5. instance methods
 
 ### Abstraction & encapsulation
 
