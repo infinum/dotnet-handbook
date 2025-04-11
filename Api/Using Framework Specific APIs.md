@@ -22,21 +22,21 @@ You need to specify the **FrameworkReference** for `Microsoft.AspNetCore.App` in
 
 #### What Does Adding FrameworkReference Do?
 
-specific APIs included in the ASP.NET Core shared framework. These APIs are provided as part of the runtime, rather than being distributed via NuGet packages.
+It adds specific APIs included in the ASP.NET Core shared framework. These APIs are provided as part of the runtime, rather than being distributed via NuGet packages.
 
-That said, in most cases, you don’t need to add a **FrameworkReference** manually. When a class library is used in an ASP.NET Core application (e.g., API project), the application already references `Microsoft.AspNetCore.App` and makes these APIs available to the library.
+That said, in most cases, you don't need to add **FrameworkReference** manually. When using a class library in an ASP.NET Core application (e.g., API project), the application already references `Microsoft.AspNetCore.App` and makes these APIs available to the library.
 
 ---
 
 #### So, When Do You Need FrameworkReference?
 
-You only need to explicitly add a **FrameworkReference** in the class library if your library is intended to be used independently (e.g., for unit tests or another non-ASP.NET Core project) and directly depends on ASP.NET Core APIs, you must add a **FrameworkReference**. Without it, the library won’t compile because it won’t have access to ASP.NET Core types.
+You only need to explicitly add FrameworkReference in the class library if your library is intended to be used independently (e.g., for unit tests or another non-ASP.NET Core project) and directly depends on ASP.NET Core APIs. Without it, the library won't compile because it won't have access to ASP.NET Core types.
 
 ---
 
 ### **Step 2: Build and Use the Class Library**
 
-Once you’ve added the **FrameworkReference**, write your library code and include any necessary ASP.NET Core namespaces. For example:
+Once you've added the **FrameworkReference**, write your library code and include any necessary ASP.NET Core namespaces. For example:
 
 ```c#
 using Microsoft.AspNetCore.Http; // For working with HTTP context
@@ -53,4 +53,4 @@ When the library is ready, reference it in your ASP.NET Core application like an
 
 ---
 
-This small addition to the .csproj ensures your library is properly configured to use ASP.NET Core APIs in a self-contained and portable way, regardless of where it’s used.
+This small addition to the .csproj ensures your library is properly configured to use ASP.NET Core APIs in a self-contained and portable way, regardless of where it's used.
