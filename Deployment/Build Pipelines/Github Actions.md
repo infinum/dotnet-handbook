@@ -1,23 +1,24 @@
 ## GitHub Actions
 
-Github uses a bit different terminilogy from Azure, but in practice it is similar. Here is the link to [documentation](https://docs.github.com/en/actions/writing-workflows/about-workflows#workflow-basics) where basics are explained.
-GitHub provides preconfigured workflow templates that you can use as-is or customize to create your own workflow. Also, GitHub analyzes your code and shows you workflow templates that might be useful for your repository (e.g. we will see suggestions for .NET projects).
+Github uses a bit different terminology from Azure, but in practice, it is similar. The [documentation](https://docs.github.com/en/actions/writing-workflows/about-workflows#workflow-basics) explains the basics.
+
+GitHub provides preconfigured workflow templates that can be used as is or customized to create your workflow. Also, GitHub analyzes the code and shows the workflow templates that might be useful for your repository (e.g., we will see suggestions for .NET projects).
 
 ### Manual triggers
 
-Manual trigger is accomplished using the `workflow_dispatch` event in the `on` section of the YAML file, which creates a **"Run workflow"** button in the **Actions** tab of your repository when you select your workflow.
+The manual triggering is accomplished using the `workflow_dispatch` event in the `on` section of the YAML file, which creates a **"Run workflow"** button in the **Actions** tab of the repository when the workflow is selected.
 
-You can add the YAML file 'manually', by commiting it in your repository or through GitHub. Here is an example how to add a YAML file in your repository through GitHub:
+You can add the YAML file 'manually' by committing it to your repository or through GitHub. The following is an example of how to add a YAML file to the repository through GitHub.
 
 #### 1. Open the **Actions** tab in your GitHub repository
 
-You can browse the templates and select the desired one by clicking on *"Configure"* button.
+You can browse the templates and select the desired one by clicking the *"Configure"* button.
 
 ![githubaction](/resources/github-actions.png)
 
 #### 2. Write the YAML file and commit changes
 
-In this example, we used *"Deploy a .NET Core app to an Azure Web App"* with manual trigger:
+In this example, *"Deploy a .NET Core app to an Azure Web App"* is used with a manual trigger:
 
 ```yaml
 name: Build and deploy ASP.Net Core app to an Azure Web App
@@ -87,23 +88,23 @@ GitHub even displays the documentation for workflows to help you configure the w
 
 #### 3. Run the workflow
 
-After you have commited the changes to your repository, you will see this in the **Actions** tab:
+After committing the changes to the repository, you will see this in the **Actions** tab:
 
 ![githubrunworkflow](/resources/github-actions-run-workflow.png)
 
-Now, you can easily test your workflow by running it with the click on *"Run workflow"* button.
+Now, you can easily test the workflow by running it by clicking *"Run workflow"* button.
 
 ## Automatic triggers
 
-Automatic triggers in GitHub Actions allow workflows to run automatically based on specific events in your repository. These triggers are defined in the `on` section of your workflow YAML file. Common use cases include triggering builds when code is pushed, pull requests are created, or schedules are met.
+Automatic triggers in GitHub Actions allow workflows to run automatically based on specific events in your repository. These triggers are defined in the `on` section of the workflow YAML file. Frequent use cases include triggering builds when pushing the code, creating pull requests, or meeting schedules.
 
-Here’s how to set up automatic triggers in a workflow:
+Here's how to set up automatic triggers in a workflow:
 
 #### Define the trigger event
 
-To enable automatic triggers, replace or extend the `on` section of the YAML file with one or more supported GitHub events. Here are examples of common automatic triggers:
+To enable automatic triggers, replace or extend the `on` section of the YAML file with one or more supported GitHub events. Examples of common automatic triggers are:
 
-- Push events: Trigger the workflow when code is pushed to a specific branch or tag. E.g. `develop` branch:
+- Push events: Trigger the workflow when pushing the code to a specific branch or tag (e.g., the `develop` branch):
 
     ```yaml
     # name and env sections
@@ -116,7 +117,7 @@ To enable automatic triggers, replace or extend the `on` section of the YAML fil
     # job sections for build, test and deploy
     ```
 
-- Pull requests: Trigger the workflow when a pull request is opened, synchronized, or closed. E.g. `develop` branch:
+- Pull requests: Trigger the workflow when a pull request is opened, synchronized, or closed.
 
     ```yaml
     # name and env sections
@@ -141,19 +142,19 @@ To enable automatic triggers, replace or extend the `on` section of the YAML fil
     # job sections for build, test and deploy
     ```
 
-- Other events: There are many other events, such as `release`, `issues`, or `workflow_run`. See the full list of events in [GitHub documentation](https://docs.github.com/en/actions/writing-workflows/choosing-when-your-workflow-runs/events-that-trigger-workflows).
+- Other events: There are many other events, such as `release`, `issues`, or `workflow_run`. See the complete list of events in [GitHub documentation](https://docs.github.com/en/actions/writing-workflows/choosing-when-your-workflow-runs/events-that-trigger-workflows).
 
-You can combine multiple events in the `on` section of a GitHub Actions workflow, both automatic and manual. This allows the workflow to trigger on different types of events, making it highly flexible. 
+You can combine multiple events in the `on` section of a GitHub Actions workflow, both automatic and manual. This approach allows the workflow to trigger different event types, making it highly flexible.
 
 Benefits of automatic triggers:
-- **Continuous Integration (CI):** Ensure code changes are always tested and validated before being merged.
+- **Continuous Integration (CI):** Ensure code changes are tested and validated before merging.
 - **Time-based automation:** Use scheduled workflows for tasks like backups, reporting, or maintenance scripts.
 - **Scalability:** Automate repetitive tasks, reducing manual effort and human error.
 
 
 ## Logs 
 
-If the workflow fails, you can inspect the logs by clicking on the workflow run. The workflow graph will be displayed, and you can see which step failed and the error messages in the logs.
+If the workflow fails, the logs can be inspected by clicking on the workflow run. The workflow graph shows up, and you can see which step failed and the error messages in the logs.
 
 ![githublogs](/resources/github-actions-error-workflow.png)
 

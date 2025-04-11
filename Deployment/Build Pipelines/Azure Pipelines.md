@@ -6,19 +6,19 @@ To understand **Azure Pipelines** and use them more efficiently, visit the [Key 
 
 ## Triggers
 
-Azure Pipelines supports automatic triggers to run pipelines based on specific events, such as code pushes, pull requests, or scheduled times. This ensures that your CI/CD processes are seamlessly integrated into your development workflow. You can define triggers for branches, tags, or schedules to suit your CI/CD requirements. For more information about triggers visit the [Azure Pipelines documentation](https://learn.microsoft.com/en-us/azure/devops/pipelines/build/triggers?view=azure-devops).
+Azure Pipelines supports automatic triggers to run pipelines based on specific events, such as code pushes, pull requests, or scheduled times. This ensures that CI/CD processes integrate seamlessly into the development workflow. You can define triggers for branches, tags, or schedules to suit the CI/CD requirements. For more information about triggers visit the [Azure Pipelines documentation](https://learn.microsoft.com/en-us/azure/devops/pipelines/build/triggers?view=azure-devops).
 
 ### How do you build the build pipeline? 
 
-You can add the YAML file 'manually', by commiting it in your repository or through Azure DevOps. Here is an example how to add a YAML file in your repository through Azure DevOps:
+You can add the YAML file 'manually', by committing it in your repository or through Azure DevOps. Here is an example of how to add a YAML file in your repository through Azure DevOps:
 
-#### 1. Navigate to **Pipelines** tab in your Azure DevOps repository
+#### 1. Navigate to the **Pipelines** tab in your Azure DevOps repository
 
-Click on the **New pipeline** button in the top right corner. Then you will be prompted to select your repository and type of the YAML template you want to use, or just select any template and write your own.
+Click on the **New pipeline** button in the top right corner. Then you will be prompted to select your repository and type of YAML template to use, or just select any template and write your own.
 
-#### 2. Write the YAML file and save changes
+#### 2. Write the YAML file and save the changes
 
-In this example, we used a custom YAML file for building, testing and deploying ***Example.Api*** project:
+In this example, we used a custom YAML file for building, testing, and deploying ***Example.Api*** project:
 
 ```yaml
 variables:
@@ -118,19 +118,19 @@ stages:
               RuntimeStack: '$(RuntimeStack)'
 ```
 
-After you added your YAML file, save it and now you are ready to run your pipeline.
+After adding the YAML file, save it, and you are ready to run the pipeline.
 
 ## Manually run the pipeline
 
-Manual execution is useful for scenarios like testing pipeline changes, running on a non-triggered branch, or deploying a hotfix. Here are the steps that explain how to run a pipeline manually:
+Manual execution is useful for different cases, e.g., testing pipeline changes, running on a non-triggered branch, or deploying a hotfix. Here are the steps that explain how to run a pipeline manually:
 
 #### 1. Navigate on **Pipelines** tab
 
 ![azurepipelinessection](/resources/azure-pipelines-section.png)
 
-Select the your pipeline, e.g., `pipelines-dotnet-core`. 
+Select the pipeline, e.g., `pipelines-dotnet-core`. 
 
-#### 2. Click on the blue **Run Pipeline** button and a sidebar will pop up.
+#### 2. Click on the blue **Run Pipeline** button, and a sidebar will pop up.
 
 ![azurepipelinesrunpipeline](/resources/azure-pipelines-run-pipeline.png)
 
@@ -138,8 +138,10 @@ In the sidebar, select the branch and click **Run**. Azure DevOps will queue the
 
 ## Logs
 
-If the pipeline run fails, you can inspect the logs by clicking on the run. The run details will be displayed, errors and warnings, you can even see which stage and job failed. To access the logs just click on the error.
+If the pipeline run fails, you can inspect the logs by clicking on the run. The run details will show up, along with errors and warnings. You can even see which stage and job failed.
 
-**Pro Tip:** Use the search bar (`Ctrl + F`) in the logs view to quickly locate specific errors or warnings.
+To access the logs, click on the error.
 
-For more details visit the [Azure DevOps documentation](https://learn.microsoft.com/en-us/azure/devops/pipelines/troubleshooting/review-logs?view=azure-devops&tabs=windows-agent).
+**Pro Tip:** Use the search bar (`Ctrl + F`) in the logs view to find specific errors or warnings.
+
+For more details, visit the [Azure DevOps documentation](https://learn.microsoft.com/en-us/azure/devops/pipelines/troubleshooting/review-logs?view=azure-devops&tabs=windows-agent).
