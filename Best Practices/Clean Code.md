@@ -3,6 +3,7 @@
 
 ![cleanCodeImg](/resources/wtf.png)
 
+
 The image above is a pretty good explanation of a way to distinguish between good (clean) and bad code. While almost every code produces some WTFs per second, clean code will make your colleagues less mad, software easy to manage and grow, and will enable the company to evolve.
 
 
@@ -10,6 +11,7 @@ To get to the state shown on the left side of the image above, developers should
 
 
 ### Code can be considered clean when it:
+
 * is elegant, efficient and simple to read
 * is self-explanatory and has straightforward logic without the need of explanatory comments
 * favors exception throwing instead of error codes and has complete and centralized error handling
@@ -294,7 +296,7 @@ class Program
     static void Main(string[] args)
     {
         IBird bird = new Sparrow();
-        bird.Fly(); // Sparrow eating seeds.
+        bird.Fly(); // Sparrow flying.
 
         bird = new Ostrich();
         bird.Fly(); // Throws NotSupportedException
@@ -302,7 +304,7 @@ class Program
 }
 ```
 
-Both `Sparrow` and `Ostrich` classes implement the `IFruit` interface. However, the first implements the `Fly()` method while the second throws the NotSupported exception. This means using the `Ostrich` type as a replacement for `IFruit` leads to errors in the code execution and deviates from the expected program behavior (program completes successfully).
+Both `Sparrow` and `Ostrich` classes implement the `IBird` interface. However, the first implements the `Fly()` method while the second throws the NotSupported exception. This means using the `Ostrich` type as a replacement for `IBird` leads to errors in the code execution and deviates from the expected program behavior (program completes successfully).
 
 **Good example:**
 
