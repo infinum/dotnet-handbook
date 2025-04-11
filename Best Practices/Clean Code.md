@@ -381,136 +381,102 @@ In the `Main` method, `Sparrow` and `Ostrich` instances are created and assigned
 
 Interfaces should be as small as possible and should not contain methods that are not closely related to each other. Otherwise, splitting one interface into multiple smaller ones should be considered.
 
-**Bad example** (forcing clients to depend on the unnecessary method `FindById` when only `Add` is needed)**:**
+**Bad example** 
 
 ```c#
-public class Customer
+public interface ISmartDevice
 {
-    public Guid Id { get; }
-    public string Name { get; set; }
+    void TurnOn();
+    void TurnOff();
+    void SetTemperature(int temperature);
+}
 
-    protected Customer()
+public class SmartLight : ISmartDevice
+{
+    public void TurnOn()
     {
+        // Turn light on
     }
 
-    public Customer(string name, Guid? id = default)
+    public void TurnOff()
     {
-        if (id != default)
-        {
-            Id = id;
-        }
+        // Turn light off
+    }
 
-        Name = name;
+    public void SetTemperature(int temperature)
+    {
+        throw new NotSupportedException("Lights do not support temperature settings.");
     }
 }
 
-public interface ICustomerService
+public class SmartThermostat : ISmartDevice
 {
-    void Add(Customer customer);
-
-    Customer FindById(int id);
-}
-
-public class CustomerService : ICustomerService
-{
-    public void Add(Customer customer)
+    public void TurnOn()
     {
-        // Add logic
+        // Turn thermostat on
     }
 
-    public Customer FindById(int id)
+    public void TurnOff()
     {
-        // Find logic
-        return new Customer("name", id);
-    }
-}
-
-public class CompanyService
-{
-    private readonly ICustomerService _customerService;
-
-    public CompanyService(ICustomerService customerService)
-    {
-        _customerService = customerService;
+        // Turn thermostat off
     }
 
-    public void Add(string Name, Customer[] customers)
+    public void SetTemperature(int temperature)
     {
-        // Company creation logic
-        foreach (var customer in customers)
-        {
-            _customerService.Add(customer);
-        }
+        // Set temperature logic
     }
 }
 ```
+
+Here, SmartLight is forced to implement `SetTemperature`, which doesn't make any sense for a light. That's the violation of ISP.
 
 **Good example** (using smaller, more specific interfaces to avoid unnecessary dependencies)**:**
 
 ```c#
-public class Customer
+public interface IDevice
 {
-    public Guid Id { get; }
-    public string Name { get; set; }
+    void TurnOn();
+    void TurnOff();
+}
 
-    protected Customer()
+public interface ITemperatureDevice
+{
+    void SetTemperature(int temperature);
+}
+
+public class SmartLight : IDevice
+{
+    public void TurnOn()
     {
+        // Turn light on
     }
 
-    public Customer(string name, Guid? id = default)
+    public void TurnOff()
     {
-        if (id != default)
-        {
-            Id = id;
-        }
-
-        Name = name;
+        // Turn light off
     }
 }
 
-public interface IAddCustomerService
+public class SmartThermostat : IDevice, ITemperatureDevice
 {
-    void Add(Customer customer);
-}
-
-public interface IFindCustomerService
-{
-    Customer FindById(int id);
-}
-
-public class CustomerService : IAddCustomerService, IFindCustomerService
-{
-    public void Add(Customer customer)
+    public void TurnOn()
     {
-        // Add logic
+        // Turn thermostat on
     }
 
-    public Customer FindById(int id)
+    public void TurnOff()
     {
-        // Find logic
-        return new Customer("name", id);
-    }
-}
-
-public class CompanyService
-{
-    private readonly IAddCustomerService _addCustomerService;
-
-    public CompanyService(IAddCustomerService addCustomerService)
-    {
-        _addCustomerService = addCustomerService;
+        // Turn thermostat off
     }
 
-    public void Add(string Name, Customer[] customers)
+    public void SetTemperature(int temperature)
     {
-        // Company creation logic
-        foreach (var customer in customers)
-        {
-            _addCustomerService.Add(customer);
-        }
+        // Set temperature logic
     }
 }
 ```
+
+Now, each class only implements the interfaces that make sense for its role. SmartLight is not burdened with irrelevant methods.
 
 #### Dependency Inversion Principle (DIP)
 
@@ -590,72 +556,129 @@ The `CustomerService` class depends on an abstraction (`ICustomerRepository`) ra
 
 The DRY principle promotes reusable component creation so that the code responsible for one thing appears only in one place. It suggests avoiding repetition by replacing duplicate logic or code snippets with shared methods or classes. That way, code is easier to maintain and update, and there is a smaller chance of errors and unwanted program behavior.
 
+
+**Bad example:**
+
+```c#
+public class UserService
+{
+    public void CreateUser(UserDto userDto, string currentUserRole)
+    {
+        if (currentUserRole != "Admin")
+        {
+            throw new UnauthorizedAccessException("Only admins can create users.");
+        }
+
+        // Create user logic
+        var user = new User(userDto.Name, userDto.Email);
+
+        // Send notification
+        var notification = new Notification
+        {
+            Recipient = user.Email,
+            Subject = "Welcome!",
+            Body = $"Hello {user.Name}, your account has been created."
+        };
+        EmailService.Send(notification);
+    }
+}
+
+public class ProductService
+{
+    public void CreateProduct(ProductDto productDto, string currentUserRole)
+    {
+        if (currentUserRole != "Admin")
+        {
+            throw new UnauthorizedAccessException("Only admins can create products.");
+        }
+
+        // Create product logic
+        var product = new Product(productDto.Name, productDto.Price);
+
+        // Send notification
+        var notification = new Notification
+        {
+            Recipient = "admin@company.com",
+            Subject = "New Product Created",
+            Body = $"Product {product.Name} was added to the catalog."
+        };
+        EmailService.Send(notification);
+    }
+}
+```
+
+Here are two clear violations:
+- Role check logic is duplicated.
+- Notification creation and sending is repeated with minor differences.
+
 **Good example:** 
 
 ```c#
-public interface IShape
+public class AuthorizationService
 {
-    public double CalculateArea();
-}
-
-public class Rectangle : IShape
-{
-    public double CalculateArea()
+    public static void EnsureAdmin(string role)
     {
-        // Calculation logic for rectangle's area
+        if (role != "Admin")
+        {
+            throw new UnauthorizedAccessException("Admin privileges required.");
+        }
     }
 }
 
-public class Circle : IShape
+public class NotificationFactory
 {
-    public double CalculateArea()
+    public static Notification CreateUserWelcomeNotification(User user)
     {
-        // Calculation logic for circle's area
+        return new Notification
+        {
+            Recipient = user.Email,
+            Subject = "Welcome!",
+            Body = $"Hello {user.Name}, your account has been created."
+        };
+    }
+
+    public static Notification CreateProductCreatedNotification(Product product)
+    {
+        return new Notification
+        {
+            Recipient = "admin@company.com",
+            Subject = "New Product Created",
+            Body = $"Product {product.Name} was added to the catalog."
+        };
+    }
+}
+
+public class UserService
+{
+    public void CreateUser(UserDto userDto, string currentUserRole)
+    {
+        AuthorizationService.EnsureAdmin(currentUserRole);
+
+        var user = new User(userDto.Name, userDto.Email);
+
+        var notification = NotificationFactory.CreateUserWelcomeNotification(user);
+        EmailService.Send(notification);
+    }
+}
+
+public class ProductService
+{
+    public void CreateProduct(ProductDto productDto, string currentUserRole)
+    {
+        AuthorizationService.EnsureAdmin(currentUserRole);
+
+        var product = new Product(productDto.Name, productDto.Price);
+
+        var notification = NotificationFactory.CreateProductCreatedNotification(product);
+        EmailService.Send(notification);
     }
 }
 ```
 
-We've created a method `Area` in an interface `IShape`, so there is no code duplication for calculating areas in each subclass (`Rectangle` and `Circle`). Instead, each subclass only needs to implement the logic specific to its shape.
-
-**Bad example** (repeating code for area calculation)**:**
-
-```c#
-public interface IShape
-{
-    public double CalculateArea();
-}
-
-public class Rectangle : IShape
-{
-    public double CalculateArea()
-    {
-        // Calculation logic for rectangle's area
-    }
-}
-
-public class Circle : IShape
-{
-    public double CalculateArea()
-    {
-        // Calculation logic for circle's area
-    }
-}
-
-public class AreaCalculator
-{
-    public double CalculateRectangleArea(double length, double width)
-    {
-        return length * width;
-    }
-
-    public double CalculateCircleArea(double radius)
-    {
-        return Math.PI * radius * radius;
-    }
-}
-```
-
-In the code above, the code for calculating area is implemented in each class implementing `IShape` and duplicated in `AreaCalculator`. In the latter, there's a redundancy in the method signatures as the equivalent logical operation is split into different methods.
+Now:
+- Role-check logic lives in one place
+- Notification creation is centralized and reusable
+- Code is easier to read, maintain, and extend (e.g., log notifications, customize formatting, etc.)
 
 Although the DRY principle is very useful, there *are* situations where applying the DRY principle might lead to greater complexity. The key point is that it's not an excuse to overcomplicate the code. If making something reusable introduces more complexity, it could be better to leave the code as it is.
 
