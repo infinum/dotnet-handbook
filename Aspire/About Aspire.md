@@ -14,7 +14,7 @@ Aspire is ideal for:
 
 ## Key Features
 - **Service Discovery & Wiring**: Register and connect services with minimal code.
-- **Centralized Configuration**: Manage settings for all services in one place.~~~~
+- **Centralized Configuration**: Manage settings for all services in one place.
 - **Observability**: Built-in support for logging, tracing, and metrics.
 - **Cloud-Native Ready**: Designed for Azure, AWS, GCP, and on-premises.
 - **Developer Dashboard**: Visualize, monitor, and debug your solution locally.
@@ -58,10 +58,10 @@ builder.Build().Run();
 The **ServiceDefaults** project is a shared library commonly used in Aspire-based solutions to centralize and standardize configuration, middleware, and service registration across multiple microservices or API projects. By referencing ServiceDefaults from each service, you can ensure consistent application of best practices such as logging, health checks, OpenTelemetry, and other cross-cutting concerns.
 
 ### Typical Uses
-- Registering default middleware (e.g., exception handling, CORS, HTTPS redirection)
-- Applying consistent logging and tracing configuration
-- Adding health checks and metrics endpoints
-- Sharing common service extensions and utilities
+- Enabling distributed tracing and metrics collection with OpenTelemetry
+- Configuring service discovery and resilient HTTP clients
+- Registering health checks and liveness endpoints
+- Applying consistent middleware and cross-cutting concerns (e.g., exception handling, CORS, HTTPS redirection)
 
 This approach helps reduce code duplication and enforces uniformity across your distributed application, making it easier to maintain and evolve your solution.
 
@@ -105,7 +105,7 @@ public static class ServiceDefaultsExtensions
 }
 ```
 
-You can then call this extension in each service's Program.cs:
+You can then call these extensions in each service's Program.cs:
 
 ```csharp
 var builder = WebApplication.CreateBuilder(args);
@@ -118,7 +118,10 @@ app.MapDefaultEndpoints();
 This ensures all your services share the same configuration, middleware, and observability setup.
 
 ## Aspire Dashboard
-The Aspire Dashboard is your local control center. It shows:
+
+The Aspire Dashboard is a web-based UI that provides a real-time, interactive overview of your entire distributed application, including all running services, dependencies, health, and diagnostics. It is automatically launched when you run your Aspire solution locally, making it easy to monitor, debug, and understand your system during development. 
+
+It shows:
 - All running services and their health
 - Logs, traces, and metrics
 - Service dependencies and configuration
