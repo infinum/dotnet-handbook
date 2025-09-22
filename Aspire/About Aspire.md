@@ -132,6 +132,22 @@ It shows:
 ![Service Details](../resources/aspire-metrics.png)
 *Detailed view of a service's metrics.*
 
+## Limitations and Pitfalls to Avoid
+
+### Limitations / Potential Disadvantages
+- Opinionated model: Conventions and abstractions may constrain highly customized hosting or deployment scenarios
+- Overhead for simple apps: Single-service or minimal APIs may not benefit enough to justify the additional layering
+- Configuration complacency: Default telemetry, resilience, and HTTP client policies may require tuning that is easy to overlook
+- Polyglot environments: Adding services written in other languages or external managed cloud resources may require custom integration beyond Aspire's built-in components
+
+### Common Pitfalls to Avoid
+- Treating AppHost as production IaC: AppHost is primarily for local composition; production infrastructure should still be defined via Terraform, Bicep, ARM, Pulumi, etc
+- Embedding business logic in ServiceDefaults: Keep it limited to cross-cutting concerns (observability, health checks, resilience, discovery)
+- Hardcoding secrets or connection strings: Use environment variables, user secrets, or secret managers instead of in-source literals
+- Assuming local readiness equals production readiness: Startup ordering success locally does not guarantee correct readiness behavior under cloud scaling conditions
+- Circular dependencies: Bi-directional service wiring without careful design can produce deadlocks or delayed availability
+- Unversioned resource naming: Name collisions or semantic drift can occur if resource identifiers are reused without clear ownership
+
 ## Learn More
 - [Official Documentation](https://learn.microsoft.com/en-us/dotnet/aspire/)
 - [GitHub Repository](https://github.com/dotnet/aspire)
