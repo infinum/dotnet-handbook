@@ -1,6 +1,7 @@
 [.NET Aspire](https://learn.microsoft.com/en-us/dotnet/aspire/get-started/aspire-overview) is a new, opinionated application model for building, running, and managing distributed .NET applications. It is designed to make cloud-native development approachable, productive, and reliable—whether building microservices, APIs, background workers, or multi-service solutions.
 
 Aspire provides a set of tools, templates, and patterns that support:
+
 - **Develop**: Rapid scaffolding and organization of multi-service .NET solutions
 - **Connect**: Simple wiring of services, databases, caches, and other dependencies
 - **Observe**: Built-in health checks, distributed tracing, and metrics out of the box
@@ -8,6 +9,7 @@ Aspire provides a set of tools, templates, and patterns that support:
 - **Deploy**: Preparation of applications for cloud, container, or on‑premises environments
 
 Aspire is ideal for:
+
 - Teams new to distributed/cloud-native .NET development
 - Developers who want to focus on business logic, not infrastructure
 - Projects that need to scale, integrate, and operate reliably in the cloud
@@ -58,6 +60,7 @@ builder.Build().Run();
 The **ServiceDefaults** project is a shared library commonly used in Aspire-based solutions to centralize and standardize configuration, middleware, and service registration across multiple microservices or API projects. Referencing ServiceDefaults from each service ensures consistent application of best practices such as logging, health checks, OpenTelemetry, and other cross-cutting concerns.
 
 #### Typical Uses
+
 - Enabling distributed tracing and metrics collection with OpenTelemetry
 - Configuring service discovery and resilient HTTP clients
 - Registering health checks and liveness endpoints
@@ -122,19 +125,21 @@ This ensures all services share the same configuration, middleware, and observab
 The Aspire Dashboard is a web-based UI that provides a real-time, interactive visualization of the entire distributed application, including all running services, dependencies, health, logs, traces, metrics, and configuration. It is launched automatically when the Aspire solution runs locally. It facilitates issue detection, dependency monitoring, and understanding of service interactions. Each service view exposes environment variables and other diagnostics to support rapid diagnosis and optimization. The dashboard is especially valuable during local development and testing, offering deep insight into overall system health and behavior.
 
 It shows:
+
 - All running services and their health
 - Logs, traces, and metrics
 - Service dependencies and configuration
 
-![Aspire Dashboard Overview](../resources/aspire-dashboard.png)
+![Aspire Dashboard Overview](/resources/aspire-dashboard.png)
 *Dashboard overview showing running services and their health.*
 
-![Service Details](../resources/aspire-metrics.png)
+![Service Details](/resources/aspire-metrics.png)
 *Detailed view of a service's metrics.*
 
 ## Limitations and Pitfalls to Avoid
 
 ### Limitations / Potential Disadvantages
+
 - Opinionated model: Conventions and abstractions may constrain highly customized hosting or deployment scenarios
 - Overhead for simple apps: Single-service or minimal APIs may not benefit enough to justify the additional layering
 - Configuration complacency: Default telemetry, resilience, and HTTP client policies may require tuning that is easy to overlook
