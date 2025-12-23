@@ -1,12 +1,26 @@
 Exception handling logic should be universal for the entire application. All the errors that happen in the API should produce the same error response model. That way the consumers of the API will know how to handle all the errors and where to look for solutions.
+
 ### Response model
-The error model should be simple, containing an error message (or in some cases multiple errors) and an error code if needed:
+
+For response model we recommend using the **Problem Details** (RFC 7807) standard. This standard provides a consistent, machine-readable way to communicate error information. A typical Problem Details response includes:
+- **type**: A URI identifying the error type.
+- **title**: A short, human-readable summary of the problem.
+- **status**: The HTTP status code.
+- **detail**: A human-readable explanation specific to this occurrence.
+- **instance**: A URI reference to the specific occurrence.
+
+ASP.NET Core has built-in support for Problem Details:
+- `Microsoft.AspNetCore.Mvc.ProblemDetails`: For general errors.
+- `Microsoft.AspNetCore.Mvc.ValidationProblemDetails`: For validation errors.
+- `IProblemDetailsService`: For writing responses and customizing problem details.
+
+While Problem Details is the standard, you might still encounter or need a simple custom error model:
 
 ```csharp
 public record ErrorResponse(int Code, string[] Errors);
 ```
 
-It’s a good practice to reference this error model in the Swagger documentation using the `[ProducesErrorResponseType]` attribute on controllers. That way the consumers can generate all the models and easily consume the API.
+It’s a good practice to reference the error model in the Swagger documentation using the `[ProducesErrorResponseType]` attribute on controllers. That way the consumers can generate all the models and easily consume the API.
 
 ### Error handler
 
@@ -51,10 +65,10 @@ public interface IExceptionHandler
 Every exception handler needs to be registered using `AddExceptionHandler<YourHandler>()` on the `IServiceCollection` during the API startup.
 Every time an exception occurs our handlers get called in the same order as they were registered. `TryHandleAsync` method provides information on whether the current handler can handle the exception. If the handler handles a request, it can return `true` to stop processing. If an exception isn't handled by any exception handler, then control falls back to the default behavior and options from the middleware.
 
-In our projects we would implement custom error handling logic and return appropriate error responses like this:
+In our projects we would implement custom error handling logic and return Problem Details responses like this:
 
 ```csharp
-public class CustomExceptionHandler : IExceptionHandler
+public class CustomExceptionHandler(IProblemDetailsService problemDetailsService) : IExceptionHandler
 {
     public async ValueTask<bool> TryHandleAsync(
         HttpContext httpContext,
@@ -66,48 +80,92 @@ public class CustomExceptionHandler : IExceptionHandler
             return false;
         }
 
-        httpContext.Response.StatusCode = StatusCodes.Status400BadRequest;
-        var errorResponse = new ErrorResponse(
-            Code: 123,
-            Errors: [customException.Message]);
-        await httpContext.Response.WriteAsJsonAsync(errorResponse, cancellationToken);
+        var problemDetails = new ProblemDetails()
+        {
+            Status = StatusCodes.Status400BadRequest,
+            Title = "Custom error occurred",
+            Type = "https://datatracker.ietf.org/doc/html/rfc9110#name-400-bad-request",
+            Detail = customException.Message,
+        };
 
+        var context = new ProblemDetailsContext()
+        {
+            HttpContext = httpContext,
+            ProblemDetails = problemDetails,
+            Exception = customException,
+        };
+
+        httpContext.Response.StatusCode = StatusCodes.Status400BadRequest;
+        await problemDetailsService.WriteAsync(context);
         return true;
     }
 }
 ```
+
 We also need a default error handler in case some other unexpected exception occurs.
 
 ```csharp
-public class DefaultExceptionHandler(ILogger<DefaultExceptionHandler> logger) : IExceptionHandler
+public class DefaultExceptionHandler(
+    ILogger<DefaultExceptionHandler> logger,
+    IProblemDetailsService problemDetailsService) : IExceptionHandler
 {
-    private readonly ILogger<GlobalExceptionHandler> _logger = logger;
-
     public async ValueTask<bool> TryHandleAsync(
         HttpContext httpContext,
         Exception exception,
         CancellationToken cancellationToken)
     {
-        _logger.LogError(
-            exception, "Exception message: {Message}", exception.Message);
+        logger.LogError(exception, "Exception message: {Message}", exception.Message);
 
-        var errorResponse = new ErrorResponse(
-            Code: 999,
-            Errors: [exception.Message]);
+        var problemDetails = new Microsoft.AspNetCore.Mvc.ProblemDetails()
+        {
+            Status = StatusCodes.Status500InternalServerError,
+            Title = "Unhandled exception",
+            Type = "https://datatracker.ietf.org/doc/html/rfc9110#name-500-internal-server-error",
+            Detail = exception.Message,
+        };
+
+        var context = new ProblemDetailsContext()
+        {
+            HttpContext = httpContext,
+            ProblemDetails = problemDetails,
+            Exception = exception,
+        };
+
         httpContext.Response.StatusCode = StatusCodes.Status500InternalServerError;
-        await httpContext.Response.WriteAsJsonAsync(errorResponse, cancellationToken);
-
+        await problemDetailsService.WriteAsync(context);
         return true;
     }
 }
 ```
 
-Before running the API, we need to open `Program.cs` and register them in this order.
+As you can see in both exception handlers, it is possible to use dependency injection in exception handlers in the same way we would use them in our controllers or service classes.
+
+Before running the API, we need to open `Program.cs` and register problem details and handlers in this way:
 
 ```csharp
 builder.Services
     .AddExceptionHandler<CustomExceptionHandler>()
     .AddExceptionHandler<DefaultExceptionHandler>();
+
+builder.Services.AddProblemDetails();
+
+var app = builder.Build();
+
+app.UseExceptionHandler();
 ```
 
-As you can see in the `DefaultExceptionHandler`, it is possible to use dependency injection in exception handlers in the same way we would use them in our controllers or service classes.
+In addition to enableing problem details we can also customize them if we have standard or shared information that we want to include in our problem detail responses. Here is an example how to do it:
+
+```csharp
+builder.Services.AddProblemDetails(options =>
+{
+    options.CustomizeProblemDetails = context =>
+    {
+        var userId = context.HttpContext.Request.Headers["X-User-Id"].FirstOrDefault();
+        context.ProblemDetails.Extensions["userId"] = userId;
+
+        var instance = $"{context.HttpContext.Request.Method} {context.HttpContext.Request.Path}{context.HttpContext.Request.QueryString}";
+        context.ProblemDetails.Instance = instance;
+    };
+});
+```
