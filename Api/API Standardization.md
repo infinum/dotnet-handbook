@@ -28,31 +28,31 @@ This redefinition demonstrates the importance of the distinction between what is
 
 ## Casing
 
-All parts of an URL are written in `camelCase`.
+All parts of an URL route are written in `kebab-case`, while all query parameters are written in `camelCase`.
 
 ✅ DO:
 
 ```
-https://exampleWebsite.com/api/requestAnotherItem?pageSize=10
+https://exampleWebsite.com/api/important-items?pageSize=10
 ```
 
 ❌ DON’T:
 
 ```
 // Not in camel case, and even worse, mixing multiple casings:
-https://exampleWebsite.com/api/request-another-item?page_size=20
+https://exampleWebsite.com/api/requestAnotherItem?page_size=20
 ```
 
 ## Plural vs. singular resource names
 
-Every project should determine what standard to use and stick to it. Note that the decision itself (plural or singular names) is not as important as being **consistent throughout the project**.
+Resource names that are used in the URL route should be plural. Exceptions can be resources that are singular within a project, which also shouldn't require an ID to identify.
 
-That being said, we recommend using plural where more than one resource exists (e.g., when we need to specify an ID to get the specific resource, otherwise we will get a list of resources), and singular if there is only one possible resource that can be fetched.
+If an existing project already uses another standard, that's perfectly fine, **as long as it's consistent throughout the project**.
 
 ✅ DO:
 
 ```
-https://exampleWebsite.com/api/users/1/devices/10
+https://exampleWebsite.com/api/users/1
 ```
 
 ❌ DON’T:
@@ -63,6 +63,18 @@ https://exampleWebsite.com/api/users/1/device/10
 // The same API as above, now contains singular, but it should be plural:
 https://exampleWebsite.com/api/payment?userId=1
 ```
+
+## Nested resources
+
+Nested resources are resources that can be accessed only using a composite key, part of which is the parent resource's ID. For example:
+
+```
+https://example.com/api/users/42/devices/4
+```
+
+In the above example, the device is not uniquely identified by the number `4`, it must be also defined using the parent's (`user`'s) ID. This also means that using a different parent ID (not `42`), but the same child ID (`4`) must reference a different resource - otherwise the resource
+
+Defining nested resources like this mixes a resource relationship (parent-child) with the ability to uniquely identify a resource. This is why they should be avoided if possible.
 
 ## Route values vs. query parameters
 
@@ -165,14 +177,12 @@ POST www.example.com/users
 
 Response:
 201 Created
-{
-   "id": 2,
-   "name": "G. Olang",
-}
+Location: www.example.com/users/2
 ```
 
 - **Purpose**: To submit data to be processed by a specific resource. It’s most often used to create a new resource that is a subordinate of the target URI.
     - In specific scenarios, the POST method can also be used for executing complex actions that don’t neatly fit other verbs. A common example is rejecting a request with a reason, where we have an endpoint `POST [example.com/requests/reject](http://example.com/requests/reject)` with a request body specifying the reason.
+    - If the request creates a new resource, the response **must** contain a `Location` header that contains the URI to the new resource.
 - **Safe**: No. It modifies the server state through processing the data.
 - **Idempotent:** No, each request will create a new separate resource.
     - POST endpoints can be made idempotent by using idempotency headers (e.g., `X-Request-Id`), but that’s not our default behavior and should be only used if the project specifically requires it.
@@ -195,11 +205,8 @@ PUT www.example.com/users/3
 }
 
 Response:
-201 Created
-{
-   "id": 3,
-   "name": "J. Avah",
-}
+200 OK
+
 ```
 
 - **Purpose**: To completely replace a resource at a specific URI.
@@ -214,6 +221,7 @@ Response:
     - **400 Bad Request** - if the action could not be completed due to an invalid request made by the client. Must contain the problem details in the response body.
     - **401 Unauthorized**
     - **403 Forbidden**
+    - **404 Not Found** - by default, we don't create new resources using the PUT method, so if the existing one is not found, we should return a 404 response
 
 ## PATCH
 
@@ -225,7 +233,7 @@ Response:
 
 ```jsx
 Request:
-PUT www.example.com/users/4
+DELETE www.example.com/users/4
 
 Response:
 204 No Content
@@ -237,7 +245,7 @@ Response:
 - **Request body**: Should not have a request body.
 - **Possible responses:**
     - **200 OK**
-    - **204 No Content**
+    - **204 No Content** - recommended to be used as default response
     - **400 Bad Request**
     - **401 Unauthorized**
     - **403 Forbidden**
@@ -261,7 +269,7 @@ Response:
 
 The RFC standard does not specify if a created, updated, or deleted resource needs to be included in the response body. This decision is left to the developers to decide, depending on the project needs. Note that whatever decision is made on the project-level, **it must be consistent for all endpoints** - if the decision is made to return the resource, that must be done throughout the API, not just specific endpoints.
 
-We recommend that, by default, the API **does not** return the content it created or updated, although we do recommend returning the ID of the new resource if it was created as a result of a request. That being said, there are a lot of cases where the clients depend on the data returned to update their state, so be mindful of the API consumers when making that decision.
+We recommend that, by default, the API **does not** return the content it created or updated. In case a new resource was created as a result of the request, the Location header should point to the new resource. That being said, there are a lot of cases where the clients depend on the data returned to update their state, so be mindful of the API consumers when making that decision.
 
 # Responses
 
@@ -271,16 +279,25 @@ All endpoints within a single API should support the same media types. The excep
 
 ## Pagination
 
-All paginated endpoints within a single API must return the pagination metadata for a specific pagination type in the same format. Every pagination response **must** include a `page` object that contains the following properties:
+All paginated endpoints within a single API must return the pagination metadata for a specific pagination type in the same format. 
+
+All input parameters must be defined as Query parameters, and have the following format:
+- `pageSize` - size of the page; must have a max value; can have a default value
+- `pageNumber` (offset pagination) - number of the page; must be a positive integer
+- `cursor` (cursor)
+
+All pagination responses **must** include a `page` object that contains the pagination data for the corresponding pagination method:
 
 - `size` - size of the page, can be defined by the client in the request or can be default (e.g. 20)
 - `totalElements` - total number of elements that would be returned if the result was not paginated
-- `totalPages` - total number of available pages, calculated using the `size` and `totalElements`
-- `number` - current page number, can be defined by the client in the request or can be default (1)
+- `totalPages` (for offset pagination) - total number of available pages, calculated using the `size` and `totalElements`
+- `number` (for offset pagination) - current page number, can be defined by the client in the request or can be default (1)
+- `size` - size of the page, can be defined by the client in the request or can be default (e.g. 20)
+- `cursor` (for cursor pagination) or other resource-specific property used to define the starting resource
 
 All returned items must be contained inside the `items` list.
 
-By default, we use the following format (shown here in JSON, but can be converted to specific API standard if needed):
+By default, we use the following format (shown here in JSON with Offset pagination, but can be converted to specific API standard if needed):
 
 ```json
 {
@@ -299,6 +316,10 @@ By default, we use the following format (shown here in JSON, but can be converte
 	]
 }
 ```
+
+### Performance considerations
+
+Querying a big data set can be challenging while maintaining solid performance. In such cases, reducing the number of queries to the DB can be used to reduce the load on the system, in which case we suggest removing the `totalElements` from the response. 
 
 ## Error response
 
