@@ -14,12 +14,6 @@ ASP.NET Core has built-in support for Problem Details:
 - `Microsoft.AspNetCore.Mvc.ValidationProblemDetails`: For validation errors.
 - `IProblemDetailsService`: For writing responses and customizing problem details.
 
-While Problem Details is the standard, you might still encounter or need a simple custom error model:
-
-```csharp
-public record ErrorResponse(int Code, string[] Errors);
-```
-
 It’s a good practice to reference the error model in the Swagger documentation using the `[ProducesErrorResponseType]` attribute on controllers. That way the consumers can generate all the models and easily consume the API.
 
 ### Error handler
@@ -154,6 +148,8 @@ var app = builder.Build();
 app.UseExceptionHandler();
 ```
 
+Please note that the **order** of registration matters. Handlers will be invoked in the order they are registered.
+
 In addition to enableing problem details we can also customize them if we have standard or shared information that we want to include in our problem detail responses. Here is an example how to do it:
 
 ```csharp
@@ -161,6 +157,8 @@ builder.Services.AddProblemDetails(options =>
 {
     options.CustomizeProblemDetails = context =>
     {
+        context.ProblemDetails.Extensions["traceId"] = Activity.Current?.Id ?? context.HttpContext.TraceIdentifier;
+
         var userId = context.HttpContext.Request.Headers["X-User-Id"].FirstOrDefault();
         context.ProblemDetails.Extensions["userId"] = userId;
 
@@ -169,3 +167,5 @@ builder.Services.AddProblemDetails(options =>
     };
 });
 ```
+
+Please note that by default dot net will include `traceId` extension for us, but if we want to customize it or have fallback we can do it as in example above.
